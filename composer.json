@@ -1,0 +1,22 @@
+    {
+      "name": "o-log/php-auth",
+      "repositories" : [
+        {
+          "type" : "git",
+          "url" : "https://github.com/o-log/php-crud"
+        }
+      ],
+      "require": {
+        "o-log/php-router": "1",
+        "o-log/php-bt": "1",
+        "o-log/php-model": "3",
+        "o-log/php-crud": "dev-master"
+      },
+      "autoload" : {
+        "psr-0" : {
+          "Config" : "",
+          "OLOG" : "",
+          "PhpAuthDemo" : ""
+        }
+      }
+    }
