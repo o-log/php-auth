@@ -16,7 +16,17 @@ class User implements
     const DB_TABLE_NAME = 'user';
 
     protected $created_at_ts; // initialized by constructor
+    protected $login = "";
     protected $id;
+
+    public function getLogin(){
+        return $this->login;
+    }
+
+    public function setLogin($value){
+        $this->login = $value;
+    }
+
 
     static public function getAllIdsArrByCreatedAtDesc(){
         $ids_arr = \OLOG\DB\DBWrapper::readColumn(

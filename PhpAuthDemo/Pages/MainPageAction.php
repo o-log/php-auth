@@ -2,6 +2,8 @@
 
 namespace PhpAuthDemo\Pages;
 
+use OLOG\BT;
+
 class MainPageAction
     {
         static public function getUrl(){
@@ -9,6 +11,6 @@ class MainPageAction
         }
     
         public function action(){
-            echo BT;
+            echo BT::a(\OLOG\Auth\Admin\UsersListAction::getUrl(), 'Auth admin - users list');
         }
     }
