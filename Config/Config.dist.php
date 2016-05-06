@@ -2,10 +2,11 @@
 
 namespace Config;
 
+use OLOG\Auth\Constants;
+
 class Config
 {
     const DB_NAME_PHPAUTHDEMO = 'db_phpauthdemo';
-    const DB_NAME_PHPAUTH = 'db_phpauth';
 
     public static function get()
     {
@@ -18,7 +19,7 @@ class Config
                 'user' => 'root',
                 'pass' => '1'
             ),
-            self::DB_NAME_PHPAUTH => array(
+            Constants::DB_NAME_PHPAUTH => array(
                 'host' => 'localhost',
                 'db_name' => 'db_phpauth',
                 'user' => 'root',
