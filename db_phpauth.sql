@@ -8,4 +8,7 @@ array(
 'insert into olog_auth_permission (title) values ("PERMISSION_PHPAUTH_MANAGE_USERS") /* ajhsdgfasdf */;',
 'insert into olog_auth_permission (title) values ("PERMISSION_PHPAUTH_MANAGE_OPERATORS") /* ounryuviuybve */;',
 'create table olog_auth_operator (id int not null auto_increment primary key, created_at_ts int not null default 0) engine InnoDB default charset utf8 /* rand4041 */;',
+'alter table olog_auth_operator add column title varchar(255)  not null   default ""  /* rand4028 */;',
+'alter table olog_auth_operator add column user_id int  not null    /* rand225666 */;',
+'alter table olog_auth_operator add foreign key FK_user_id_348736 (user_id)  references olog_auth_user (id) /* rand736528 */;',
 )

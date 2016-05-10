@@ -45,8 +45,9 @@ class AuthAdminAction
         );
 
         $html = '';
-        $html .= '<div>' . BT::a(PermissionsListAction::getUrl(), 'Разрешения') . '</div>';
-        $html .= '<div>' . BT::a(UsersListAction::getUrl(), 'Пользователи') . '</div>';
+        $html .= '<div>' . BT::a(PermissionsListAction::getUrl(), 'Permissions') . '</div>';
+        $html .= '<div>' . BT::a(UsersListAction::getUrl(), 'Users') . '</div>';
+        $html .= '<div>' . BT::a(OperatorsListAction::getUrl(), 'Operators') . '</div>';
 
         BT\Layout::render($html, $this);
     }
