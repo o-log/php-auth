@@ -22,12 +22,12 @@ class LoginTemplate
 
         <h1 style="font-size: 22px;" class="text-center">Авторизация</h1>
         <?php
-        $current_user_obj = \Sportbox\UMS\UMSHelper::getCurrentUserObj();
+        $current_user_obj = \OLOG\UMS\UMSHelper::getCurrentUserObj();
         if ($current_user_obj) {
             $user_nickname = $current_user_obj->getName();
             ?>
             <p>Вы уже авторизованы на портале под
-                псевдонимом <?php echo \Sportbox\Helpers::check_plain($user_nickname); ?></p>
+                псевдонимом <?php echo \OLOG\Helpers::check_plain($user_nickname); ?></p>
             <p>Если вы хотите использовать другой аккаунт, Вам необходимо <a
                     href="<?= UMSLogoutAction::getUrl()?>">выйти</a> и
                 авторизоваться ещё раз</p>

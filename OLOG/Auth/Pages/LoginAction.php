@@ -73,7 +73,7 @@ class LoginAction
             $redirect = UMSHelper::uriWithoutGetParams($_GET['destination']);
         }
 
-        \Sportbox\Helpers::redirect($redirect);
+        \OLOG\Helpers::redirect($redirect);
         */
 
         echo 'LOGIN SUCCESSFUL';

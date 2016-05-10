@@ -2,11 +2,14 @@
 
 namespace OLOG\Auth\Admin;
 
+use OLOG\Auth\Operator;
+use OLOG\Auth\Permission;
 use OLOG\Auth\User;
 use OLOG\BT\Layout;
 use OLOG\CRUD\CRUDForm;
 use OLOG\CRUD\CRUDFormRow;
 use OLOG\CRUD\CRUDFormWidgetInput;
+use OLOG\Exits;
 use OLOG\Operations;
 use OLOG\POSTAccess;
 use OLOG\Url;
@@ -21,8 +24,9 @@ class UserEditAction
     }
 
     public function action($user_id){
-
-        // TODO: check permissions
+        Exits::exit403If(
+            !Operator::currentOperatorHasAnyOfPermissions([Permission::PERMISSION_PHPAUTH_MANAGE_USERS])
+        );
 
         Operations::matchOperation(self::OPERATION_SET_PASSWORD, function() use ($user_id) {
             $new_password = POSTAccess::getOptionalPostValue(self::FIELD_NAME_PASSWORD);

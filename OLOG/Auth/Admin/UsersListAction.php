@@ -2,11 +2,14 @@
 
 namespace OLOG\Auth\Admin;
 
+use OLOG\Auth\Operator;
+use OLOG\Auth\Permission;
 use OLOG\Auth\User;
 use OLOG\BT\Layout;
 use OLOG\CRUD\CRUDForm;
 use OLOG\CRUD\CRUDFormRow;
 use OLOG\CRUD\CRUDFormWidgetInput;
+use OLOG\Exits;
 
 class UsersListAction
 {
@@ -15,8 +18,9 @@ class UsersListAction
     }
 
     public function action(){
-
-        // TODO: check permissions
+        Exits::exit403If(
+            !Operator::currentOperatorHasAnyOfPermissions([Permission::PERMISSION_PHPAUTH_MANAGE_USERS])
+        );
 
         $html = \OLOG\CRUD\CRUDTable::html(
             \OLOG\Auth\User::class,
