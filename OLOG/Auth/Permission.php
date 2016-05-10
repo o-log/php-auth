@@ -16,7 +16,17 @@ class Permission implements
     const DB_TABLE_NAME = 'olog_auth_permission';
 
     protected $created_at_ts; // initialized by constructor
+    protected $title;
     protected $id;
+
+    public function getTitle(){
+        return $this->title;
+    }
+
+    public function setTitle($value){
+        $this->title = $value;
+    }
+
 
     static public function getAllIdsArrByCreatedAtDesc(){
         $ids_arr = \OLOG\DB\DBWrapper::readColumn(

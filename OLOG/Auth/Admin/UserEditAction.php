@@ -6,6 +6,7 @@ use OLOG\Auth\Operator;
 use OLOG\Auth\Permission;
 use OLOG\Auth\Permissions;
 use OLOG\Auth\User;
+use OLOG\BT;
 use OLOG\BT\Layout;
 use OLOG\CRUD\CRUDForm;
 use OLOG\CRUD\CRUDFormRow;
@@ -16,18 +17,43 @@ use OLOG\POSTAccess;
 use OLOG\Url;
 
 class UserEditAction
+    implements BT\InterfaceBreadcrumbs,
+    BT\InterfacePageTitle
+
 {
     const OPERATION_SET_PASSWORD = 'OPERATION_SET_PASSWORD';
     const FIELD_NAME_PASSWORD = 'password';
 
+    protected $user_id;
+
+    public function currentBreadcrumbsArr(){
+        return self::breadcrumbsArr($this->user_id);
+    }
+
+    static public function breadcrumbsArr($user_id)
+    {
+        return array_merge(UsersListAction::breadcrumbsArr(), [BT::a(self::getUrl($user_id), self::pageTitle($user_id))]);
+    }
+
+    public function currentPageTitle()
+    {
+        return self::pageTitle($this->user_id);
+    }
+
+    static public function pageTitle($user_id){
+        return 'User ' . $user_id;
+    }
+
     static public function getUrl($user_id = '(\d+)'){
-        return '/admin/user/' . $user_id;
+        return '/admin/auth/user/' . $user_id;
     }
 
     public function action($user_id){
         Exits::exit403If(
             !Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS])
         );
+
+        $this->user_id = $user_id;
 
         Operations::matchOperation(self::OPERATION_SET_PASSWORD, function() use ($user_id) {
             $new_password = POSTAccess::getOptionalPostValue(self::FIELD_NAME_PASSWORD);
@@ -63,6 +89,6 @@ class UserEditAction
         $html .= '</form>';
         $html .= '</div>';
 
-        Layout::render($html);
+        Layout::render($html, $this);
     }
 }
