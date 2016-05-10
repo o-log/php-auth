@@ -13,7 +13,7 @@ class User implements
     use \OLOG\Model\ProtectProperties;
 
     const DB_ID = 'db_phpauth';
-    const DB_TABLE_NAME = 'user';
+    const DB_TABLE_NAME = 'olog_auth_user';
 
     protected $created_at_ts; // initialized by constructor
     protected $login = "";
