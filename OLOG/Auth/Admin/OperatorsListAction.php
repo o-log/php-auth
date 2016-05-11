@@ -21,7 +21,7 @@ class OperatorsListAction implements
         return self::breadcrumbsArr();
     }
 
-    public function breadcrumbsArr(){
+    static public function breadcrumbsArr(){
         return array_merge(AuthAdminAction::breadcrumbsArr(), [BT::a(self::getUrl(), self::pageTitle())]);
     }
 
@@ -56,7 +56,7 @@ class OperatorsListAction implements
             ),
             [
                 new \OLOG\CRUD\CRUDTableColumn(
-                    'ID', new \OLOG\CRUD\CRUDTableWidgetText('{this->id}')
+                    'ID', new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{this->id}', OperatorEditAction::getUrl('{this->id}'))
                 ),
                 new \OLOG\CRUD\CRUDTableColumn(
                     'title', new \OLOG\CRUD\CRUDTableWidgetText('{this->title}')
