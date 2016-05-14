@@ -1,10 +1,7 @@
 <?php
 
-namespace PhpAuthDemo;
+namespace OLOG\Auth\Admin;
 
-use OLOG\Auth\Admin\OperatorsListAction;
-use OLOG\Auth\Admin\PermissionsListAction;
-use OLOG\Auth\Admin\UsersListAction;
 use OLOG\BT\InterfaceMenu;
 use OLOG\BT\MenuItem;
 
