@@ -83,13 +83,23 @@ class UserEditAction
         );
 
         $html .= '<h2>Изменение пароля</h2>';
-        $html .= '<div>';
-        $html .= '<form method="post" action="' . Url::getCurrentUrl() . '">';
+        $html .= '<form class="form-horiontal" role="form" method="post" action="' . Url::getCurrentUrl() . '">';
         $html .= Operations::operationCodeHiddenField(self::OPERATION_SET_PASSWORD);
-        $html .= '<div>Новый пароль: <input name="' . self::FIELD_NAME_PASSWORD . '"></div>';
-        $html .= '<div><input type="submit"></div>';
+
+        $html .= '<div class="form-group ">
+<label class="col-sm-4 text-right control-label">Новый пароль</label>
+<div class="col-sm-8">
+<input name="' . self::FIELD_NAME_PASSWORD . '" class="form-control" value="">
+</div>
+</div>';
+
+        $html .= '<div class="row">
+<div class="col-sm-8 col-sm-offset-4">
+<button style="width: 100%" type="submit" class="btn btn-primary">Сохранить</button>
+</div>
+</div>';
+
         $html .= '</form>';
-        $html .= '</div>';
 
         Layout::render($html, $this);
     }
