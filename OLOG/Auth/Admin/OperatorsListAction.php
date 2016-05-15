@@ -14,8 +14,11 @@ use OLOG\Exits;
 
 class OperatorsListAction implements
     \OLOG\BT\InterfaceBreadcrumbs,
-    \OLOG\BT\InterfacePageTitle
+    \OLOG\BT\InterfacePageTitle,
+    BT\InterfaceUserName
 {
+    use CurrentUserNameTrait;
+
     public function currentBreadcrumbsArr()
     {
         return self::breadcrumbsArr();

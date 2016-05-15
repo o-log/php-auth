@@ -15,6 +15,16 @@ class Auth
 
         return self::getSessionUserIdBySessionId($session_id_from_cookie);
     }
+    
+    static public function currentUserLogin(){
+        $user_id = Auth::currentUserId();
+        if (!$user_id){
+            return '';
+        }
+
+        $user_obj = User::factory($user_id);
+        return $user_obj->getLogin();
+    }
 
     public static function sessionCookieName(){
         return \OLOG\ConfWrapper::value('php-auth.ssid_cookie_name', 'php-auth-session-id');

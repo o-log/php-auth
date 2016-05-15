@@ -9,9 +9,11 @@ use OLOG\Exits;
 
 class AuthAdminAction
     implements BT\InterfaceBreadcrumbs,
-    BT\InterfacePageTitle
-
+    BT\InterfacePageTitle,
+    BT\InterfaceUserName
 {
+    use CurrentUserNameTrait;
+
     static public function getUrl(){
         return '/admin/auth'; // TODO: common prefix from config
     }

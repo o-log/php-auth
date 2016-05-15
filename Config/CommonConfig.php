@@ -4,12 +4,17 @@ namespace Config;
 
 use OLOG\Auth\Constants;
 
-class Config
+class CommonConfig
 {
     public static function get()
     {
+        date_default_timezone_set('Europe/Moscow');
+
+        $conf = [];
+        
         $conf['cache_lifetime'] = 60;
         $conf['return_false_if_no_route'] = true; // for local php server
+
         $conf['db'] = array(
             Constants::DB_NAME_PHPAUTH => array(
                 'host' => 'localhost',
@@ -19,12 +24,21 @@ class Config
             )
         );
 
+        $conf['memcache_servers'] = [
+            'localhost:11211'
+        ];
+
         $conf['php-bt'] = [
             'layout_code' => \OLOG\BT\LayoutGentellela::LAYOUT_CODE_GENTELLELA,
             'menu_classes_arr' => [
-                \PhpAuthDemo\AuthDemoMenu::class
-            ]
+                \OLOG\Auth\Admin\AuthDemoMenu::class
+            ],
+            'application_title' => 'Auth demo'
         ];
+
+        //$conf['php_auth'] = [
+        //    'full_access_cookie_name' => 'jkhbsdfhjvkdfvjgvasdc'
+        //];
         
         return $conf;
     }

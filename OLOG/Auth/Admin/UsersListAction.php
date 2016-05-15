@@ -15,8 +15,11 @@ use OLOG\Exits;
 
 class UsersListAction implements
     BT\InterfaceBreadcrumbs,
-    BT\InterfacePageTitle
+    BT\InterfacePageTitle,
+    BT\InterfaceUserName
 {
+    use CurrentUserNameTrait;
+    
     static public function getUrl(){
         return '/admin/auth/users';
     }

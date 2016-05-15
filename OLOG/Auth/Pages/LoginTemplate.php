@@ -4,89 +4,80 @@ namespace OLOG\Auth\Pages;
 
 class LoginTemplate
 {
-    public static function getContent($message, $message_type = 'danger')
+    public static function getContent($message = '', $show_form = true)
     {
         ob_start();
-        self::render($message, $message_type);
+        self::render($message, $show_form);
         $contents = ob_get_contents();
         ob_end_clean();
 
         return $contents;
     }
 
-    static public function render($message, $message_type = 'danger')
+    static public function render($message = '', $show_form = true)
     {
-
-        /*
+        $message_type = 'danger';
         ?>
+        <style>
+            body {
+                padding-top: 40px;
+                padding-bottom: 40px;
+                background-color: #eee;
+            }
 
-        <h1 style="font-size: 22px;" class="text-center">Авторизация</h1>
-        <?php
-        $current_user_obj = \OLOG\UMS\UMSHelper::getCurrentUserObj();
-        if ($current_user_obj) {
-            $user_nickname = $current_user_obj->getName();
-            ?>
-            <p>Вы уже авторизованы на портале под
-                псевдонимом <?php echo \OLOG\Helpers::check_plain($user_nickname); ?></p>
-            <p>Если вы хотите использовать другой аккаунт, Вам необходимо <a
-                    href="<?= UMSLogoutAction::getUrl()?>">выйти</a> и
-                авторизоваться ещё раз</p>
-            <?php
-        } else {
-        */
-            ?>
+            .form-signin {
+                max-width: 330px;
+                padding: 15px;
+                margin: 0 auto;
+            }
+            .form-signin .form-signin-heading,
+            .form-signin .checkbox {
+                margin-bottom: 10px;
+            }
+            .form-signin .checkbox {
+                font-weight: normal;
+            }
+            .form-signin .form-control {
+                position: relative;
+                height: auto;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+                padding: 10px;
+                font-size: 16px;
+            }
+            .form-signin .form-control:focus {
+                z-index: 2;
+            }
+            .form-signin input[type="password"] {
+                margin-bottom: 10px;
+                border-top-left-radius: 0;
+                border-top-right-radius: 0;
+            }
+        </style>
 
-            <?php if ($message): ?>
+        <form class="form-signin" method="post">
+            <h2 class="form-signin-heading">Please sign in</h2>
+            <?php if ($message){ ?>
                 <div class="alert alert-<?= $message_type ?> width-370" role="alert"><?php echo $message; ?></div>
-            <?php endif; ?>
-            <form action="" class="form-horizontal form-width-370" method="post" data-toggle="validator">
-                <div class="form-group">
-                    <div class="">
-                        <input type="text" maxlength="100" class="form-control" id="auth-mail"
-                               title="Введите Ваш электронный адрес"
-                               placeholder="Эл. почта"
-                               name="login" data-error=" ">
-                        <div class="help-block with-errors"></div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="">
-                        <input type="password" maxlength="100" class="form-control" id="auth-password" name="password"
-                               required data-minlength="6"
-                               title="Введите пароль"
-                               placeholder="Пароль"
-                               data-minlength-error="Пароль должен быть длиннее 5-и символов"
-                               data-error=" ">
-                        <div class="help-block with-errors"></div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="">
-                        <label>
-                            <input name="remember" id="reg-confidentiality" type="checkbox"/> Запомнить меня
-                        </label>
-                    </div>
-                </div>
+            <?php } ?>
 
-                <div class="form-group">
-                    <div class="">
-                        <input class="btn btn-primary form-control" name="auth" value="Войти" type="submit"/>
-                    </div>
-                </div>
-            </form>
-
-            <div class="bottom_links">
-                <a href="#">Регистрация</a>
-                <a href="#">Напомнить пароль</a>
+            <?php if ($show_form){ ?>
+            <label for="inputEmail" class="sr-only">Email address</label>
+            <input style="margin-bottom: -1px; border-bottom-right-radius: 0; border-bottom-left-radius: 0;" name="login" class="form-control" placeholder="login" required autofocus>
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input type="password" name="password" class="form-control" placeholder="Password" required>
+            <!--
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="remember-me"> Remember me
+                </label>
             </div>
+            -->
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
 
-            <script type="text/javascript">
-                <!--//<![CDATA[
-                if (document.getElementById("auth-mail")) {
-                    document.getElementById("auth-mail").focus();
-                }
-                //]]>-->
-            </script>
+            <?php } ?>
+        </form>
         <?php //}
     }
 }

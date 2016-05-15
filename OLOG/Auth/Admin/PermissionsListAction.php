@@ -9,8 +9,10 @@ use OLOG\BT\Layout;
 use OLOG\CRUD\CRUDForm;
 use OLOG\Exits;
 
-class PermissionsListAction implements \OLOG\BT\InterfaceBreadcrumbs, \OLOG\BT\InterfacePageTitle
+class PermissionsListAction implements \OLOG\BT\InterfaceBreadcrumbs, \OLOG\BT\InterfacePageTitle, BT\InterfaceUserName
 {
+    use CurrentUserNameTrait;
+
     public function currentBreadcrumbsArr()
     {
         return self::breadcrumbsArr();

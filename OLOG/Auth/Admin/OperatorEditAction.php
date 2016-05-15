@@ -24,9 +24,11 @@ use OLOG\Url;
 
 class OperatorEditAction
     implements BT\InterfaceBreadcrumbs,
-    BT\InterfacePageTitle
-
+    BT\InterfacePageTitle,
+    BT\InterfaceUserName
 {
+    use CurrentUserNameTrait;
+
     protected $operator_id;
 
     public function currentBreadcrumbsArr(){

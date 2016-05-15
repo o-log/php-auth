@@ -18,9 +18,11 @@ use OLOG\Url;
 
 class UserEditAction
     implements BT\InterfaceBreadcrumbs,
-    BT\InterfacePageTitle
-
+    BT\InterfacePageTitle,
+    BT\InterfaceUserName
 {
+    use CurrentUserNameTrait;
+
     const OPERATION_SET_PASSWORD = 'OPERATION_SET_PASSWORD';
     const FIELD_NAME_PASSWORD = 'password';
 

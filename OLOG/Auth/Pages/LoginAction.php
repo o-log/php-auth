@@ -5,7 +5,10 @@ namespace OLOG\Auth\Pages;
 use OLOG\Auth\Auth;
 use OLOG\Auth\User;
 use OLOG\BT\Layout;
+use OLOG\BT\LayoutBootstrap;
 use OLOG\POSTAccess;
+use OLOG\Sanitize;
+use OLOG\Url;
 
 class LoginAction
 {
@@ -18,14 +21,14 @@ class LoginAction
     {
         $user_id = Auth::currentUserId();
         if ($user_id) {
-            $content = LoginTemplate::getContent('Уже авторизован', '');
-            Layout::render($content);
+            $html = LoginTemplate::getContent('Пользователь уже авторизован', false);
+            LayoutBootstrap::render($html);
             return;
         }
 
         if (!array_key_exists('login', $_POST) && !array_key_exists('password', $_POST)) {
-            $content = LoginTemplate::getContent('', '');
-            Layout::render($content);
+            $content = LoginTemplate::getContent();
+            LayoutBootstrap::render($content);
             return;
         }
 
@@ -44,7 +47,7 @@ class LoginAction
 
         if (!$user_id || ($password == "")) {
             $content = LoginTemplate::getContent('Неправильный адрес или пароль');
-            Layout::render($content);
+            LayoutBootstrap::render($content);
             return;
         }
 
@@ -67,15 +70,11 @@ class LoginAction
 
         Auth::startUserSession($user_obj->getId());
 
-        /*
         $redirect = '/';
         if (isset($_GET['destination'])) {
-            $redirect = UMSHelper::uriWithoutGetParams($_GET['destination']);
+            $redirect = Sanitize::sanitizeUrl($_GET['destination']);
         }
 
-        \OLOG\Helpers::redirect($redirect);
-        */
-
-        echo 'LOGIN SUCCESSFUL';
+        \OLOG\Redirects::redirect($redirect);
     }
 }
