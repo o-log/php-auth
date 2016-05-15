@@ -5,7 +5,7 @@ namespace OLOG\Auth\Admin;
 use OLOG\BT\InterfaceMenu;
 use OLOG\BT\MenuItem;
 
-class AuthDemoMenu implements InterfaceMenu
+class AuthAdminMenu implements InterfaceMenu
 {
     static public function menuArr()
     {

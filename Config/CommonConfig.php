@@ -31,7 +31,7 @@ class CommonConfig
         $conf['php-bt'] = [
             'layout_code' => \OLOG\BT\LayoutGentellela::LAYOUT_CODE_GENTELLELA,
             'menu_classes_arr' => [
-                \OLOG\Auth\Admin\AuthDemoMenu::class
+                \OLOG\Auth\Admin\AuthAdminMenu::class
             ],
             'application_title' => 'Auth demo'
         ];
