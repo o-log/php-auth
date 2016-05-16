@@ -18,4 +18,5 @@ array(
 'alter table olog_auth_operatorpermission add column permission_id int  not null    /* rand9423 */;',
 'alter table olog_auth_operatorpermission add foreign key FK_permission_id_884208 (permission_id)  references olog_auth_permission (id) /* rand920855 */;',
 'alter table olog_auth_operatorpermission add unique key uk_operator_permission_7863845 (operator_id, permission_id) /* rand87263458 */;',
+'alter table olog_auth_user add unique key UK_login_581400 (login)  /* rand824395 */;',
 )
