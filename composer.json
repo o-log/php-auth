@@ -1,5 +1,6 @@
     {
       "name": "o-log/php-auth",
+      "description": "User authentication and permission management.",
       "repositories" : [
         {
           "type" : "git",
