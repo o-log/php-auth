@@ -1,12 +1,6 @@
     {
       "name": "o-log/php-auth",
       "description": "User authentication and permission management.",
-      "repositories" : [
-        {
-          "type" : "git",
-          "url" : "https://github.com/o-log/php-crud"
-        }
-      ],
       "require": {
         "o-log/php-router": "1.*",
         "o-log/php-bt": "3.*",
