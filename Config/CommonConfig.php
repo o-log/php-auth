@@ -3,6 +3,7 @@
 namespace Config;
 
 use OLOG\Auth\Constants;
+use OLOG\Model\ModelConstants;
 
 class CommonConfig
 {
@@ -15,14 +16,16 @@ class CommonConfig
         $conf['cache_lifetime'] = 60;
         $conf['return_false_if_no_route'] = true; // for local php server
 
-        $conf['db'] = array(
-            Constants::DB_NAME_PHPAUTH => array(
-                'host' => 'localhost',
-                'db_name' => 'db_phpauthdemo',
-                'user' => 'root',
-                'pass' => '1'
-            )
-        );
+        $conf[ModelConstants::MODULE_CONFIG_ROOT_KEY] = [
+            'db' => [
+                Constants::DB_NAME_PHPAUTH => [
+                    'host' => 'localhost',
+                    'db_name' => 'db_phpauthdemo',
+                    'user' => 'root',
+                    'pass' => '1'
+                ]
+            ]
+        ];
 
         $conf['memcache_servers'] = [
             'localhost:11211'
@@ -36,9 +39,9 @@ class CommonConfig
             'application_title' => 'Auth demo'
         ];
 
-        //$conf['php_auth'] = [
-        //    'full_access_cookie_name' => 'jkhbsdfhjvkdfvjgvasdc'
-        //];
+        $conf['php_auth'] = [
+            'full_access_cookie_name' => 'jkhbsdfhjvkdfvjgvasdc'
+        ];
         
         return $conf;
     }

@@ -11,6 +11,8 @@ use OLOG\BT\Layout;
 use OLOG\CRUD\CRUDForm;
 use OLOG\CRUD\CRUDFormRow;
 use OLOG\CRUD\CRUDFormWidgetInput;
+use OLOG\CRUD\CRUDFormWidgetReference;
+use OLOG\CRUD\CRUDTableFilter;
 use OLOG\Exits;
 use OLOG\Operations;
 use OLOG\POSTAccess;
@@ -100,6 +102,48 @@ class UserEditAction
 </div>';
 
         $html .= '</form>';
+
+        $html .= '<h2>User operator</h2>';
+
+        $new_operator_obj = new Operator();
+        $new_operator_obj->setUserId($user_id);
+
+        $html .= \OLOG\CRUD\CRUDTable::html(
+            \OLOG\Auth\Operator::class,
+            CRUDForm::html(
+                $new_operator_obj,
+                [
+                    new CRUDFormRow(
+                        'user_id',
+                        new CRUDFormWidgetReference('user_id', User::class, 'login')
+                    ),
+                    new CRUDFormRow(
+                        'title',
+                        new CRUDFormWidgetInput('title')
+                    )
+                ]
+            ),
+            [
+                new \OLOG\CRUD\CRUDTableColumn(
+                    'ID', new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{this->id}', OperatorEditAction::getUrl('{this->id}'))
+                ),
+                new \OLOG\CRUD\CRUDTableColumn(
+                    'title', new \OLOG\CRUD\CRUDTableWidgetText('{this->title}')
+                ),
+                new \OLOG\CRUD\CRUDTableColumn(
+                    'login', new \OLOG\CRUD\CRUDTableWidgetText('{\OLOG\Auth\User.{this->user_id}->login}')
+                ),
+                new \OLOG\CRUD\CRUDTableColumn(
+                    '', new \OLOG\CRUD\CRUDTableWidgetTextWithLink('Edit', OperatorEditAction::getUrl('{this->id}'), 'btn btn-xs btn-default')
+                ),
+                new \OLOG\CRUD\CRUDTableColumn(
+                    '', new \OLOG\CRUD\CRUDTableWidgetDelete()
+                )
+            ],
+            [
+                new CRUDTableFilter('user_id', CRUDTableFilter::FILTER_EQUAL, $user_id)
+            ]
+        );
 
         Layout::render($html, $this);
     }

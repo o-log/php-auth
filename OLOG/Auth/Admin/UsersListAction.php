@@ -58,10 +58,16 @@ class UsersListAction implements
             ),
             [
                 new \OLOG\CRUD\CRUDTableColumn(
-                    'ID', new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{this->id}', UserEditAction::getUrl('{this->id}'))
+                    'ID',
+                    new \OLOG\CRUD\CRUDTableWidgetText('{this->id}')
                 ),
                 new \OLOG\CRUD\CRUDTableColumn(
-                    'login', new \OLOG\CRUD\CRUDTableWidgetText('{this->login}')
+                    'login',
+                    new \OLOG\CRUD\CRUDTableWidgetText('{this->login}')
+                ),
+                new \OLOG\CRUD\CRUDTableColumn(
+                    '',
+                    new \OLOG\CRUD\CRUDTableWidgetTextWithLink('Edit', UserEditAction::getUrl('{this->id}'), 'btn btn-xs btn-default')
                 )
             ]
         );
