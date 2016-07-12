@@ -5,7 +5,8 @@ namespace OLOG\Auth\Admin;
 use OLOG\Auth\Operator;
 use OLOG\Auth\Permissions;
 use OLOG\Auth\User;
-use OLOG\BT;
+use OLOG\BT\BT;
+use OLOG\BT\InterfaceUserName;
 use OLOG\BT\Layout;
 use OLOG\CRUD\CRUDForm;
 use OLOG\CRUD\CRUDFormRow;
@@ -15,7 +16,7 @@ use OLOG\Exits;
 class OperatorsListAction implements
     \OLOG\BT\InterfaceBreadcrumbs,
     \OLOG\BT\InterfacePageTitle,
-    BT\InterfaceUserName
+    InterfaceUserName
 {
     use CurrentUserNameTrait;
 

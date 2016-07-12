@@ -3,10 +3,15 @@
 namespace PhpAuthDemo\Pages;
 
 use OLOG\Auth\Auth;
-use OLOG\BT;
+use OLOG\BT\BT;
+use OLOG\BT\InterfacePageTitle;
+use OLOG\BT\InterfaceUserName;
+use OLOG\BT\LayoutBootstrap;
 
-class MainPageAction implements BT\InterfacePageTitle, BT\InterfaceUserName
-    {
+class MainPageAction implements
+    InterfacePageTitle,
+    InterfaceUserName
+{
         public function currentUserName()
         {
             return Auth::currentUserLogin();
@@ -30,6 +35,6 @@ class MainPageAction implements BT\InterfacePageTitle, BT\InterfaceUserName
 
             $html .= '<div>' . BT::a(\OLOG\Auth\Admin\UsersListAction::getUrl(), 'Auth admin') . '</div>';
 
-            BT\LayoutBootstrap::render($html, $this);
+            LayoutBootstrap::render($html, $this);
         }
     }

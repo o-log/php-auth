@@ -6,7 +6,10 @@ use OLOG\Auth\Operator;
 use OLOG\Auth\Permission;
 use OLOG\Auth\Permissions;
 use OLOG\Auth\User;
-use OLOG\BT;
+use OLOG\BT\BT;
+use OLOG\BT\InterfaceBreadcrumbs;
+use OLOG\BT\InterfacePageTitle;
+use OLOG\BT\InterfaceUserName;
 use OLOG\BT\Layout;
 use OLOG\CRUD\CRUDForm;
 use OLOG\CRUD\CRUDFormRow;
@@ -19,9 +22,9 @@ use OLOG\POSTAccess;
 use OLOG\Url;
 
 class UserEditAction
-    implements BT\InterfaceBreadcrumbs,
-    BT\InterfacePageTitle,
-    BT\InterfaceUserName
+    implements InterfaceBreadcrumbs,
+    InterfacePageTitle,
+    InterfaceUserName
 {
     use CurrentUserNameTrait;
 

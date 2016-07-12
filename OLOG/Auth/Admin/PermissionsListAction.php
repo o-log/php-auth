@@ -4,12 +4,18 @@ namespace OLOG\Auth\Admin;
 
 use OLOG\Auth\Operator;
 use OLOG\Auth\Permissions;
-use OLOG\BT;
+use OLOG\BT\BT;
+use OLOG\BT\InterfaceBreadcrumbs;
+use OLOG\BT\InterfacePageTitle;
+use OLOG\BT\InterfaceUserName;
 use OLOG\BT\Layout;
 use OLOG\CRUD\CRUDForm;
 use OLOG\Exits;
 
-class PermissionsListAction implements \OLOG\BT\InterfaceBreadcrumbs, \OLOG\BT\InterfacePageTitle, BT\InterfaceUserName
+class PermissionsListAction implements
+    InterfaceBreadcrumbs,
+    InterfacePageTitle, 
+    InterfaceUserName
 {
     use CurrentUserNameTrait;
 

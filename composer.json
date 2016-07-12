@@ -3,7 +3,7 @@
       "description": "User authentication and permission management.",
       "require": {
         "o-log/php-router": "1.*",
-        "o-log/php-bt": "3.*",
+        "o-log/php-bt": "4.*",
         "o-log/php-model": "4.*",
         "o-log/php-crud": "dev-master"
       },

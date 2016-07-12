@@ -4,13 +4,17 @@ namespace OLOG\Auth\Admin;
 
 use OLOG\Auth\Operator;
 use OLOG\Auth\Permissions;
-use OLOG\BT;
+use OLOG\BT\BT;
+use OLOG\BT\InterfaceBreadcrumbs;
+use OLOG\BT\InterfacePageTitle;
+use OLOG\BT\InterfaceUserName;
+use OLOG\BT\Layout;
 use OLOG\Exits;
 
 class AuthAdminAction
-    implements BT\InterfaceBreadcrumbs,
-    BT\InterfacePageTitle,
-    BT\InterfaceUserName
+    implements InterfaceBreadcrumbs,
+    InterfacePageTitle,
+    InterfaceUserName
 {
     use CurrentUserNameTrait;
 
@@ -51,6 +55,6 @@ class AuthAdminAction
         $html .= '<div>' . BT::a(UsersListAction::getUrl(), 'Users') . '</div>';
         $html .= '<div>' . BT::a(OperatorsListAction::getUrl(), 'Operators') . '</div>';
 
-        BT\Layout::render($html, $this);
+        Layout::render($html, $this);
     }
 }
