@@ -28,7 +28,7 @@ class AuthAdminAction
 
     static public function breadcrumbsArr()
     {
-        return [BT::a('/admin', 'Admin'), BT::a(self::getUrl(), self::pageTitle())];
+        return [BT::a('/', 'Main'), BT::a('/admin', 'Admin'), BT::a(self::getUrl(), self::pageTitle())];
     }
     
     public function currentPageTitle()
