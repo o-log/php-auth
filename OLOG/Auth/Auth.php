@@ -27,7 +27,8 @@ class Auth
     }
 
     public static function sessionCookieName(){
-        return \OLOG\ConfWrapper::value('php-auth.ssid_cookie_name', 'php-auth-session-id');
+        //return \OLOG\ConfWrapper::value('php-auth.ssid_cookie_name', 'php-auth-session-id');
+        return AuthConfig::getSsidCookieName();
     }
 
     public static function getSessionIdFromCookie()
@@ -108,7 +109,8 @@ class Auth
     }
 
     public static function sessionCookieDomain(){
-        return \OLOG\ConfWrapper::value('auth.session_id_cookie_domain', null);
+        //return \OLOG\ConfWrapper::value('auth.session_id_cookie_domain', null);
+        return AuthConfig::getSessionIdCookieDomain();
     }
 
     /**
@@ -119,7 +121,7 @@ class Auth
     public static function getUserIdByCredentials($login, $password_from_form)
     {
         $data = \OLOG\DB\DBWrapper::readObject(
-            \OLOG\Auth\Constants::DB_NAME_PHPAUTH,
+            \OLOG\Auth\AuthConstants::DB_NAME_PHPAUTH,
             'SELECT id, password_hash FROM ' . User::DB_TABLE_NAME . ' WHERE login = ?',
             array($login)
         );

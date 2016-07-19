@@ -2,8 +2,7 @@
 
 namespace OLOG\Auth;
 
-class Constants
+class AuthConstants
 {
     const DB_NAME_PHPAUTH = 'db_phpauth';
-
 }

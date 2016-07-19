@@ -2,6 +2,6 @@
 
 require_once 'vendor/autoload.php';
 
-\OLOG\ConfWrapper::assignConfig(\Config\Config::get());
+\Config\AuthDemoConfig::init();
 
 \OLOG\Model\CLI\CLIMenu::run();

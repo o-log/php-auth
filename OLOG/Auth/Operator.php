@@ -50,7 +50,8 @@ class Operator implements
 
 
     static public function currentOperatorHasAnyOfPermissions($requested_permissions_arr){
-        $auth_cookie_name = ConfWrapper::value('php_auth.full_access_cookie_name');
+        //$auth_cookie_name = ConfWrapper::value('php_auth.full_access_cookie_name');
+        $auth_cookie_name = AuthConfig::getFullAccessCookieName();
 
         if ($auth_cookie_name) {
             if (isset($_COOKIE[$auth_cookie_name])) {
