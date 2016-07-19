@@ -11,10 +11,10 @@ class AuthAdminMenu implements InterfaceMenu
     {
         return [
             new MenuItem('Авторизация', '', [
-                new MenuItem(UsersListAction::pageTitle(), UsersListAction::getUrl()),
-                new MenuItem(OperatorsListAction::pageTitle(), OperatorsListAction::getUrl(), NULL, 'glyphicon glyphicon-user'),
-                new MenuItem(PermissionsListAction::pageTitle(), PermissionsListAction::getUrl()),
-            ], 'glyphicon glyphicon-user')
+                new MenuItem(UsersListAction::pageTitle(), UsersListAction::getUrl(), NULL, 'glyphicon glyphicon-user'),
+                new MenuItem(OperatorsListAction::pageTitle(), OperatorsListAction::getUrl(), NULL, 'glyphicon glyphicon-eye-open'),
+                new MenuItem(PermissionsListAction::pageTitle(), PermissionsListAction::getUrl(), NULL, 'glyphicon glyphicon-check'),
+            ], 'glyphicon glyphicon-log-in')
         ];
     }
 
