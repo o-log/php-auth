@@ -88,7 +88,7 @@ class UserEditAction
         );
 
         $html .= '<h2>Изменение пароля</h2>';
-        $html .= '<form class="form-horiontal" role="form" method="post" action="' . Url::getCurrentUrl() . '">';
+        $html .= '<form class="form-horizontal" role="form" method="post" action="' . Url::getCurrentUrl() . '">';
         $html .= Operations::operationCodeHiddenField(self::OPERATION_SET_PASSWORD);
 
         $html .= '<div class="form-group ">
