@@ -48,7 +48,7 @@ class UserEditAction
     }
 
     static public function pageTitle($user_id){
-        return 'User ' . $user_id;
+        return 'Пользователь ' . $user_id;
     }
 
     static public function getUrl($user_id = '(\d+)'){
@@ -106,7 +106,7 @@ class UserEditAction
 
         $html .= '</form>';
 
-        $html .= '<h2>User operator</h2>';
+        $html .= '<h2>Операторы пользователя</h2>';
 
         $new_operator_obj = new Operator();
         $new_operator_obj->setUserId($user_id);

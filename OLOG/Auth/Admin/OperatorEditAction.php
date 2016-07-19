@@ -49,7 +49,7 @@ class OperatorEditAction
     }
 
     static public function pageTitle($user_id){
-        return 'Operator ' . $user_id;
+        return 'Оператор ' . $user_id;
     }
 
     static public function getUrl($user_id = '(\d+)'){
@@ -82,7 +82,7 @@ class OperatorEditAction
         $new_operator_permission_obj = new OperatorPermission();
         $new_operator_permission_obj->setOperatorId($operator_id);
 
-        $html .= '<h2>Assigned permissions</h2>';
+        $html .= '<h2>Назначенные разрешения</h2>';
 
         $html .= CRUDTable::html(
             OperatorPermission::class,

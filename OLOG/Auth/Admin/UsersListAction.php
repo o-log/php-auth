@@ -33,7 +33,7 @@ class UsersListAction implements
     }
 
     static public function pageTitle(){
-        return 'Users';
+        return 'Пользователи';
     }
 
     public function currentBreadcrumbsArr(){

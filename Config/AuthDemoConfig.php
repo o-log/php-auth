@@ -2,6 +2,7 @@
 
 namespace Config;
 
+use OLOG\Auth\AuthConfig;
 use OLOG\Auth\AuthConstants;
 use OLOG\Cache\CacheConfig;
 use OLOG\Cache\MemcacheServerSettings;
@@ -22,6 +23,8 @@ class AuthDemoConfig
         CacheConfig::addServerSettingsObj(
             new MemcacheServerSettings('localhost', 11211)
         );
+
+		//AuthConfig::setFullAccessCookieName('php_auth');
 
         /*
         $conf['return_false_if_no_route'] = true; // for local php server

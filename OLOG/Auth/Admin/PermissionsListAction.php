@@ -34,7 +34,7 @@ class PermissionsListAction implements
     }
 
     static public function pageTitle(){
-        return 'Permissions';
+        return 'Разрешения';
     }
 
     static public function getUrl(){

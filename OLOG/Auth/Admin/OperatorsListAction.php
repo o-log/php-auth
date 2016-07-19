@@ -35,7 +35,7 @@ class OperatorsListAction implements
     }
 
     static public function pageTitle(){
-        return 'Operators';
+        return 'Операторы';
     }
 
     static public function getUrl(){

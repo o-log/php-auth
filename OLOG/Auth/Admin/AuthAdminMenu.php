@@ -10,11 +10,11 @@ class AuthAdminMenu implements InterfaceMenu
     static public function menuArr()
     {
         return [
-            new MenuItem('Auth', '', [
+            new MenuItem('Авторизация', '', [
                 new MenuItem(UsersListAction::pageTitle(), UsersListAction::getUrl()),
-                new MenuItem(OperatorsListAction::pageTitle(), OperatorsListAction::getUrl()),
+                new MenuItem(OperatorsListAction::pageTitle(), OperatorsListAction::getUrl(), NULL, 'glyphicon glyphicon-user'),
                 new MenuItem(PermissionsListAction::pageTitle(), PermissionsListAction::getUrl()),
-            ])
+            ], 'glyphicon glyphicon-user')
         ];
     }
 
