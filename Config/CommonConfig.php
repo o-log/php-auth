@@ -41,7 +41,7 @@ class CommonConfig
         $conf['php_auth'] = [
             'full_access_cookie_name' => 'jkhbsdfhjvkdfvjgvasdc'
         ];
-        
+
         return $conf;
     }
 }
