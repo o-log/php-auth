@@ -13,6 +13,7 @@ class RegisterRoutes
         Router::matchAction(\OLOG\Auth\Admin\UserEditAction::class, 0);
         Router::matchAction(\OLOG\Auth\Admin\PermissionsListAction::class, 0);
         Router::matchAction(\OLOG\Auth\Admin\OperatorsListAction::class, 0);
+        Router::matchAction(\OLOG\Auth\Admin\UsersListAjaxAction::class, 0);
         Router::matchAction(\OLOG\Auth\Admin\OperatorEditAction::class, 0);
 
         Router::matchAction(\OLOG\Auth\Pages\LoginAction::class, 0);

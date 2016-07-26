@@ -5,7 +5,7 @@
         "o-log/php-router": "1.*",
         "o-log/php-bt": "5.*",
         "o-log/php-model": "5.*",
-        "o-log/php-crud": "1.*"
+        "o-log/php-crud": "2.*"
       },
       "autoload" : {
         "psr-0" : {

@@ -17,35 +17,13 @@ use OLOG\CRUD\CRUDFormWidgetInput;
 use OLOG\CRUD\CRUDTableFilter;
 use OLOG\Exits;
 
-class UsersListAction implements
-    InterfaceBreadcrumbs,
-    InterfacePageTitle,
-    InterfaceUserName
+class UsersListAjaxAction
 {
     use CurrentUserNameTrait;
-    
+
     static public function getUrl(){
-        return '/admin/auth/users';
+        return '/admin/auth/users_ajax';
     }
-
-    public function currentPageTitle()
-    {
-        return self::pageTitle();
-    }
-
-    static public function pageTitle(){
-        return 'Пользователи';
-    }
-
-    public function currentBreadcrumbsArr(){
-        return self::breadcrumbsArr();
-    }
-
-    static public function breadcrumbsArr()
-    {
-        return array_merge(AuthAdminAction::breadcrumbsArr(), [BT::a(self::getUrl(), self::pageTitle())]);
-    }
-
 
     public function action(){
         Exits::exit403If(
@@ -54,16 +32,15 @@ class UsersListAction implements
 
         $html = \OLOG\CRUD\CRUDTable::html(
             \OLOG\Auth\User::class,
-            CRUDForm::html(
-                new User(),
-                [
-                    new CRUDFormRow('login', new CRUDFormWidgetInput('login'))
-                ]
-            ),
+            '',
             [
                 new \OLOG\CRUD\CRUDTableColumn(
                     'Логин',
-                    new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{this->login}', UserEditAction::getUrl('{this->id}'))
+                    new \OLOG\CRUD\CRUDTableWidgetReferenceSelect('login')
+                ),
+                new \OLOG\CRUD\CRUDTableColumn(
+                    'Логин',
+                    new \OLOG\CRUD\CRUDTableWidgetText('{this->login}')
                 ),
                 new \OLOG\CRUD\CRUDTableColumn(
                     'Создан',
@@ -75,6 +52,6 @@ class UsersListAction implements
             ]
         );
 
-        Layout::render($html, $this);
+        echo $html;
     }
 }

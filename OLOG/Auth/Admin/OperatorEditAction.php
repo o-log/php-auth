@@ -16,6 +16,7 @@ use OLOG\CRUD\CRUDForm;
 use OLOG\CRUD\CRUDFormRow;
 use OLOG\CRUD\CRUDFormWidgetInput;
 use OLOG\CRUD\CRUDFormWidgetReference;
+use OLOG\CRUD\CRUDFormWidgetReferenceAjax;
 use OLOG\CRUD\CRUDTable;
 use OLOG\CRUD\CRUDTableColumn;
 use OLOG\CRUD\CRUDTableFilter;
@@ -74,7 +75,7 @@ class OperatorEditAction
                 ),
                 new CRUDFormRow(
                     'User id',
-                    new CRUDFormWidgetInput('user_id')
+                    new CRUDFormWidgetReferenceAjax('user_id', User::class, 'login', UsersListAjaxAction::getUrl(), UserEditAction::getUrl('REFERENCED_ID'))
                 )
             ]
         );

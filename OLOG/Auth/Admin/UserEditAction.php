@@ -73,16 +73,14 @@ class UserEditAction
 
         $user_obj = User::factory($user_id);
 
-        $html = CRUDForm::html(
+        $html = '';
+
+        $html .= CRUDForm::html(
             $user_obj,
             [
                 new CRUDFormRow(
                     'Login',
                     new CRUDFormWidgetInput('login')
-                ),
-                new CRUDFormRow(
-                    'Password hash',
-                    new CRUDFormWidgetInput('password_hash')
                 )
             ]
         );
@@ -128,19 +126,10 @@ class UserEditAction
             ),
             [
                 new \OLOG\CRUD\CRUDTableColumn(
-                    'ID', new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{this->id}', OperatorEditAction::getUrl('{this->id}'))
+                    'Описание', new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{this->title}', OperatorEditAction::getUrl('{this->id}'))
                 ),
                 new \OLOG\CRUD\CRUDTableColumn(
-                    'title', new \OLOG\CRUD\CRUDTableWidgetText('{this->title}')
-                ),
-                new \OLOG\CRUD\CRUDTableColumn(
-                    'login', new \OLOG\CRUD\CRUDTableWidgetText('{\OLOG\Auth\User.{this->user_id}->login}')
-                ),
-                new \OLOG\CRUD\CRUDTableColumn(
-                    '', new \OLOG\CRUD\CRUDTableWidgetTextWithLink('Edit', OperatorEditAction::getUrl('{this->id}'), 'btn btn-xs btn-default')
-                ),
-                new \OLOG\CRUD\CRUDTableColumn(
-                    '', new \OLOG\CRUD\CRUDTableWidgetDelete()
+                    'Удалить', new \OLOG\CRUD\CRUDTableWidgetDelete()
                 )
             ],
             [
