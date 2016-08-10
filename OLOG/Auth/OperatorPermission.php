@@ -9,8 +9,8 @@ class OperatorPermission implements
     \OLOG\Model\InterfaceDelete
 {
     use \OLOG\Model\FactoryTrait;
-    use \OLOG\Model\ActiveRecord;
-    use \OLOG\Model\ProtectProperties;
+    use \OLOG\Model\ActiveRecordTrait;
+    use \OLOG\Model\ProtectPropertiesTrait;
 
     const DB_ID = 'db_phpauth';
     const DB_TABLE_NAME = 'olog_auth_operatorpermission';
