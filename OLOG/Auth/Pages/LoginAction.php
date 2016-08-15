@@ -71,8 +71,14 @@ class LoginAction
         Auth::startUserSession($user_obj->getId());
 
         $redirect = '/';
+        /*
         if (isset($_GET['destination'])) {
             $redirect = Sanitize::sanitizeUrl($_GET['destination']);
+        }
+        */
+        $success_redirect_url = POSTAccess::getOptionalPostValue('success_redirect_url', '');
+        if ($success_redirect_url != ''){
+            $redirect = $success_redirect_url;
         }
 
         \OLOG\Redirects::redirect($redirect);

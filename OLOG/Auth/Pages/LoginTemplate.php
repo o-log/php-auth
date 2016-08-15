@@ -2,6 +2,9 @@
 
 namespace OLOG\Auth\Pages;
 
+use OLOG\GETAccess;
+use OLOG\Sanitize;
+
 class LoginTemplate
 {
     public static function getContent($message = '', $show_form = true)
@@ -56,13 +59,21 @@ class LoginTemplate
             }
         </style>
 
-        <form class="form-signin" method="post">
+        <form class="form-signin" method="post" action="<?php LoginAction::getUrl() ?>">
             <h2 class="form-signin-heading">Please sign in</h2>
             <?php if ($message){ ?>
                 <div class="alert alert-<?= $message_type ?> width-370" role="alert"><?php echo $message; ?></div>
-            <?php } ?>
+            <?php
+            }
 
-            <?php if ($show_form){ ?>
+            if ($show_form){
+                $success_redirect_url = GETAccess::getOptionalGetValue('success_redirect_url', '');
+
+                if ($success_redirect_url != ''){
+                    echo '<input type="hidden" name="success_redirect_url" value="' . Sanitize::sanitizeAttrValue($success_redirect_url). '"/>';
+                }
+
+                ?>
             <label for="inputEmail" class="sr-only">Email address</label>
             <input style="margin-bottom: -1px; border-bottom-right-radius: 0; border-bottom-left-radius: 0;" name="login" class="form-control" placeholder="login" required autofocus>
             <label for="inputPassword" class="sr-only">Password</label>
