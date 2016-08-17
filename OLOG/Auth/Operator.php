@@ -84,7 +84,7 @@ class Operator implements
             }
         }
 
-        error_log('Auth: no permissions');
+        error_log('Auth: no permissions for operator ' . $current_operator_id . ' (' . implode(',', $operator_permissions_ids_arr) . ') matched requested list: ' . implode(',', $requested_permissions_arr));
 
         return false;
     }
