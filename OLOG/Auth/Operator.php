@@ -61,11 +61,13 @@ class Operator implements
 
         $current_user_id = Auth::currentUserId();
         if (!$current_user_id){
+            error_log('Auth: no current user');
             return false;
         }
 
         $current_operator_ids_arr = Operator::getIdsArrForUserIdByCreatedAtDesc($current_user_id);
         if (empty($current_operator_ids_arr)){
+            error_log('Auth: no operators for user ' . $current_user_id);
             return false;
         }
 
@@ -81,6 +83,8 @@ class Operator implements
                 return true;
             }
         }
+
+        error_log('Auth: no permissions');
 
         return false;
     }
