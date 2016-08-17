@@ -75,16 +75,19 @@ class Operator implements
 
         $operator_permissions_ids_arr = OperatorPermission::getIdsArrForOperatorIdByCreatedAtDesc($current_operator_id);
 
+        $assigned_permissions_titles_arr = [];
+
         foreach ($operator_permissions_ids_arr as $operator_permission_id){
             $operator_permission_obj = OperatorPermission::factory($operator_permission_id);
             $permission_id = $operator_permission_obj->getPermissionId();
             $permission_obj = Permission::factory($permission_id);
+            $assigned_permissions_titles_arr[] = $permission_obj->getTitle();
             if (in_array($permission_obj->getTitle(), $requested_permissions_arr)){
                 return true;
             }
         }
 
-        error_log('Auth: no permissions for operator ' . $current_operator_id . ' (' . implode(',', $operator_permissions_ids_arr) . ') matched requested list: ' . implode(',', $requested_permissions_arr));
+        error_log('Auth: no permissions for operator ' . $current_operator_id . ' (' . implode(',', $operator_permissions_ids_arr) . ') (' . implode(',', $assigned_permissions_titles_arr) . ') matched requested list: ' . implode(',', $requested_permissions_arr));
 
         return false;
     }
