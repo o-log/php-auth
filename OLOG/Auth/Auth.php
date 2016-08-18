@@ -18,7 +18,17 @@ class Auth
 
         return self::getSessionUserIdBySessionId($session_id_from_cookie);
     }
-    
+
+    static public function currentUserObj(){
+        $current_user_id = self::currentUserId();
+
+        if (is_null($current_user_id)){
+            return null;
+        }
+
+        return User::factory($current_user_id);
+    }
+
     static public function currentUserLogin(){
         $user_id = Auth::currentUserId();
         if (!$user_id){
