@@ -20,6 +20,7 @@ use OLOG\CRUD\CRUDFormWidgetReferenceAjax;
 use OLOG\CRUD\CRUDTable;
 use OLOG\CRUD\CRUDTableColumn;
 use OLOG\CRUD\CRUDTableFilter;
+use OLOG\CRUD\CRUDTableWidgetDelete;
 use OLOG\CRUD\CRUDTableWidgetText;
 use OLOG\Exits;
 use OLOG\Operations;
@@ -101,7 +102,8 @@ class OperatorEditAction
                 ]
             ),
             [
-                new CRUDTableColumn('permission', new CRUDTableWidgetText('{\OLOG\Auth\Permission.{this->permission_id}->title}'))
+                new CRUDTableColumn('permission', new CRUDTableWidgetText('{\OLOG\Auth\Permission.{this->permission_id}->title}')),
+                new CRUDTableColumn('permission', new CRUDTableWidgetDelete(''))
             ],
             [
                 new CRUDTableFilter('operator_id', CRUDTableFilter::FILTER_EQUAL, $operator_id)

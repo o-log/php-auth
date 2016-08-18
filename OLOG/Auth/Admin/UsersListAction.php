@@ -67,7 +67,11 @@ class UsersListAction implements
                 ),
                 new \OLOG\CRUD\CRUDTableColumn(
                     'Создан',
-                    new \OLOG\CRUD\CRUDTableWidgetText('{this->created_at_ts}')
+                    new \OLOG\CRUD\CRUDTableWidgetTimestamp('{this->created_at_ts}')
+                ),
+                new \OLOG\CRUD\CRUDTableColumn(
+                    'Удалить',
+                    new \OLOG\CRUD\CRUDTableWidgetDelete()
                 )
             ],
             [

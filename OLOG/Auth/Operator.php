@@ -65,6 +65,20 @@ class Operator implements
             return false;
         }
 
+        // check user permissions
+
+        $user_permissions_ids_arr = PermissionToUser::getIdsArrForUserIdByCreatedAtDesc($current_user_id);
+        foreach ($user_permissions_ids_arr as $permissiontouser_id){
+            $permissiontouser_obj = PermissionToUser::factory($permissiontouser_id);
+            $permission_id = $permissiontouser_obj->getPermissionId();
+            $permission_obj = Permission::factory($permission_id);
+            if (in_array($permission_obj->getTitle(), $requested_permissions_arr)){
+                return true;
+            }
+        }
+
+        // check operator permissions
+
         $current_operator_ids_arr = Operator::getIdsArrForUserIdByCreatedAtDesc($current_user_id);
         if (empty($current_operator_ids_arr)){
             error_log('Auth: no operators for user ' . $current_user_id);

@@ -2,9 +2,11 @@
 
 namespace OLOG\Auth\Admin;
 
+use OLOG\Auth\Auth;
 use OLOG\Auth\Operator;
 use OLOG\Auth\Permission;
 use OLOG\Auth\Permissions;
+use OLOG\Auth\PermissionToUser;
 use OLOG\Auth\User;
 use OLOG\BT\BT;
 use OLOG\BT\InterfaceBreadcrumbs;
@@ -75,6 +77,10 @@ class UserEditAction
 
         $html = '';
 
+        $html .= '<div class="row"><div class="col-md-6">';
+
+        $html .= '<h2>Параметры</h2>';
+
         $html .= CRUDForm::html(
             $user_obj,
             [
@@ -136,6 +142,46 @@ class UserEditAction
                 new CRUDTableFilter('user_id', CRUDTableFilter::FILTER_EQUAL, $user_id)
             ]
         );
+
+        $html .= '</div><div class="col-md-6">';
+
+        if (Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS_PERMISSIONS])) {
+            $html .= '<h2>Разрешения</h2>';
+
+            $new_permissiontouser_obj = new PermissionToUser();
+            $new_permissiontouser_obj->setUserId($user_id);
+
+            $html .= \OLOG\CRUD\CRUDTable::html(
+                \OLOG\Auth\PermissionToUser::class,
+                CRUDForm::html(
+                    $new_permissiontouser_obj,
+                    [
+                        new CRUDFormRow(
+                            'user_id',
+                            new CRUDFormWidgetInput('user_id', false, true)
+                        ),
+                        new CRUDFormRow(
+                            'permission',
+                            new CRUDFormWidgetReference('permission_id', Permission::class, 'title')
+                        )
+                    ]
+                ),
+                [
+                    new \OLOG\CRUD\CRUDTableColumn(
+                        'Разрешение', new \OLOG\CRUD\CRUDTableWidgetText('{' . Permission::class . '.{this->permission_id}->title}')
+                    ),
+                    new \OLOG\CRUD\CRUDTableColumn(
+                        'Удалить', new \OLOG\CRUD\CRUDTableWidgetDelete()
+                    )
+                ],
+                [
+                    new CRUDTableFilter('user_id', CRUDTableFilter::FILTER_EQUAL, $user_id)
+                ]
+            );
+        }
+
+
+        $html .= '</div></div>';
 
         Layout::render($html, $this);
     }
