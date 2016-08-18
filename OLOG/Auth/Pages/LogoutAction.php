@@ -3,6 +3,7 @@
 namespace OLOG\Auth\Pages;
 
 use OLOG\Auth\Auth;
+use OLOG\Auth\AuthConfig;
 use OLOG\Sanitize;
 
 class LogoutAction
@@ -13,6 +14,16 @@ class LogoutAction
 
     public function action(){
         Auth::logout();
+
+        // remove extra cookies
+        if (!empty(AuthConfig::getExtraCookiesArr())){
+            $extra_cookies_arr = AuthConfig::getExtraCookiesArr();
+
+            foreach ($extra_cookies_arr as $cookie_name => $cookie_value){
+                //setcookie($cookie_name, $cookie_value, time() + Auth::SESSION_LIFETIME_SECONDS, '/', Auth::sessionCookieDomain());
+                setcookie($cookie_name, "", 1000, '/', Auth::sessionCookieDomain());
+            }
+        }
 
         $redirect = '/';
         if (isset($_GET['destination'])) {

@@ -24,6 +24,13 @@ class AuthDemoConfig
             new MemcacheServerSettings('localhost', 11211)
         );
 
+        AuthConfig::setExtraCookiesArr(
+          [
+              'ignore_nginx_cache' => 1
+          ]
+
+        );
+
 		//AuthConfig::setFullAccessCookieName('php_auth');
 
         /*

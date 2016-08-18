@@ -3,6 +3,7 @@
 namespace OLOG\Auth\Pages;
 
 use OLOG\Auth\Auth;
+use OLOG\Auth\AuthConfig;
 use OLOG\Auth\User;
 use OLOG\BT\Layout;
 use OLOG\BT\LayoutBootstrap;
@@ -70,12 +71,16 @@ class LoginAction
 
         Auth::startUserSession($user_obj->getId());
 
-        $redirect = '/';
-        /*
-        if (isset($_GET['destination'])) {
-            $redirect = Sanitize::sanitizeUrl($_GET['destination']);
+        // set extra cookies
+        if (!empty(AuthConfig::getExtraCookiesArr())){
+            $extra_cookies_arr = AuthConfig::getExtraCookiesArr();
+
+            foreach ($extra_cookies_arr as $cookie_name => $cookie_value){
+                setcookie($cookie_name, $cookie_value, time() + Auth::SESSION_LIFETIME_SECONDS, '/', Auth::sessionCookieDomain());
+            }
         }
-        */
+
+        $redirect = '/';
         $success_redirect_url = POSTAccess::getOptionalPostValue('success_redirect_url', '');
         if ($success_redirect_url != ''){
             $redirect = $success_redirect_url;

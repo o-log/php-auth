@@ -4,6 +4,8 @@ namespace OLOG\Auth;
 
 class Auth
 {
+    const SESSION_LIFETIME_SECONDS = 60 * 60 * 24 * 7;
+
     /**
      * @return null|int Returns null if no user currently logged
      */
@@ -99,7 +101,7 @@ class Auth
 
     public static function storeUserSessionId($user_id, $user_session_id)
     {
-        $stored = \OLOG\Cache\CacheWrapper::set(self::sessionCacheKey($user_session_id), $user_id, 60 * 60 * 24 * 30);
+        $stored = \OLOG\Cache\CacheWrapper::set(self::sessionCacheKey($user_session_id), $user_id, self::SESSION_LIFETIME_SECONDS);
         return $stored;
     }
 
@@ -107,7 +109,7 @@ class Auth
     {
         $cookie_name = self::sessionCookieName();
         $cookie_domain = self::sessionCookieDomain();
-        setcookie($cookie_name, $user_session_id, time() + 2678400, '/', $cookie_domain);
+        setcookie($cookie_name, $user_session_id, time() + self::SESSION_LIFETIME_SECONDS, '/', $cookie_domain);
     }
 
     public static function sessionCookieDomain(){

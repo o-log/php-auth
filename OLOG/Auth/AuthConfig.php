@@ -7,6 +7,23 @@ class AuthConfig
     static protected $ssid_cookie_name = 'php-auth-session-id';
     static protected $session_id_cookie_domain = null; // default value must be null for proper setcookie
     static protected $full_access_cookie_name = '';
+    static protected $extra_cookies_arr = [];
+
+    /**
+     * @return array
+     */
+    public static function getExtraCookiesArr()
+    {
+        return self::$extra_cookies_arr;
+    }
+
+    /**
+     * @param array $extra_cookies_arr
+     */
+    public static function setExtraCookiesArr($extra_cookies_arr)
+    {
+        self::$extra_cookies_arr = $extra_cookies_arr;
+    }
 
     /**
      * @return string
