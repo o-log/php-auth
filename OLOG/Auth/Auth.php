@@ -12,7 +12,7 @@ class Auth
     static public function currentUserId(){
         $session_id_from_cookie = self::getSessionIdFromCookie();
         if (!$session_id_from_cookie) {
-            error_log('Auth: no session id cookie');
+            //error_log('Auth: no session id cookie');
             return null;
         }
 
@@ -68,7 +68,7 @@ class Auth
     {
         $user_id = \OLOG\Cache\CacheWrapper::get(self::sessionCacheKey($user_session_id));
         if (!$user_id) {
-            error_log('Auth: no user retrieved for session ' . $user_session_id);
+            //error_log('Auth: no user retrieved for session ' . $user_session_id);
             return null;
         }
 

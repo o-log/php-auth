@@ -61,7 +61,7 @@ class Operator implements
 
         $current_user_id = Auth::currentUserId();
         if (!$current_user_id){
-            error_log('Auth: no current user');
+            //error_log('Auth: no current user');
             return false;
         }
 
@@ -81,7 +81,7 @@ class Operator implements
 
         $current_operator_ids_arr = Operator::getIdsArrForUserIdByCreatedAtDesc($current_user_id);
         if (empty($current_operator_ids_arr)){
-            error_log('Auth: no operators for user ' . $current_user_id);
+            //error_log('Auth: no operators for user ' . $current_user_id);
             return false;
         }
 
@@ -101,7 +101,7 @@ class Operator implements
             }
         }
 
-        error_log('Auth: no permissions for operator ' . $current_operator_id . ' (' . implode(',', $operator_permissions_ids_arr) . ') (' . implode(',', $assigned_permissions_titles_arr) . ') matched requested list: ' . implode(',', $requested_permissions_arr));
+        //error_log('Auth: no permissions for operator ' . $current_operator_id . ' (' . implode(',', $operator_permissions_ids_arr) . ') (' . implode(',', $assigned_permissions_titles_arr) . ') matched requested list: ' . implode(',', $requested_permissions_arr));
 
         return false;
     }
