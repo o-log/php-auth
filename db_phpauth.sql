@@ -25,4 +25,5 @@ array(
 'alter table olog_auth_permissiontouser add constraint FK_user_id_233533 foreign key (user_id)  references olog_auth_user (id) /* rand770402 */;',
 'alter table olog_auth_permissiontouser add column permission_id int  not null    /* rand636735 */;',
 'alter table olog_auth_permissiontouser add constraint FK_permission_id_909906 foreign key (permission_id)  references olog_auth_permission (id) /* rand873944 */;',
+'alter table olog_auth_permissiontouser add unique key uk_user_permission_5672434 (user_id, permission_id) /* 78682345 */;',
 )
