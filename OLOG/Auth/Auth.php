@@ -93,7 +93,7 @@ class Auth
     {
         $cookie_name = self::sessionCookieName();
         $cookie_domain = self::sessionCookieDomain();
-        setcookie($cookie_name, "", 1000, '/', $cookie_domain);
+        setcookie($cookie_name, "", 1000, '/', $cookie_domain, true, true);
     }
 
     public static function removeUserFromAuthCache($user_session_id)
@@ -119,7 +119,7 @@ class Auth
     {
         $cookie_name = self::sessionCookieName();
         $cookie_domain = self::sessionCookieDomain();
-        setcookie($cookie_name, $user_session_id, time() + self::SESSION_LIFETIME_SECONDS, '/', $cookie_domain);
+        setcookie($cookie_name, $user_session_id, time() + self::SESSION_LIFETIME_SECONDS, '/', $cookie_domain, true, true);
     }
 
     public static function sessionCookieDomain(){

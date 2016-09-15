@@ -76,7 +76,7 @@ class LoginAction
             $extra_cookies_arr = AuthConfig::getExtraCookiesArr();
 
             foreach ($extra_cookies_arr as $cookie_name => $cookie_value){
-                setcookie($cookie_name, $cookie_value, time() + Auth::SESSION_LIFETIME_SECONDS, '/', Auth::sessionCookieDomain());
+                setcookie($cookie_name, $cookie_value, time() + Auth::SESSION_LIFETIME_SECONDS, '/', Auth::sessionCookieDomain(), true, true);
             }
         }
 
