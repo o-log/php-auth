@@ -21,7 +21,7 @@ class LogoutAction
 
             foreach ($extra_cookies_arr as $cookie_name => $cookie_value){
                 //setcookie($cookie_name, $cookie_value, time() + Auth::SESSION_LIFETIME_SECONDS, '/', Auth::sessionCookieDomain());
-                setcookie($cookie_name, "", 1000, '/', Auth::sessionCookieDomain(), true, true);
+                setcookie($cookie_name, "", 1000, '/', Auth::sessionCookieDomain(), false, true);
             }
         }
 
