@@ -18,9 +18,7 @@
 
 Добавим в конфиг сайта такой ключ:
 
-    $conf['php_auth'] = [
-        'full_access_cookie_name' => 'jkhbsdfhjvkdfvjgvasdc'
-    ];
+    AuthConfig::setFullAccessCookieName('jkhbsdfhjvkdfvjgvasdc');
 
 Здесь нужно указать любое случайное имя куки, которая будет давать полный доступ в админку авторизации.
 
@@ -36,9 +34,7 @@
 
 Замечание: сейчас для хранения сессий используется только мемкеш, поэтому на компе должен быть рабочий мемкеш и в конфиге должна быть настройка такого вида:
 
-    $conf['memcache_servers'] = [
-        'localhost:11211'
-    ];
+    CacheConfig::addServerSettingsObj(new MemcacheServerSettings('localhost', 11211));
 
 ## Создание нового разрешения в другом модуле
 
