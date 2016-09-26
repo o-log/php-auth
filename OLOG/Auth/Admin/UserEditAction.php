@@ -17,6 +17,7 @@ use OLOG\CRUD\CRUDForm;
 use OLOG\CRUD\CRUDFormRow;
 use OLOG\CRUD\CRUDFormWidgetInput;
 use OLOG\CRUD\CRUDFormWidgetReference;
+use OLOG\CRUD\CRUDFormWidgetTextarea;
 use OLOG\CRUD\CRUDTableFilter;
 use OLOG\Exits;
 use OLOG\Operations;
@@ -87,6 +88,10 @@ class UserEditAction
                 new CRUDFormRow(
                     'Login',
                     new CRUDFormWidgetInput('login')
+                ),
+                new CRUDFormRow(
+                    'Комментарий',
+                    new CRUDFormWidgetTextarea('comment')
                 )
             ]
         );

@@ -21,20 +21,12 @@ class User implements
     protected $comment;
     protected $id;
 
-    /**
-     * @return string
-     */
-    public function getComment()
-    {
+    public function getComment(){
         return $this->comment;
     }
 
-    /**
-     * @param string $comment
-     */
-    public function setComment($comment)
-    {
-        $this->comment = $comment;
+    public function setComment($value){
+        $this->comment = $value;
     }
 
     public function getPasswordHash(){

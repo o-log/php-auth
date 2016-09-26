@@ -3,7 +3,6 @@
 namespace OLOG\Auth\Admin;
 
 use OLOG\Auth\Operator;
-use OLOG\Auth\Permission;
 use OLOG\Auth\Permissions;
 use OLOG\Auth\User;
 use OLOG\BT\BT;
@@ -14,6 +13,7 @@ use OLOG\BT\Layout;
 use OLOG\CRUD\CRUDForm;
 use OLOG\CRUD\CRUDFormRow;
 use OLOG\CRUD\CRUDFormWidgetInput;
+use OLOG\CRUD\CRUDFormWidgetTextarea;
 use OLOG\CRUD\CRUDTableFilter;
 use OLOG\Exits;
 
@@ -57,7 +57,8 @@ class UsersListAction implements
             CRUDForm::html(
                 new User(),
                 [
-                    new CRUDFormRow('login', new CRUDFormWidgetInput('login'))
+                    new CRUDFormRow('login', new CRUDFormWidgetInput('login')),
+                    new CRUDFormRow('Комментарий', new CRUDFormWidgetTextarea('comment'))
                 ]
             ),
             [
@@ -68,6 +69,10 @@ class UsersListAction implements
                 new \OLOG\CRUD\CRUDTableColumn(
                     'Создан',
                     new \OLOG\CRUD\CRUDTableWidgetTimestamp('{this->created_at_ts}')
+                ),
+                new \OLOG\CRUD\CRUDTableColumn(
+                    'Комментарий',
+                    new \OLOG\CRUD\CRUDTableWidgetText('{this->comment}')
                 ),
                 new \OLOG\CRUD\CRUDTableColumn(
                     'Удалить',
