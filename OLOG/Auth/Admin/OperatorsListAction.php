@@ -13,6 +13,7 @@ use OLOG\CRUD\CRUDFormRow;
 use OLOG\CRUD\CRUDFormWidgetInput;
 use OLOG\CRUD\CRUDFormWidgetReference;
 use OLOG\CRUD\CRUDFormWidgetTextarea;
+use OLOG\CRUD\CRUDTableFilterLike;
 use OLOG\Exits;
 
 class OperatorsListAction implements
@@ -81,7 +82,14 @@ class OperatorsListAction implements
                 new \OLOG\CRUD\CRUDTableColumn(
                     'login', new \OLOG\CRUD\CRUDTableWidgetText('{\OLOG\Auth\User.{this->user_id}->login}')
                 )
-            ]
+            ],
+            [
+                new CRUDTableFilterLike('title_1287318', 'title', 'title')
+            ],
+            '',
+            '1',
+            \OLOG\CRUD\CRUDTable::FILTERS_POSITION_TOP
+
         );
 
         Layout::render($html, $this);

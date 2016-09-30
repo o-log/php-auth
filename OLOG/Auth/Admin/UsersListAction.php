@@ -15,6 +15,8 @@ use OLOG\CRUD\CRUDFormRow;
 use OLOG\CRUD\CRUDFormWidgetInput;
 use OLOG\CRUD\CRUDFormWidgetTextarea;
 use OLOG\CRUD\CRUDTableFilter;
+use OLOG\CRUD\CRUDTableFilterLike;
+use OLOG\CRUD\CRUDTableWidgetText;
 use OLOG\Exits;
 
 class UsersListAction implements
@@ -80,8 +82,11 @@ class UsersListAction implements
                 )
             ],
             [
-                new CRUDTableFilter('login', CRUDTableFilter::FILTER_LIKE, '')
-            ]
+                new CRUDTableFilterLike('login_1287318', 'login', 'login')
+            ],
+            '',
+            '1',
+            \OLOG\CRUD\CRUDTable::FILTERS_POSITION_TOP
         );
 
         Layout::render($html, $this);
