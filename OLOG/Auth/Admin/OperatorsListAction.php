@@ -10,7 +10,9 @@ use OLOG\BT\InterfaceUserName;
 use OLOG\BT\Layout;
 use OLOG\CRUD\CRUDForm;
 use OLOG\CRUD\CRUDFormRow;
+use OLOG\CRUD\CRUDFormWidgetInput;
 use OLOG\CRUD\CRUDFormWidgetReference;
+use OLOG\CRUD\CRUDFormWidgetTextarea;
 use OLOG\Exits;
 
 class OperatorsListAction implements
@@ -55,8 +57,16 @@ class OperatorsListAction implements
                     new CRUDFormRow(
                     'user_id',
                     new CRUDFormWidgetReference('user_id', User::class, 'login')
-                )
-                    ]
+                    ),
+                    new CRUDFormRow(
+                        'title',
+                        new CRUDFormWidgetInput('title')
+                    ),
+                    new CRUDFormRow(
+                        'Описание',
+                        new CRUDFormWidgetTextarea('description')
+                    )
+                ]
             ),
             [
                 new \OLOG\CRUD\CRUDTableColumn(
@@ -64,6 +74,9 @@ class OperatorsListAction implements
                 ),
                 new \OLOG\CRUD\CRUDTableColumn(
                     'title', new \OLOG\CRUD\CRUDTableWidgetText('{this->title}')
+                ),
+                new \OLOG\CRUD\CRUDTableColumn(
+                    'описание', new \OLOG\CRUD\CRUDTableWidgetText('{this->description}')
                 ),
                 new \OLOG\CRUD\CRUDTableColumn(
                     'login', new \OLOG\CRUD\CRUDTableWidgetText('{\OLOG\Auth\User.{this->user_id}->login}')

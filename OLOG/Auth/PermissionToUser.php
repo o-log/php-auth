@@ -117,10 +117,10 @@ class PermissionToUser implements
     }
 
 
-    static public function getPermissionIdsArrForUserId($value, $offset = 0, $page_size = 30){
+    static public function getPermissionIdsArrForUserId($value){
         return \OLOG\DB\DBWrapper::readColumn(
                 self::DB_ID,
-                'select permission_id from ' . self::DB_TABLE_NAME . ' where user_id = ? order by created_at_ts desc limit ' . intval($page_size) . ' offset ' . intval($offset),
+                'select permission_id from ' . self::DB_TABLE_NAME . ' where user_id = ?',
                 array($value)
             );
     }

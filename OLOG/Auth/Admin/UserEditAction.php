@@ -138,12 +138,19 @@ class UserEditAction
                     new CRUDFormRow(
                         'title',
                         new CRUDFormWidgetInput('title')
+                    ),
+                    new CRUDFormRow(
+                        'Описание',
+                        new CRUDFormWidgetTextarea('description')
                     )
                 ]
             ),
             [
                 new \OLOG\CRUD\CRUDTableColumn(
-                    'Описание', new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{this->title}', OperatorEditAction::getUrl('{this->id}'))
+                    'title', new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{this->title}', OperatorEditAction::getUrl('{this->id}'))
+                ),
+                new \OLOG\CRUD\CRUDTableColumn(
+                    'Описание', new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{this->description}', OperatorEditAction::getUrl('{this->id}'))
                 ),
                 new \OLOG\CRUD\CRUDTableColumn(
                     'Удалить', new \OLOG\CRUD\CRUDTableWidgetDelete()
@@ -179,7 +186,6 @@ class UserEditAction
                     ''
                 );
 
-
                 echo CallapsibleWidget::buttonAndCollapse('Показать все неназначенные разрешения', function () use($user_id) {
                     $user_obj = User::factory($user_id);
                     $html = CRUDTable::html(
@@ -195,7 +201,7 @@ class UserEditAction
                                 new CRUDTableWidgetTextWithLink('Добавить пользователю', (new PermissionAddToUserAction($user_id, '{this->id}'))->url(), 'btn btn-default btn-xs'))
                         ],
                         [
-                            new CRUDTableFilterNotInInvisible('id', CRUDTableFilter::FILTER_IN, $user_obj->getListNotSettedPermissions()),
+                            new CRUDTableFilterNotInInvisible('id', PermissionToUser::getPermissionIdsArrForUserId($user_id)),
                         ],
                         'id',
                         '79687tg8976rt87'
