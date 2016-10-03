@@ -90,4 +90,16 @@ class OperatorPermission implements
     {
         $this->created_at_ts = $title;
     }
+
+    /**
+     * @param $operator_id
+     * @return array
+     */
+    public static function getPermissionIdsArrForOperatorId($operator_id) {
+        return \OLOG\DB\DBWrapper::readColumn(
+            self::DB_ID,
+            'select permission_id from ' . self::DB_TABLE_NAME . ' where operator_id = ?',
+            array($operator_id)
+        );
+    }
 }

@@ -6,8 +6,11 @@ use OLOG\Auth\Operator;
 use OLOG\Auth\OperatorPermission;
 use OLOG\Auth\Permission;
 use OLOG\Auth\Permissions;
+use OLOG\Auth\PermissionToUser;
 use OLOG\Auth\User;
 use OLOG\BT\BT;
+use OLOG\BT\CallapsibleWidget;
+use OLOG\BT\HTML;
 use OLOG\BT\InterfaceBreadcrumbs;
 use OLOG\BT\InterfacePageTitle;
 use OLOG\BT\InterfaceUserName;
@@ -20,8 +23,10 @@ use OLOG\CRUD\CRUDFormWidgetReferenceAjax;
 use OLOG\CRUD\CRUDTable;
 use OLOG\CRUD\CRUDTableColumn;
 use OLOG\CRUD\CRUDTableFilter;
+use OLOG\CRUD\CRUDTableFilterNotInInvisible;
 use OLOG\CRUD\CRUDTableWidgetDelete;
 use OLOG\CRUD\CRUDTableWidgetText;
+use OLOG\CRUD\CRUDTableWidgetTextWithLink;
 use OLOG\Exits;
 use OLOG\Operations;
 use OLOG\POSTAccess;
@@ -86,29 +91,50 @@ class OperatorEditAction
 
         $html .= '<h2>Назначенные разрешения</h2>';
 
-        $html .= CRUDTable::html(
-            OperatorPermission::class,
-            CRUDForm::html(
-                $new_operator_permission_obj,
+        $html .= HTML::div('', '',  function () use ($operator_id) {
+            $new_permissiontouser_obj = new OperatorPermission();
+            $new_permissiontouser_obj->setOperatorId($operator_id);
+
+            echo CRUDTable::html(
+                OperatorPermission::class,
+                '',
                 [
-                    new CRUDFormRow(
-                        'operator',
-                        new CRUDFormWidgetReference('operator_id', Operator::class, 'title')
+                    new \OLOG\CRUD\CRUDTableColumn(
+                        'Разрешение', new \OLOG\CRUD\CRUDTableWidgetText('{' . Permission::class . '.{this->permission_id}->title}')
                     ),
-                    new CRUDFormRow(
-                        'permission',
-                        new CRUDFormWidgetReference('permission_id', Permission::class, 'title')
+                    new \OLOG\CRUD\CRUDTableColumn(
+                        'Удалить', new \OLOG\CRUD\CRUDTableWidgetDelete()
                     )
-                ]
-            ),
-            [
-                new CRUDTableColumn('permission', new CRUDTableWidgetText('{\OLOG\Auth\Permission.{this->permission_id}->title}')),
-                new CRUDTableColumn('permission', new CRUDTableWidgetDelete(''))
-            ],
-            [
-                new CRUDTableFilter('operator_id', CRUDTableFilter::FILTER_EQUAL, $operator_id)
-            ]
-        );
+                ],
+                [
+                    new CRUDTableFilter('operator_id', CRUDTableFilter::FILTER_EQUAL, $operator_id)
+                ],
+                ''
+            );
+
+            echo CallapsibleWidget::buttonAndCollapse('Показать все неназначенные разрешения', function () use ($operator_id) {
+                $html = CRUDTable::html(
+                    Permission::class,
+                    '',
+                    [
+                        new CRUDTableColumn(
+                            'Разрешение',
+                            new CRUDTableWidgetTextWithLink('{this->title}', (new PermissionAddToOperatorAction($operator_id, '{this->id}'))->url())
+                        ),
+                        new CRUDTableColumn(
+                            '',
+                            new CRUDTableWidgetTextWithLink('Добавить оператору', (new PermissionAddToOperatorAction($operator_id, '{this->id}'))->url(), 'btn btn-default btn-xs'))
+                    ],
+                    [
+                        new CRUDTableFilterNotInInvisible('id', OperatorPermission::getPermissionIdsArrForOperatorId($operator_id)),
+                    ],
+                    'id',
+                    '79687tg8976rt87'
+                );
+                return $html;
+            });
+        });
+
 
         Layout::render($html, $this);
     }

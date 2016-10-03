@@ -207,8 +207,7 @@ class UserEditAction
                     );
                     return $html;
                 });
-                ?>
-                <?php
+
             });
         }
 

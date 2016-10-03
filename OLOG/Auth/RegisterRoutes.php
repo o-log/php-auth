@@ -19,5 +19,6 @@ class RegisterRoutes
         Router::matchAction(\OLOG\Auth\Pages\LoginAction::class, 0);
         Router::matchAction(\OLOG\Auth\Pages\LogoutAction::class, 0);
         Router::processAction(\OLOG\Auth\Admin\PermissionAddToUserAction::class, 0);
+        Router::processAction(\OLOG\Auth\Admin\PermissionAddToOperatorAction::class, 0);
     }
 }
