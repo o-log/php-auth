@@ -30,7 +30,7 @@ class PermissionAddToUserAction implements InterfaceAction
         Exits::exit403If(
             !Operator::currentOperatorHasAnyOfPermissions(
                 [
-                    Permissions::PERMISSION_PHPAUTH_MANAGE_USERS,
+                    Permissions::PERMISSION_PHPAUTH_MANAGE_USERS_PERMISSIONS,
                 ]
             )
         );
