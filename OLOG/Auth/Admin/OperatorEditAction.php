@@ -80,6 +80,10 @@ class OperatorEditAction
                     new CRUDFormWidgetInput('title')
                 ),
                 new CRUDFormRow(
+                    'описание',
+                    new CRUDFormWidgetInput('description')
+                ),
+                new CRUDFormRow(
                     'User id',
                     new CRUDFormWidgetReferenceAjax('user_id', User::class, 'login', UsersListAjaxAction::getUrl(), UserEditAction::getUrl('REFERENCED_ID'))
                 )
