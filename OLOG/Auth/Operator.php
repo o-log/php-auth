@@ -16,20 +16,20 @@ class Operator implements
 
     const DB_ID = 'db_phpauth';
     const DB_TABLE_NAME = 'olog_auth_operator';
-    const _COMMENT = 'comment';
+    const _COMMENT = 'description';
 
     protected $created_at_ts; // initialized by constructor
     protected $title = "";
     protected $user_id;
-    protected $comment;
+    protected $description;
     protected $id;
 
-    public function getComment(){
-        return $this->comment;
+    public function getDescription(){
+        return $this->description;
     }
 
-    public function setComment($value){
-        $this->comment = $value;
+    public function setDescription($value){
+        $this->description = $value;
     }
 
     static public function getIdsArrForUserIdByCreatedAtDesc($value){

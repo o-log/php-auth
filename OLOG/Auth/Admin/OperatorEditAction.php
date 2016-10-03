@@ -89,51 +89,53 @@ class OperatorEditAction
         $new_operator_permission_obj = new OperatorPermission();
         $new_operator_permission_obj->setOperatorId($operator_id);
 
-        $html .= '<h2>Назначенные разрешения</h2>';
+        if (Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_OPERATORS])) {
+            $html .= '<h2>Назначенные разрешения</h2>';
 
-        $html .= HTML::div('', '',  function () use ($operator_id) {
-            $new_permissiontouser_obj = new OperatorPermission();
-            $new_permissiontouser_obj->setOperatorId($operator_id);
+            $html .= HTML::div('', '', function () use ($operator_id) {
+                $new_permissiontouser_obj = new OperatorPermission();
+                $new_permissiontouser_obj->setOperatorId($operator_id);
 
-            echo CRUDTable::html(
-                OperatorPermission::class,
-                '',
-                [
-                    new \OLOG\CRUD\CRUDTableColumn(
-                        'Разрешение', new \OLOG\CRUD\CRUDTableWidgetText('{' . Permission::class . '.{this->permission_id}->title}')
-                    ),
-                    new \OLOG\CRUD\CRUDTableColumn(
-                        'Удалить', new \OLOG\CRUD\CRUDTableWidgetDelete()
-                    )
-                ],
-                [
-                    new CRUDTableFilter('operator_id', CRUDTableFilter::FILTER_EQUAL, $operator_id)
-                ],
-                ''
-            );
-
-            echo CallapsibleWidget::buttonAndCollapse('Показать все неназначенные разрешения', function () use ($operator_id) {
-                $html = CRUDTable::html(
-                    Permission::class,
+                echo CRUDTable::html(
+                    OperatorPermission::class,
                     '',
                     [
-                        new CRUDTableColumn(
-                            'Разрешение',
-                            new CRUDTableWidgetTextWithLink('{this->title}', (new PermissionAddToOperatorAction($operator_id, '{this->id}'))->url())
+                        new \OLOG\CRUD\CRUDTableColumn(
+                            'Разрешение', new \OLOG\CRUD\CRUDTableWidgetText('{' . Permission::class . '.{this->permission_id}->title}')
                         ),
-                        new CRUDTableColumn(
-                            '',
-                            new CRUDTableWidgetTextWithLink('Добавить оператору', (new PermissionAddToOperatorAction($operator_id, '{this->id}'))->url(), 'btn btn-default btn-xs'))
+                        new \OLOG\CRUD\CRUDTableColumn(
+                            'Удалить', new \OLOG\CRUD\CRUDTableWidgetDelete()
+                        )
                     ],
                     [
-                        new CRUDTableFilterNotInInvisible('id', OperatorPermission::getPermissionIdsArrForOperatorId($operator_id)),
+                        new CRUDTableFilter('operator_id', CRUDTableFilter::FILTER_EQUAL, $operator_id)
                     ],
-                    'id',
-                    '79687tg8976rt87'
+                    ''
                 );
-                return $html;
+
+                echo CallapsibleWidget::buttonAndCollapse('Показать все неназначенные разрешения', function () use ($operator_id) {
+                    $html = CRUDTable::html(
+                        Permission::class,
+                        '',
+                        [
+                            new CRUDTableColumn(
+                                'Разрешение',
+                                new CRUDTableWidgetTextWithLink('{this->title}', (new PermissionAddToOperatorAction($operator_id, '{this->id}'))->url())
+                            ),
+                            new CRUDTableColumn(
+                                '',
+                                new CRUDTableWidgetTextWithLink('Добавить оператору', (new PermissionAddToOperatorAction($operator_id, '{this->id}'))->url(), 'btn btn-default btn-xs'))
+                        ],
+                        [
+                            new CRUDTableFilterNotInInvisible('id', OperatorPermission::getPermissionIdsArrForOperatorId($operator_id)),
+                        ],
+                        'id',
+                        '79687tg8976rt87'
+                    );
+                    return $html;
+                });
             });
-        });
+        }
 
 
         Layout::render($html, $this);

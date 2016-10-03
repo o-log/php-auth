@@ -18,15 +18,15 @@ class User implements
     protected $created_at_ts; // initialized by constructor
     protected $login = "";
     protected $password_hash = "";
-    protected $comment;
+    protected $description;
     protected $id;
 
-    public function getComment(){
-        return $this->comment;
+    public function getDescription(){
+        return $this->description;
     }
 
-    public function setComment($value){
-        $this->comment = $value;
+    public function setDescription($value){
+        $this->description = $value;
     }
 
     public function getPasswordHash(){

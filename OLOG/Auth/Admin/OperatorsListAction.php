@@ -65,7 +65,7 @@ class OperatorsListAction implements
                     ),
                     new CRUDFormRow(
                         'Описание',
-                        new CRUDFormWidgetTextarea('comment')
+                        new CRUDFormWidgetTextarea('description')
                     )
                 ]
             ),
@@ -77,7 +77,7 @@ class OperatorsListAction implements
                     'title', new \OLOG\CRUD\CRUDTableWidgetText('{this->title}')
                 ),
                 new \OLOG\CRUD\CRUDTableColumn(
-                    'описание', new \OLOG\CRUD\CRUDTableWidgetText('{this->comment}')
+                    'описание', new \OLOG\CRUD\CRUDTableWidgetText('{this->description}')
                 ),
                 new \OLOG\CRUD\CRUDTableColumn(
                     'login', new \OLOG\CRUD\CRUDTableWidgetText('{\OLOG\Auth\User.{this->user_id}->login}')
@@ -85,7 +85,7 @@ class OperatorsListAction implements
             ],
             [
                 new CRUDTableFilterLike('title_1287318', 'title', 'title'),
-                new CRUDTableFilterLike('comment_1287318', 'описание', 'comment')
+                new CRUDTableFilterLike('description_1287318', 'описание', 'description')
             ],
             '',
             '1',

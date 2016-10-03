@@ -60,7 +60,7 @@ class UsersListAction implements
                 new User(),
                 [
                     new CRUDFormRow('login', new CRUDFormWidgetInput('login')),
-                    new CRUDFormRow('Комментарий', new CRUDFormWidgetTextarea('comment'))
+                    new CRUDFormRow('Комментарий', new CRUDFormWidgetTextarea('description'))
                 ]
             ),
             [
@@ -74,7 +74,7 @@ class UsersListAction implements
                 ),
                 new \OLOG\CRUD\CRUDTableColumn(
                     'Комментарий',
-                    new \OLOG\CRUD\CRUDTableWidgetText('{this->comment}')
+                    new \OLOG\CRUD\CRUDTableWidgetText('{this->description}')
                 ),
                 new \OLOG\CRUD\CRUDTableColumn(
                     'Удалить',
@@ -83,7 +83,7 @@ class UsersListAction implements
             ],
             [
                 new CRUDTableFilterLike('login_1287318', 'login', 'login'),
-                new CRUDTableFilterLike('comment_1287318', 'комментарий', 'comment')
+                new CRUDTableFilterLike('description_1287318', 'комментарий', 'description')
             ],
             '',
             '1',
