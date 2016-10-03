@@ -194,7 +194,7 @@ class UserEditAction
                         [
                             new CRUDTableColumn(
                                 'Разрешение',
-                                new CRUDTableWidgetTextWithLink('{this->title}', 'url')
+                                new CRUDTableWidgetTextWithLink('{this->title}', (new PermissionAddToUserAction($user_id, '{this->id}'))->url())
                             ),
                             new CRUDTableColumn(
                                 '',
