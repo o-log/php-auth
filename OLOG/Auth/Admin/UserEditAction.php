@@ -141,7 +141,7 @@ class UserEditAction
                     ),
                     new CRUDFormRow(
                         'Описание',
-                        new CRUDFormWidgetTextarea('description')
+                        new CRUDFormWidgetTextarea('comment')
                     )
                 ]
             ),
@@ -150,7 +150,7 @@ class UserEditAction
                     'title', new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{this->title}', OperatorEditAction::getUrl('{this->id}'))
                 ),
                 new \OLOG\CRUD\CRUDTableColumn(
-                    'Описание', new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{this->description}', OperatorEditAction::getUrl('{this->id}'))
+                    'Описание', new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{this->comment}', OperatorEditAction::getUrl('{this->id}'))
                 ),
                 new \OLOG\CRUD\CRUDTableColumn(
                     'Удалить', new \OLOG\CRUD\CRUDTableWidgetDelete()

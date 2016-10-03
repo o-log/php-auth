@@ -16,23 +16,21 @@ class Operator implements
 
     const DB_ID = 'db_phpauth';
     const DB_TABLE_NAME = 'olog_auth_operator';
-    const _DESCRIPTION = 'description';
+    const _COMMENT = 'comment';
 
     protected $created_at_ts; // initialized by constructor
     protected $title = "";
     protected $user_id;
-    protected $description;
+    protected $comment;
     protected $id;
 
-    public function getDescription(){
-        return $this->description;
+    public function getComment(){
+        return $this->comment;
     }
 
-    public function setDescription($value){
-        $this->description = $value;
+    public function setComment($value){
+        $this->comment = $value;
     }
-
-
 
     static public function getIdsArrForUserIdByCreatedAtDesc($value){
         $ids_arr = \OLOG\DB\DBWrapper::readColumn(
@@ -51,7 +49,6 @@ class Operator implements
         $this->user_id = $value;
     }
 
-
     public function getTitle(){
         return $this->title;
     }
@@ -59,7 +56,6 @@ class Operator implements
     public function setTitle($value){
         $this->title = $value;
     }
-
 
     static public function currentOperatorHasAnyOfPermissions($requested_permissions_arr){
         //$auth_cookie_name = ConfWrapper::value('php_auth.full_access_cookie_name');

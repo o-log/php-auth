@@ -82,7 +82,8 @@ class UsersListAction implements
                 )
             ],
             [
-                new CRUDTableFilterLike('login_1287318', 'login', 'login')
+                new CRUDTableFilterLike('login_1287318', 'login', 'login'),
+                new CRUDTableFilterLike('comment_1287318', 'комментарий', 'comment')
             ],
             '',
             '1',
