@@ -187,7 +187,6 @@ class UserEditAction
                 );
 
                 echo CallapsibleWidget::buttonAndCollapse('Показать все неназначенные разрешения', function () use($user_id) {
-                    $user_obj = User::factory($user_id);
                     $html = CRUDTable::html(
                         Permission::class,
                         '',
