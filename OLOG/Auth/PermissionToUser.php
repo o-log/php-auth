@@ -115,4 +115,12 @@ class PermissionToUser implements
     {
         $this->created_at_ts = $timestamp;
     }
+
+    static public function getPermissionIdsArrForUserId($value){
+        return \OLOG\DB\DBWrapper::readColumn(
+                self::DB_ID,
+                'select permission_id from ' . self::DB_TABLE_NAME . ' where user_id = ?',
+                array($value)
+            );
+    }
 }

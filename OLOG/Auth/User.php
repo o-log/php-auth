@@ -18,7 +18,16 @@ class User implements
     protected $created_at_ts; // initialized by constructor
     protected $login = "";
     protected $password_hash = "";
+    protected $description;
     protected $id;
+
+    public function getDescription(){
+        return $this->description;
+    }
+
+    public function setDescription($value){
+        $this->description = $value;
+    }
 
     public function getPasswordHash(){
         return $this->password_hash;

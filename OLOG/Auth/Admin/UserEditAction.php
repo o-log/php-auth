@@ -9,6 +9,8 @@ use OLOG\Auth\Permissions;
 use OLOG\Auth\PermissionToUser;
 use OLOG\Auth\User;
 use OLOG\BT\BT;
+use OLOG\BT\CallapsibleWidget;
+use OLOG\BT\HTML;
 use OLOG\BT\InterfaceBreadcrumbs;
 use OLOG\BT\InterfacePageTitle;
 use OLOG\BT\InterfaceUserName;
@@ -17,7 +19,12 @@ use OLOG\CRUD\CRUDForm;
 use OLOG\CRUD\CRUDFormRow;
 use OLOG\CRUD\CRUDFormWidgetInput;
 use OLOG\CRUD\CRUDFormWidgetReference;
+use OLOG\CRUD\CRUDFormWidgetTextarea;
+use OLOG\CRUD\CRUDTable;
+use OLOG\CRUD\CRUDTableColumn;
 use OLOG\CRUD\CRUDTableFilter;
+use OLOG\CRUD\CRUDTableFilterNotInInvisible;
+use OLOG\CRUD\CRUDTableWidgetTextWithLink;
 use OLOG\Exits;
 use OLOG\Operations;
 use OLOG\POSTAccess;
@@ -87,6 +94,10 @@ class UserEditAction
                 new CRUDFormRow(
                     'Login',
                     new CRUDFormWidgetInput('login')
+                ),
+                new CRUDFormRow(
+                    'Комментарий',
+                    new CRUDFormWidgetTextarea('description')
                 )
             ]
         );
@@ -127,12 +138,19 @@ class UserEditAction
                     new CRUDFormRow(
                         'title',
                         new CRUDFormWidgetInput('title')
+                    ),
+                    new CRUDFormRow(
+                        'Описание',
+                        new CRUDFormWidgetTextarea('description')
                     )
                 ]
             ),
             [
                 new \OLOG\CRUD\CRUDTableColumn(
-                    'Описание', new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{this->title}', OperatorEditAction::getUrl('{this->id}'))
+                    'title', new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{this->title}', OperatorEditAction::getUrl('{this->id}'))
+                ),
+                new \OLOG\CRUD\CRUDTableColumn(
+                    'Описание', new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{this->description}', OperatorEditAction::getUrl('{this->id}'))
                 ),
                 new \OLOG\CRUD\CRUDTableColumn(
                     'Удалить', new \OLOG\CRUD\CRUDTableWidgetDelete()
@@ -147,42 +165,53 @@ class UserEditAction
 
         if (Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS_PERMISSIONS])) {
             $html .= '<h2>Разрешения</h2>';
+            $html .= HTML::div('', '',  function () use ($user_id) {
+                $new_permissiontouser_obj = new PermissionToUser();
+                $new_permissiontouser_obj->setUserId($user_id);
 
-            $new_permissiontouser_obj = new PermissionToUser();
-            $new_permissiontouser_obj->setUserId($user_id);
-
-            $html .= \OLOG\CRUD\CRUDTable::html(
-                \OLOG\Auth\PermissionToUser::class,
-                CRUDForm::html(
-                    $new_permissiontouser_obj,
+                echo CRUDTable::html(
+                    PermissionToUser::class,
+                    '',
                     [
-                        new CRUDFormRow(
-                            'user_id',
-                            new CRUDFormWidgetInput('user_id', false, true)
+                        new \OLOG\CRUD\CRUDTableColumn(
+                            'Разрешение', new \OLOG\CRUD\CRUDTableWidgetText('{' . Permission::class . '.{this->permission_id}->title}')
                         ),
-                        new CRUDFormRow(
-                            'permission',
-                            new CRUDFormWidgetReference('permission_id', Permission::class, 'title')
+                        new \OLOG\CRUD\CRUDTableColumn(
+                            'Удалить', new \OLOG\CRUD\CRUDTableWidgetDelete()
                         )
-                    ]
-                ),
-                [
-                    new \OLOG\CRUD\CRUDTableColumn(
-                        'Разрешение', new \OLOG\CRUD\CRUDTableWidgetText('{' . Permission::class . '.{this->permission_id}->title}')
-                    ),
-                    new \OLOG\CRUD\CRUDTableColumn(
-                        'Удалить', new \OLOG\CRUD\CRUDTableWidgetDelete()
-                    )
-                ],
-                [
-                    new CRUDTableFilter('user_id', CRUDTableFilter::FILTER_EQUAL, $user_id)
-                ]
-            );
+                    ],
+                    [
+                        new CRUDTableFilter('user_id', CRUDTableFilter::FILTER_EQUAL, $user_id)
+                    ],
+                    ''
+                );
+
+                echo CallapsibleWidget::buttonAndCollapse('Показать все неназначенные разрешения', function () use($user_id) {
+                    $html = CRUDTable::html(
+                        Permission::class,
+                        '',
+                        [
+                            new CRUDTableColumn(
+                                'Разрешение',
+                                new CRUDTableWidgetTextWithLink('{this->title}', (new PermissionAddToUserAction($user_id, '{this->id}'))->url())
+                            ),
+                            new CRUDTableColumn(
+                                '',
+                                new CRUDTableWidgetTextWithLink('Добавить пользователю', (new PermissionAddToUserAction($user_id, '{this->id}'))->url(), 'btn btn-default btn-xs'))
+                        ],
+                        [
+                            new CRUDTableFilterNotInInvisible('id', PermissionToUser::getPermissionIdsArrForUserId($user_id)),
+                        ],
+                        'id',
+                        '79687tg8976rt87'
+                    );
+                    return $html;
+                });
+
+            });
         }
 
-
         $html .= '</div></div>';
-
         Layout::render($html, $this);
     }
 }

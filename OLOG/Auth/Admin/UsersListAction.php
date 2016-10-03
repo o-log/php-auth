@@ -3,7 +3,6 @@
 namespace OLOG\Auth\Admin;
 
 use OLOG\Auth\Operator;
-use OLOG\Auth\Permission;
 use OLOG\Auth\Permissions;
 use OLOG\Auth\User;
 use OLOG\BT\BT;
@@ -14,7 +13,10 @@ use OLOG\BT\Layout;
 use OLOG\CRUD\CRUDForm;
 use OLOG\CRUD\CRUDFormRow;
 use OLOG\CRUD\CRUDFormWidgetInput;
+use OLOG\CRUD\CRUDFormWidgetTextarea;
 use OLOG\CRUD\CRUDTableFilter;
+use OLOG\CRUD\CRUDTableFilterLike;
+use OLOG\CRUD\CRUDTableWidgetText;
 use OLOG\Exits;
 
 class UsersListAction implements
@@ -57,7 +59,8 @@ class UsersListAction implements
             CRUDForm::html(
                 new User(),
                 [
-                    new CRUDFormRow('login', new CRUDFormWidgetInput('login'))
+                    new CRUDFormRow('login', new CRUDFormWidgetInput('login')),
+                    new CRUDFormRow('Комментарий', new CRUDFormWidgetTextarea('description'))
                 ]
             ),
             [
@@ -70,13 +73,21 @@ class UsersListAction implements
                     new \OLOG\CRUD\CRUDTableWidgetTimestamp('{this->created_at_ts}')
                 ),
                 new \OLOG\CRUD\CRUDTableColumn(
+                    'Комментарий',
+                    new \OLOG\CRUD\CRUDTableWidgetText('{this->description}')
+                ),
+                new \OLOG\CRUD\CRUDTableColumn(
                     'Удалить',
                     new \OLOG\CRUD\CRUDTableWidgetDelete()
                 )
             ],
             [
-                new CRUDTableFilter('login', CRUDTableFilter::FILTER_LIKE, '')
-            ]
+                new CRUDTableFilterLike('login_1287318', 'login', 'login'),
+                new CRUDTableFilterLike('description_1287318', 'комментарий', 'description')
+            ],
+            '',
+            '1',
+            \OLOG\CRUD\CRUDTable::FILTERS_POSITION_TOP
         );
 
         Layout::render($html, $this);
