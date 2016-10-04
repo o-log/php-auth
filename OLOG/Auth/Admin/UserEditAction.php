@@ -22,7 +22,7 @@ use OLOG\CRUD\CRUDFormWidgetReference;
 use OLOG\CRUD\CRUDFormWidgetTextarea;
 use OLOG\CRUD\CRUDTable;
 use OLOG\CRUD\CRUDTableColumn;
-use OLOG\CRUD\CRUDTableFilter;
+use OLOG\CRUD\CRUDTableFilterEqualInvisible;
 use OLOG\CRUD\CRUDTableFilterNotInInvisible;
 use OLOG\CRUD\CRUDTableWidgetTextWithLink;
 use OLOG\Exits;
@@ -157,7 +157,7 @@ class UserEditAction
                 )
             ],
             [
-                new CRUDTableFilter('user_id', CRUDTableFilter::FILTER_EQUAL, $user_id)
+                new CRUDTableFilterEqualInvisible('user_id', $user_id)
             ]
         );
 
@@ -181,7 +181,7 @@ class UserEditAction
                         )
                     ],
                     [
-                        new CRUDTableFilter('user_id', CRUDTableFilter::FILTER_EQUAL, $user_id)
+                        new CRUDTableFilterEqualInvisible('user_id', $user_id)
                     ],
                     ''
                 );

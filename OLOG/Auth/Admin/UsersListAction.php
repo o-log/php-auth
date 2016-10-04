@@ -14,9 +14,7 @@ use OLOG\CRUD\CRUDForm;
 use OLOG\CRUD\CRUDFormRow;
 use OLOG\CRUD\CRUDFormWidgetInput;
 use OLOG\CRUD\CRUDFormWidgetTextarea;
-use OLOG\CRUD\CRUDTableFilter;
 use OLOG\CRUD\CRUDTableFilterLike;
-use OLOG\CRUD\CRUDTableWidgetText;
 use OLOG\Exits;
 
 class UsersListAction implements
