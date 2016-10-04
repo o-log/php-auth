@@ -6,7 +6,6 @@ use OLOG\Auth\Operator;
 use OLOG\Auth\OperatorPermission;
 use OLOG\Auth\Permission;
 use OLOG\Auth\Permissions;
-use OLOG\Auth\PermissionToUser;
 use OLOG\Auth\User;
 use OLOG\BT\BT;
 use OLOG\BT\CallapsibleWidget;
@@ -18,20 +17,14 @@ use OLOG\BT\Layout;
 use OLOG\CRUD\CRUDForm;
 use OLOG\CRUD\CRUDFormRow;
 use OLOG\CRUD\CRUDFormWidgetInput;
-use OLOG\CRUD\CRUDFormWidgetReference;
 use OLOG\CRUD\CRUDFormWidgetReferenceAjax;
 use OLOG\CRUD\CRUDFormWidgetTextarea;
 use OLOG\CRUD\CRUDTable;
 use OLOG\CRUD\CRUDTableColumn;
-use OLOG\CRUD\CRUDTableFilter;
+use OLOG\CRUD\CRUDTableFilterEqualInvisible;
 use OLOG\CRUD\CRUDTableFilterNotInInvisible;
-use OLOG\CRUD\CRUDTableWidgetDelete;
-use OLOG\CRUD\CRUDTableWidgetText;
 use OLOG\CRUD\CRUDTableWidgetTextWithLink;
 use OLOG\Exits;
-use OLOG\Operations;
-use OLOG\POSTAccess;
-use OLOG\Url;
 
 class OperatorEditAction
     implements InterfaceBreadcrumbs,
@@ -118,7 +111,7 @@ class OperatorEditAction
                         )
                     ],
                     [
-                        new CRUDTableFilter('operator_id', CRUDTableFilter::FILTER_EQUAL, $operator_id)
+                        new CRUDTableFilterEqualInvisible('operator_id', $operator_id)
                     ],
                     ''
                 );
