@@ -20,6 +20,7 @@ use OLOG\CRUD\CRUDFormRow;
 use OLOG\CRUD\CRUDFormWidgetInput;
 use OLOG\CRUD\CRUDFormWidgetReference;
 use OLOG\CRUD\CRUDFormWidgetReferenceAjax;
+use OLOG\CRUD\CRUDFormWidgetTextarea;
 use OLOG\CRUD\CRUDTable;
 use OLOG\CRUD\CRUDTableColumn;
 use OLOG\CRUD\CRUDTableFilter;
@@ -72,7 +73,10 @@ class OperatorEditAction
 
         $operator_obj = Operator::factory($operator_id);
 
-        $html = CRUDForm::html(
+        $html = '<div class="col-md-6">';
+        $html .= '<h2>Параметры</h2>';
+
+        $html .= CRUDForm::html(
             $operator_obj,
             [
                 new CRUDFormRow(
@@ -81,7 +85,7 @@ class OperatorEditAction
                 ),
                 new CRUDFormRow(
                     'описание',
-                    new CRUDFormWidgetInput('description')
+                    new CRUDFormWidgetTextarea('description')
                 ),
                 new CRUDFormRow(
                     'User id',
@@ -92,6 +96,8 @@ class OperatorEditAction
 
         $new_operator_permission_obj = new OperatorPermission();
         $new_operator_permission_obj->setOperatorId($operator_id);
+
+        $html.= '</div><div class="col-md-6">';
 
         if (Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_OPERATORS])) {
             $html .= '<h2>Назначенные разрешения</h2>';
@@ -140,7 +146,7 @@ class OperatorEditAction
                 });
             });
         }
-
+        $html.= '</div>';
 
         Layout::render($html, $this);
     }
