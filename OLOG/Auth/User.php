@@ -16,7 +16,7 @@ class User implements
     const DB_TABLE_NAME = 'olog_auth_user';
 
     protected $created_at_ts; // initialized by constructor
-    protected $login = "";
+    protected $login=null;
     protected $password_hash = "";
     protected $description;
     protected $id;

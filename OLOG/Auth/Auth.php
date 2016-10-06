@@ -103,6 +103,10 @@ class Auth
 
     public static function startUserSession($user_id)
     {
+        $user_obj = User::factory($user_id, false);
+        if(is_null($user_obj)){
+            throw new \Exception('Undefined user!');
+        }
         $user_session_id = uniqid('as_', true);
 
         self::storeUserSessionId($user_id, $user_session_id);
