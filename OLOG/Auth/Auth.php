@@ -105,7 +105,7 @@ class Auth
     {
         $user_obj = User::factory($user_id, false);
         if(is_null($user_obj)){
-            throw new \Exception('User not find. Can`t start session!');
+            throw new \Exception('User not found. Can`t start session!');
         }
         $user_session_id = uniqid('as_', true);
 
