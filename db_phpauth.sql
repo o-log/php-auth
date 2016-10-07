@@ -28,5 +28,6 @@ array(
 'alter table olog_auth_permissiontouser add unique key uk_user_permission_5672434 (user_id, permission_id) /* 78682345 */;',
 'alter table olog_auth_user add column description text    /* rand71301231234 */;',
 'alter table olog_auth_operator add column description text    /* rand559602131231 */;',
-'alter table olog_auth_user change column login login varchar(255) default null  /* rand203511weqwqwe21313213 */;'
+'alter table olog_auth_user change column login login varchar(255) default null collate utf8_bin /* rand203511weqwqwef21313213 */;',
+'alter table olog_auth_user change column password_hash varchar(255)  not null   default "" collate utf8_bin /* rand76133334eer34e */;',
 )
