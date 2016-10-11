@@ -71,9 +71,8 @@ class Auth
             //error_log('Auth: no user retrieved for session ' . $user_session_id);
             return null;
         }
-
+        //обновляем куку и сессию в мемекеше, от момента последнегно запроса к сайту
         self::updateUserSession($user_id, $user_session_id);
-
         return $user_id;
     }
 
