@@ -72,6 +72,8 @@ class Auth
             return null;
         }
 
+        self::updateUserSession($user_id, $user_session_id);
+
         return $user_id;
     }
 
@@ -108,7 +110,9 @@ class Auth
             throw new \Exception('User not found. Can`t start session!');
         }
         $user_session_id = uniqid('as_', true);
-
+        self::updateUserSession($user_id, $user_session_id);
+    }
+    public static function updateUserSession($user_id, $user_session_id){
         self::storeUserSessionId($user_id, $user_session_id);
         self::setAuthCookieValueBySessionId($user_session_id);
     }
