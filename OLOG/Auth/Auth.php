@@ -71,7 +71,8 @@ class Auth
             //error_log('Auth: no user retrieved for session ' . $user_session_id);
             return null;
         }
-
+        //обновляем куку и сессию в мемекеше, от момента последнегно запроса к сайту
+        self::updateUserSession($user_id, $user_session_id);
         return $user_id;
     }
 
@@ -108,7 +109,9 @@ class Auth
             throw new \Exception('User not found. Can`t start session!');
         }
         $user_session_id = uniqid('as_', true);
-
+        self::updateUserSession($user_id, $user_session_id);
+    }
+    public static function updateUserSession($user_id, $user_session_id){
         self::storeUserSessionId($user_id, $user_session_id);
         self::setAuthCookieValueBySessionId($user_session_id);
     }
