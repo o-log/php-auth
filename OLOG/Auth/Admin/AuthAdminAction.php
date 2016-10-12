@@ -53,6 +53,7 @@ class AuthAdminAction
         $html = '';
         $html .= '<div>' . BT::a(PermissionsListAction::getUrl(), 'Разрешения') . '</div>';
         $html .= '<div>' . BT::a(UsersListAction::getUrl(), 'Пользователи') . '</div>';
+        $html .= '<div>' . BT::a(GroupsListAction::getUrl(), 'Группы') . '</div>';
         $html .= '<div>' . BT::a(OperatorsListAction::getUrl(), 'Операторы') . '</div>';
 
         Layout::render($html, $this);

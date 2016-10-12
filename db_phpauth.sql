@@ -30,4 +30,12 @@ array(
 'alter table olog_auth_operator add column description text    /* rand559602131231 */;',
 'alter table olog_auth_user change column login login varchar(255) default null collate utf8_bin /* rand203511weqwqwef21313213 */;',
 'alter table olog_auth_user change column password_hash password_hash varchar(255)  not null   default "" collate utf8_bin /* rand76133334eer34e */;',
+'create table olog_auth_group (id int not null auto_increment primary key, created_at_ts int not null default 0) engine InnoDB default charset utf8 /* rand8442 */;',
+'alter table olog_auth_group add column title varchar(255)  not null   default ""  /* rand71192 */;',
+'insert into olog_auth_permission (title) values ("PERMISSION_PHPAUTH_MANAGE_GROUPS") /* grvygdsfg */;',
+'create table olog_auth_usertogroup (id int not null auto_increment primary key, created_at_ts int not null default 0) engine InnoDB default charset utf8 /* rand7717 */;',
+'alter table olog_auth_usertogroup add column user_id int  not null    /* rand127154 */;',
+'alter table olog_auth_usertogroup add constraint FK_user_id_668530 foreign key (user_id)  references olog_auth_user (id) /* rand704331 */;',
+'alter table olog_auth_usertogroup add column group_id int  not null    /* rand684719 */;',
+'alter table olog_auth_usertogroup add constraint FK_group_id_650820 foreign key (group_id)  references olog_auth_group (id) /* rand249455 */;',
 )
