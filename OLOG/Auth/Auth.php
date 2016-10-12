@@ -10,13 +10,19 @@ class Auth
      * @return null|int Returns null if no user currently logged
      */
     static public function currentUserId(){
-        $session_id_from_cookie = self::getSessionIdFromCookie();
-        if (!$session_id_from_cookie) {
-            //error_log('Auth: no session id cookie');
-            return null;
-        }
 
-        return self::getSessionUserIdBySessionId($session_id_from_cookie);
+        static $user_id=null;
+        static $user_id_approved = false;
+
+        if($user_id_approved){
+            return $user_id;
+        }
+        $user_id_approved = true;
+        $session_id_from_cookie = self::getSessionIdFromCookie();
+        if ($session_id_from_cookie){
+            $user_id =  self::getSessionUserIdBySessionId($session_id_from_cookie);
+        }
+        return $user_id;
     }
 
     static public function currentUserObj(){
@@ -64,7 +70,7 @@ class Auth
      * @param $user_session_id
      * @return null|int Returns null if session not found or has no user
      */
-    public static function getSessionUserIdBySessionId($user_session_id)
+    private static function getSessionUserIdBySessionId($user_session_id)
     {
         $user_id = \OLOG\Cache\CacheWrapper::get(self::sessionCacheKey($user_session_id));
         if (!$user_id) {
