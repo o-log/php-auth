@@ -11,22 +11,17 @@ class Auth
      */
     static public function currentUserId(){
 
-        static $user_id;
+        static $user_id=null;
         static $user_id_approved = false;
 
         if($user_id_approved){
             return $user_id;
         }
         $user_id_approved = true;
-
         $session_id_from_cookie = self::getSessionIdFromCookie();
-
-        if (!$session_id_from_cookie) {
-            $user_id=null;
-        }else{
+        if ($session_id_from_cookie){
             $user_id =  self::getSessionUserIdBySessionId($session_id_from_cookie);
         }
-
         return $user_id;
     }
 
