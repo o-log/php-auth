@@ -81,7 +81,8 @@ class UsersListAction implements
             ],
             [
                 new CRUDTableFilterLike('login_1287318', 'login', 'login'),
-                new CRUDTableFilterLike('description_1287318', 'комментарий', 'description')
+                new CRUDTableFilterLike('description_1287318', 'комментарий', 'description'),
+                new \OLOG\Auth\CRUDTableFilterOwnerInvisible()
             ],
             '',
             '1',

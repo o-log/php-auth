@@ -24,6 +24,22 @@ class UserToGroup implements
     const _ID = 'id';
     protected $id;
 
+    static public function getIdsArrForUserIdByCreatedAtDesc($value, $offset = 0, $page_size = 1000){
+        if (is_null($value)) {
+            return \OLOG\DB\DBWrapper::readColumn(
+                self::DB_ID,
+                'select id from ' . self::DB_TABLE_NAME . ' where ' . self::_USER_ID . ' is null order by created_at_ts desc limit ' . intval($page_size) . ' offset ' . intval($offset)
+            );
+        } else {
+            return \OLOG\DB\DBWrapper::readColumn(
+                self::DB_ID,
+                'select id from ' . self::DB_TABLE_NAME . ' where ' . self::_USER_ID . ' = ? order by created_at_ts desc limit ' . intval($page_size) . ' offset ' . intval($offset),
+                array($value)
+            );
+        }
+    }
+
+
     public function getGroupId(){
         return $this->group_id;
     }

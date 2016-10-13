@@ -28,6 +28,14 @@ class User implements
     protected $owner_group_id;
     protected $id;
 
+    public function __construct(){
+        $this->created_at_ts = time();
+
+        $this->setOwnerUserId(Auth::currentUserId());
+
+        // TODO: set new user owner group to current user primary group
+    }
+
     public function getOwnerGroupId(){
         return $this->owner_group_id;
     }
@@ -43,8 +51,6 @@ class User implements
     public function setOwnerUserId($value){
         $this->owner_user_id = $value;
     }
-
-
 
     public function getDescription(){
         return $this->description;
@@ -78,10 +84,6 @@ class User implements
             'select id from ' . self::DB_TABLE_NAME . ' order by created_at_ts desc'
         );
         return $ids_arr;
-    }
-
-    public function __construct(){
-        $this->created_at_ts = time();
     }
 
     /**

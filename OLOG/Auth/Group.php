@@ -6,7 +6,8 @@ class Group implements
     \OLOG\Model\InterfaceFactory,
     \OLOG\Model\InterfaceLoad,
     \OLOG\Model\InterfaceSave,
-    \OLOG\Model\InterfaceDelete
+    \OLOG\Model\InterfaceDelete,
+    InterfaceOwner
 {
     use \OLOG\Model\FactoryTrait;
     use \OLOG\Model\ActiveRecordTrait;
@@ -66,6 +67,10 @@ class Group implements
 
     public function __construct(){
         $this->created_at_ts = time();
+
+        $this->setOwnerUserId(Auth::currentUserId());
+
+        // TODO: set new user owner group to current user primary group
     }
 
     /**

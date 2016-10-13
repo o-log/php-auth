@@ -2,8 +2,10 @@
 
 namespace OLOG\Auth\Admin;
 
+use OLOG\Auth\Auth;
 use OLOG\Auth\Group;
 use OLOG\Auth\Operator;
+use OLOG\Auth\OwnerCheck;
 use OLOG\Auth\Permissions;
 use OLOG\BT\Layout;
 use OLOG\CRUD\CRUDForm;
@@ -55,6 +57,10 @@ class GroupEditAction implements
         );
 
         $group_obj = Group::factory($this->getGroupId());
+
+        Exits::exit403If(
+            !OwnerCheck::currentUserOwnsObj($group_obj)
+        );
 
         $html = '';
 

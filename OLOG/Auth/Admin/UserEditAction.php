@@ -4,6 +4,7 @@ namespace OLOG\Auth\Admin;
 
 use OLOG\Auth\Auth;
 use OLOG\Auth\Operator;
+use OLOG\Auth\OwnerCheck;
 use OLOG\Auth\Permission;
 use OLOG\Auth\Permissions;
 use OLOG\Auth\PermissionToUser;
@@ -70,6 +71,11 @@ class UserEditAction
         );
 
         $this->user_id = $user_id;
+        $user_obj = User::factory($user_id);
+
+        Exits::exit403If(
+            !OwnerCheck::currentUserOwnsObj($user_obj)
+        );
 
         Operations::matchOperation(self::OPERATION_SET_PASSWORD, function() use ($user_id) {
             $new_password = POSTAccess::getOptionalPostValue(self::FIELD_NAME_PASSWORD);
@@ -79,8 +85,6 @@ class UserEditAction
             $user_obj->setPasswordHash($new_password_hash);
             $user_obj->save();
         });
-
-        $user_obj = User::factory($user_id);
 
         $html = '';
 

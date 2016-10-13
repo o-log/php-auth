@@ -2,6 +2,7 @@
 
 namespace OLOG\Auth\Admin;
 
+use OLOG\Auth\CRUDTableFilterOwnerInvisible;
 use OLOG\Auth\Group;
 use OLOG\Auth\Operator;
 use OLOG\Auth\Permissions;
@@ -77,6 +78,7 @@ class GroupsListAction implements
             ],
             [
                 new CRUDTableFilterLike('wgieruygfigfe', 'Title', Group::_TITLE),
+                new CRUDTableFilterOwnerInvisible()
             ],
             '',
             '1',
