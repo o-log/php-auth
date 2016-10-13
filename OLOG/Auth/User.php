@@ -2,11 +2,14 @@
 
 namespace OLOG\Auth;
 
+use OLOG\Layouts\IntefacePageLogoHtml;
+
 class User implements
     \OLOG\Model\InterfaceFactory,
     \OLOG\Model\InterfaceLoad,
     \OLOG\Model\InterfaceSave,
-    \OLOG\Model\InterfaceDelete
+    \OLOG\Model\InterfaceDelete,
+    InterfaceOwner
 {
     use \OLOG\Model\FactoryTrait;
     use \OLOG\Model\ActiveRecordTrait;
@@ -19,7 +22,29 @@ class User implements
     protected $login;
     protected $password_hash = "";
     protected $description;
+    const _OWNER_USER_ID = 'owner_user_id';
+    protected $owner_user_id;
+    const _OWNER_GROUP_ID = 'owner_group_id';
+    protected $owner_group_id;
     protected $id;
+
+    public function getOwnerGroupId(){
+        return $this->owner_group_id;
+    }
+
+    public function setOwnerGroupId($value){
+        $this->owner_group_id = $value;
+    }
+
+    public function getOwnerUserId(){
+        return $this->owner_user_id;
+    }
+
+    public function setOwnerUserId($value){
+        $this->owner_user_id = $value;
+    }
+
+
 
     public function getDescription(){
         return $this->description;

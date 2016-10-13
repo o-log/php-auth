@@ -19,8 +19,32 @@ class Group implements
     protected $created_at_ts; // initialized by constructor
     const _TITLE = 'title';
     protected $title = "";
+    const _OWNER_USER_ID = 'owner_user_id';
+    protected $owner_user_id;
+    const _OWNER_GROUP_ID = 'owner_group_id';
+    protected $owner_group_id;
     const _ID = 'id';
     protected $id;
+
+    public function getOwnerGroupId(){
+        return $this->owner_group_id;
+    }
+
+    public function setOwnerGroupId($value){
+        $this->owner_group_id = $value;
+    }
+
+
+
+    public function getOwnerUserId(){
+        return $this->owner_user_id;
+    }
+
+    public function setOwnerUserId($value){
+        $this->owner_user_id = $value;
+    }
+
+
 
     public function getTitle(){
         return $this->title;
