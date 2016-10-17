@@ -46,4 +46,7 @@ array(
 'alter table olog_auth_group add constraint FK_owner_user_id_344841 foreign key (owner_user_id)  references olog_auth_user (id) /* rand963831 */;',
 'alter table olog_auth_group add column owner_group_id int    /* rand862130 */;',
 'alter table olog_auth_group add constraint FK_owner_group_id_417825 foreign key (owner_group_id)  references olog_auth_group (id) /* rand796751 */;',
+'alter table olog_auth_user add column has_full_access tinyint  not null   default 0  /* rand472298 */;',
+'alter table olog_auth_user add column primary_group_id int    /* rand264171 */;',
+'alter table olog_auth_user add constraint FK_primary_group_id_577270 foreign key (primary_group_id)  references olog_auth_group (id) /* rand704504 */;',
 )

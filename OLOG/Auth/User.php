@@ -26,7 +26,31 @@ class User implements
     protected $owner_user_id;
     const _OWNER_GROUP_ID = 'owner_group_id';
     protected $owner_group_id;
+    const _HAS_FULL_ACCESS = 'has_full_access';
+    protected $has_full_access = 0;
+    const _PRIMARY_GROUP_ID = 'primary_group_id';
+    protected $primary_group_id;
     protected $id;
+
+    public function getPrimaryGroupId(){
+        return $this->primary_group_id;
+    }
+
+    public function setPrimaryGroupId($value){
+        $this->primary_group_id = $value;
+    }
+
+
+
+    public function getHasFullAccess(){
+        return $this->has_full_access;
+    }
+
+    public function setHasFullAccess($value){
+        $this->has_full_access = $value;
+    }
+
+
 
     public function __construct(){
         $this->created_at_ts = time();

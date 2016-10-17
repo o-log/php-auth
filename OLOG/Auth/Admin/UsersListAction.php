@@ -2,6 +2,7 @@
 
 namespace OLOG\Auth\Admin;
 
+use OLOG\Auth\Group;
 use OLOG\Auth\Operator;
 use OLOG\Auth\Permissions;
 use OLOG\Auth\User;
@@ -73,6 +74,10 @@ class UsersListAction implements
                 new \OLOG\CRUD\CRUDTableColumn(
                     'Комментарий',
                     new \OLOG\CRUD\CRUDTableWidgetText('{this->description}')
+                ),
+                new \OLOG\CRUD\CRUDTableColumn(
+                    'Основная группа',
+                    new \OLOG\CRUD\CRUDTableWidgetText('{' . Group::class . '.{this->' . User::_PRIMARY_GROUP_ID . '}->title}')
                 ),
                 new \OLOG\CRUD\CRUDTableColumn(
                     'Удалить',

@@ -29,6 +29,11 @@ class CRUDTableFilterOwnerInvisible implements InterfaceCRUDTableFilterInvisible
             return [' 1=2 ', []]; // no current user, select nothing
         }
 
+        $current_user_obj = User::factory($current_user_id);
+        if ($current_user_obj->getHasFullAccess()){
+            return ['', []]; // do not filter
+        }
+
         $current_user_usertogroup_ids_arr = UserToGroup::getIdsArrForUserIdByCreatedAtDesc($current_user_id);
         $current_user_groups_ids_arr = [];
 
