@@ -90,80 +90,10 @@ class UserEditAction
 
         $html .= '<div class="row"><div class="col-md-6">';
 
-        $html .= '<h2>Параметры</h2>';
-
-        $html .= CRUDForm::html(
-            $user_obj,
-            [
-                new CRUDFormRow(
-                    'Login',
-                    new CRUDFormWidgetInput('login')
-                ),
-                new CRUDFormRow(
-                    'Комментарий',
-                    new CRUDFormWidgetTextarea('description')
-                )
-            ]
-        );
-
-        $html .= '<h2>Изменение пароля</h2>';
-        $html .= '<form class="form-horizontal" role="form" method="post" action="' . Url::getCurrentUrl() . '">';
-        $html .= Operations::operationCodeHiddenField(self::OPERATION_SET_PASSWORD);
-
-        $html .= '<div class="form-group ">
-<label class="col-sm-4 text-right control-label">Новый пароль</label>
-<div class="col-sm-8">
-<input name="' . self::FIELD_NAME_PASSWORD . '" class="form-control" value="">
-</div>
-</div>';
-
-        $html .= '<div class="row">
-<div class="col-sm-8 col-sm-offset-4">
-<button style="width: 100%" type="submit" class="btn btn-primary">Сохранить</button>
-</div>
-</div>';
-
-        $html .= '</form>';
-
-        $html .= '<h2>Операторы пользователя</h2>';
-
-        $new_operator_obj = new Operator();
-        $new_operator_obj->setUserId($user_id);
-
-        $html .= \OLOG\CRUD\CRUDTable::html(
-            \OLOG\Auth\Operator::class,
-            CRUDForm::html(
-                $new_operator_obj,
-                [
-                    new CRUDFormRow(
-                        'user_id',
-                        new CRUDFormWidgetReference('user_id', User::class, 'login')
-                    ),
-                    new CRUDFormRow(
-                        'title',
-                        new CRUDFormWidgetInput('title')
-                    ),
-                    new CRUDFormRow(
-                        'Описание',
-                        new CRUDFormWidgetTextarea('description')
-                    )
-                ]
-            ),
-            [
-                new \OLOG\CRUD\CRUDTableColumn(
-                    'title', new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{this->title}', OperatorEditAction::getUrl('{this->id}'))
-                ),
-                new \OLOG\CRUD\CRUDTableColumn(
-                    'Описание', new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{this->description}', OperatorEditAction::getUrl('{this->id}'))
-                ),
-                new \OLOG\CRUD\CRUDTableColumn(
-                    'Удалить', new \OLOG\CRUD\CRUDTableWidgetDelete()
-                )
-            ],
-            [
-                new CRUDTableFilterEqualInvisible('user_id', $user_id)
-            ]
-        );
+        $html .= self::commonParamsForm($user_id);
+        $html .= self::passwordForm();
+        $html .= self::userOperatorsTable($user_id);
+        $html .= self::adminParamsForm($user_id);
 
         $html .= '</div><div class="col-md-6">';
 
@@ -217,5 +147,145 @@ class UserEditAction
 
         $html .= '</div></div>';
         Layout::render($html, $this);
+    }
+
+    /**
+     * Владельца и полный доступ пока показывает только пользователям с полным доступом.
+     * @param $user_id
+     * @return string
+     */
+    static public function adminParamsForm($user_id){
+        /** @var User $current_user_obj */
+        $current_user_obj = Auth::currentUserObj();
+        if (!$current_user_obj){
+            return '';
+        }
+
+        if (!$current_user_obj->getHasFullAccess()) {
+            return '';
+        }
+
+        $html = '';
+
+        $html .= '<h2>Владельцы и полный доступ</h2>';
+
+        $user_obj = User::factory($user_id);
+        $html .= CRUDForm::html(
+            $user_obj,
+            [
+                new CRUDFormRow(
+                    'Owner user',
+                    new CRUDFormWidgetInput(User::_OWNER_USER_ID, true)
+                ),
+                new CRUDFormRow(
+                    'Owner group',
+                    new CRUDFormWidgetInput(User::_OWNER_GROUP_ID, true)
+                ),
+                new CRUDFormRow(
+                    'Primary group',
+                    new CRUDFormWidgetInput(User::_PRIMARY_GROUP_ID, true)
+                ),
+                new CRUDFormRow(
+                    'Has full access',
+                    new CRUDFormWidgetInput(User::_HAS_FULL_ACCESS)
+                ),
+            ]
+        );
+
+        return $html;
+    }
+
+    static public function commonParamsForm($user_id){
+        $html = '';
+
+        $html .= '<h2>Параметры</h2>';
+
+        $user_obj = User::factory($user_id);
+        $html .= CRUDForm::html(
+            $user_obj,
+            [
+                new CRUDFormRow(
+                    'Login',
+                    new CRUDFormWidgetInput('login')
+                ),
+                new CRUDFormRow(
+                    'Комментарий',
+                    new CRUDFormWidgetTextarea('description')
+                )
+            ]
+        );
+
+        return $html;
+    }
+
+    static public function passwordForm(){
+        $html = '';
+
+        $html .= '<h2>Изменение пароля</h2>';
+        $html .= '<form class="form-horizontal" role="form" method="post" action="' . Url::getCurrentUrl() . '">';
+        $html .= Operations::operationCodeHiddenField(self::OPERATION_SET_PASSWORD);
+
+        $html .= '<div class="form-group ">
+<label class="col-sm-4 text-right control-label">Новый пароль</label>
+<div class="col-sm-8">
+<input name="' . self::FIELD_NAME_PASSWORD . '" class="form-control" value="">
+</div>
+</div>';
+
+        $html .= '<div class="row">
+<div class="col-sm-8 col-sm-offset-4">
+<button style="width: 100%" type="submit" class="btn btn-primary">Сохранить</button>
+</div>
+</div>';
+
+        $html .= '</form>';
+
+        return $html;
+    }
+
+    static public function userOperatorsTable($user_id){
+        $html = '';
+
+        $html .= '<h2>Операторы пользователя</h2>';
+
+        $new_operator_obj = new Operator();
+        $new_operator_obj->setUserId($user_id);
+
+        $html .= \OLOG\CRUD\CRUDTable::html(
+            \OLOG\Auth\Operator::class,
+            CRUDForm::html(
+                $new_operator_obj,
+                [
+                    new CRUDFormRow(
+                        'user_id',
+                        new CRUDFormWidgetReference('user_id', User::class, 'login')
+                    ),
+                    new CRUDFormRow(
+                        'title',
+                        new CRUDFormWidgetInput('title')
+                    ),
+                    new CRUDFormRow(
+                        'Описание',
+                        new CRUDFormWidgetTextarea('description')
+                    )
+                ]
+            ),
+            [
+                new \OLOG\CRUD\CRUDTableColumn(
+                    'title', new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{this->title}', OperatorEditAction::getUrl('{this->id}'))
+                ),
+                new \OLOG\CRUD\CRUDTableColumn(
+                    'Описание', new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{this->description}', OperatorEditAction::getUrl('{this->id}'))
+                ),
+                new \OLOG\CRUD\CRUDTableColumn(
+                    'Удалить', new \OLOG\CRUD\CRUDTableWidgetDelete()
+                )
+            ],
+            [
+                new CRUDTableFilterEqualInvisible('user_id', $user_id)
+            ]
+        );
+
+        return $html;
     }
 }

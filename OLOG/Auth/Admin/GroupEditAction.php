@@ -7,6 +7,7 @@ use OLOG\Auth\Group;
 use OLOG\Auth\Operator;
 use OLOG\Auth\OwnerCheck;
 use OLOG\Auth\Permissions;
+use OLOG\Auth\User;
 use OLOG\BT\Layout;
 use OLOG\CRUD\CRUDForm;
 use OLOG\CRUD\CRUDFormRow;
@@ -74,6 +75,48 @@ class GroupEditAction implements
             ]
         );
 
+        $html .= self::adminParamsForm($this->group_id);
+
         Layout::render($html, $this);
     }
+
+    /**
+     * Владельца пока показывает только пользователям с полным доступом.
+     * @param $group_id
+     * @return string
+     */
+    static public function adminParamsForm($group_id){
+        /** @var User $current_user_obj */
+        $current_user_obj = Auth::currentUserObj();
+        if (!$current_user_obj){
+            return '';
+        }
+
+        if (!$current_user_obj->getHasFullAccess()) {
+            return '';
+        }
+
+        $html = '';
+
+        $html .= '<h2>Владельцы</h2>';
+
+        $group_obj = Group::factory($group_id);
+        $html .= CRUDForm::html(
+            $group_obj,
+            [
+                new CRUDFormRow(
+                    'Owner user',
+                    new CRUDFormWidgetInput(User::_OWNER_USER_ID, true)
+                ),
+                new CRUDFormRow(
+                    'Owner group',
+                    new CRUDFormWidgetInput(User::_OWNER_GROUP_ID, true)
+                )
+            ]
+        );
+
+        return $html;
+    }
+
+
 }

@@ -68,9 +68,7 @@ class Group implements
     public function __construct(){
         $this->created_at_ts = time();
 
-        $this->setOwnerUserId(Auth::currentUserId());
-
-        // TODO: set new user owner group to current user primary group
+        OwnerAssign::assignCurrentUserAsOwnerToObj($this);
     }
 
     /**
