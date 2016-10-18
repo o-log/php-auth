@@ -11,6 +11,10 @@ class OwnerCheck
     static public function currentUserOwnsObj($obj)
     {
         $current_user_id = Auth::currentUserId();
+        if (!$current_user_id) {
+            return false;
+        }
+
         return self::userOwnsObj($current_user_id, $obj);
     }
 
@@ -21,10 +25,6 @@ class OwnerCheck
      */
     static public function userOwnsObj($user_id, $obj)
     {
-        if (!$user_id) {
-            return false;
-        }
-
         if (!($obj instanceof InterfaceOwner)) {
             return false;
         }
