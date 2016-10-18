@@ -24,15 +24,18 @@ class Operator implements
     protected $description;
     protected $id;
 
-    public function getDescription(){
+    public function getDescription()
+    {
         return $this->description;
     }
 
-    public function setDescription($value){
+    public function setDescription($value)
+    {
         $this->description = $value;
     }
 
-    static public function getIdsArrForUserIdByCreatedAtDesc($value){
+    static public function getIdsArrForUserIdByCreatedAtDesc($value)
+    {
         $ids_arr = \OLOG\DB\DBWrapper::readColumn(
             self::DB_ID,
             'select id from ' . self::DB_TABLE_NAME . ' where user_id = ? order by created_at_ts desc',
@@ -41,24 +44,28 @@ class Operator implements
         return $ids_arr;
     }
 
-    public function getUserId(){
+    public function getUserId()
+    {
         return $this->user_id;
     }
 
-    public function setUserId($value){
+    public function setUserId($value)
+    {
         $this->user_id = $value;
     }
 
-    public function getTitle(){
+    public function getTitle()
+    {
         return $this->title;
     }
 
-    public function setTitle($value){
+    public function setTitle($value)
+    {
         $this->title = $value;
     }
 
-    static public function currentOperatorHasAnyOfPermissions($requested_permissions_arr){
-        //$auth_cookie_name = ConfWrapper::value('php_auth.full_access_cookie_name');
+    static public function currentOperatorHasAnyOfPermissions($requested_permissions_arr)
+    {
         $auth_cookie_name = AuthConfig::getFullAccessCookieName();
 
         if ($auth_cookie_name) {
@@ -68,27 +75,37 @@ class Operator implements
         }
 
         $current_user_id = Auth::currentUserId();
-        if (!$current_user_id){
+        if (!$current_user_id) {
             //error_log('Auth: no current user');
             return false;
         }
 
+        return self::operatorHasAnyOfPermissions($current_user_id, $requested_permissions_arr);
+    }
+
+    /**
+     * @param $user_id
+     * @param $requested_permissions_arr
+     * @return bool
+     */
+    static public function operatorHasAnyOfPermissions($user_id, $requested_permissions_arr)
+    {
         // check user permissions
 
-        $user_permissions_ids_arr = PermissionToUser::getIdsArrForUserIdByCreatedAtDesc($current_user_id);
-        foreach ($user_permissions_ids_arr as $permissiontouser_id){
+        $user_permissions_ids_arr = PermissionToUser::getIdsArrForUserIdByCreatedAtDesc($user_id);
+        foreach ($user_permissions_ids_arr as $permissiontouser_id) {
             $permissiontouser_obj = PermissionToUser::factory($permissiontouser_id);
             $permission_id = $permissiontouser_obj->getPermissionId();
             $permission_obj = Permission::factory($permission_id);
-            if (in_array($permission_obj->getTitle(), $requested_permissions_arr)){
+            if (in_array($permission_obj->getTitle(), $requested_permissions_arr)) {
                 return true;
             }
         }
 
         // check operator permissions
 
-        $current_operator_ids_arr = Operator::getIdsArrForUserIdByCreatedAtDesc($current_user_id);
-        if (empty($current_operator_ids_arr)){
+        $current_operator_ids_arr = Operator::getIdsArrForUserIdByCreatedAtDesc($user_id);
+        if (empty($current_operator_ids_arr)) {
             //error_log('Auth: no operators for user ' . $current_user_id);
             return false;
         }
@@ -99,12 +116,12 @@ class Operator implements
 
         $assigned_permissions_titles_arr = [];
 
-        foreach ($operator_permissions_ids_arr as $operator_permission_id){
+        foreach ($operator_permissions_ids_arr as $operator_permission_id) {
             $operator_permission_obj = OperatorPermission::factory($operator_permission_id);
             $permission_id = $operator_permission_obj->getPermissionId();
             $permission_obj = Permission::factory($permission_id);
             $assigned_permissions_titles_arr[] = $permission_obj->getTitle();
-            if (in_array($permission_obj->getTitle(), $requested_permissions_arr)){
+            if (in_array($permission_obj->getTitle(), $requested_permissions_arr)) {
                 return true;
             }
         }
@@ -114,7 +131,8 @@ class Operator implements
         return false;
     }
 
-    static public function getAllIdsArrByCreatedAtDesc(){
+    static public function getAllIdsArrByCreatedAtDesc()
+    {
         $ids_arr = \OLOG\DB\DBWrapper::readColumn(
             self::DB_ID,
             'select id from ' . self::DB_TABLE_NAME . ' order by created_at_ts desc'
@@ -122,7 +140,8 @@ class Operator implements
         return $ids_arr;
     }
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->created_at_ts = time();
     }
 

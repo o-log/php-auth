@@ -32,75 +32,85 @@ class User implements
     protected $primary_group_id;
     protected $id;
 
-    public function getPrimaryGroupId(){
+    public function getPrimaryGroupId()
+    {
         return $this->primary_group_id;
     }
 
-    public function setPrimaryGroupId($value){
+    public function setPrimaryGroupId($value)
+    {
         $this->primary_group_id = $value;
     }
 
-
-
-    public function getHasFullAccess(){
+    public function getHasFullAccess()
+    {
         return $this->has_full_access;
     }
 
-    public function setHasFullAccess($value){
+    public function setHasFullAccess($value)
+    {
         $this->has_full_access = $value;
     }
 
-
-
-    public function __construct(){
+    public function __construct()
+    {
         $this->created_at_ts = time();
 
         OwnerAssign::assignCurrentUserAsOwnerToObj($this);
     }
 
-    public function getOwnerGroupId(){
+    public function getOwnerGroupId()
+    {
         return $this->owner_group_id;
     }
 
-    public function setOwnerGroupId($value){
+    public function setOwnerGroupId($value)
+    {
         $this->owner_group_id = $value;
     }
 
-    public function getOwnerUserId(){
+    public function getOwnerUserId()
+    {
         return $this->owner_user_id;
     }
 
-    public function setOwnerUserId($value){
+    public function setOwnerUserId($value)
+    {
         $this->owner_user_id = $value;
     }
 
-    public function getDescription(){
+    public function getDescription()
+    {
         return $this->description;
     }
 
-    public function setDescription($value){
+    public function setDescription($value)
+    {
         $this->description = $value;
     }
 
-    public function getPasswordHash(){
+    public function getPasswordHash()
+    {
         return $this->password_hash;
     }
 
-    public function setPasswordHash($value){
+    public function setPasswordHash($value)
+    {
         $this->password_hash = $value;
     }
 
-
-    public function getLogin(){
+    public function getLogin()
+    {
         return $this->login;
     }
 
-    public function setLogin($value){
+    public function setLogin($value)
+    {
         $this->login = $value;
     }
 
-
-    static public function getAllIdsArrByCreatedAtDesc(){
+    static public function getAllIdsArrByCreatedAtDesc()
+    {
         $ids_arr = \OLOG\DB\DBWrapper::readColumn(
             self::DB_ID,
             'select id from ' . self::DB_TABLE_NAME . ' order by created_at_ts desc'
@@ -138,5 +148,47 @@ class User implements
     public function setCreatedAtTs($title)
     {
         $this->created_at_ts = $title;
+    }
+
+    /**
+     * @param $user_id
+     * @param $requested_permissions_arr
+     * @return bool
+     */
+    public static function userHasAnyOfPermissions($user_id, $requested_permissions_arr)
+    {
+        $user_permissions_ids_arr = PermissionToUser::getIdsArrForUserIdByCreatedAtDesc($user_id);
+        foreach ($user_permissions_ids_arr as $permissiontouser_id) {
+            $permissiontouser_obj = PermissionToUser::factory($permissiontouser_id);
+            $permission_id = $permissiontouser_obj->getPermissionId();
+            $permission_obj = Permission::factory($permission_id);
+            if (in_array($permission_obj->getTitle(), $requested_permissions_arr)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $requested_permissions_arr
+     * @return bool
+     */
+    static public function currentUserHasAnyOfPermissions($requested_permissions_arr)
+    {
+        $auth_cookie_name = AuthConfig::getFullAccessCookieName();
+
+        if ($auth_cookie_name) {
+            if (isset($_COOKIE[$auth_cookie_name])) {
+                return true;
+            }
+        }
+
+        $current_user_id = Auth::currentUserId();
+        if (!$current_user_id) {
+            return false;
+        }
+
+        return self::userHasAnyOfPermissions($current_user_id, $requested_permissions_arr);
     }
 }
