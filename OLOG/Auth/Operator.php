@@ -66,6 +66,8 @@ class Operator implements
 
     static public function currentOperatorHasAnyOfPermissions($requested_permissions_arr)
     {
+/*
+        //$auth_cookie_name = ConfWrapper::value('php_auth.full_access_cookie_name');
         $auth_cookie_name = AuthConfig::getFullAccessCookieName();
 
         if ($auth_cookie_name) {
@@ -80,19 +82,9 @@ class Operator implements
             return false;
         }
 
-        return self::operatorHasAnyOfPermissions($current_user_id, $requested_permissions_arr);
-    }
-
-    /**
-     * @param $user_id
-     * @param $requested_permissions_arr
-     * @return bool
-     */
-    static public function operatorHasAnyOfPermissions($user_id, $requested_permissions_arr)
-    {
         // check user permissions
 
-        $user_permissions_ids_arr = PermissionToUser::getIdsArrForUserIdByCreatedAtDesc($user_id);
+        $user_permissions_ids_arr = PermissionToUser::getIdsArrForUserIdByCreatedAtDesc($current_user_id);
         foreach ($user_permissions_ids_arr as $permissiontouser_id) {
             $permissiontouser_obj = PermissionToUser::factory($permissiontouser_id);
             $permission_id = $permissiontouser_obj->getPermissionId();
@@ -104,7 +96,7 @@ class Operator implements
 
         // check operator permissions
 
-        $current_operator_ids_arr = Operator::getIdsArrForUserIdByCreatedAtDesc($user_id);
+        $current_operator_ids_arr = Operator::getIdsArrForUserIdByCreatedAtDesc($current_user_id);
         if (empty($current_operator_ids_arr)) {
             //error_log('Auth: no operators for user ' . $current_user_id);
             return false;
@@ -129,6 +121,8 @@ class Operator implements
         //error_log('Auth: no permissions for operator ' . $current_operator_id . ' (' . implode(',', $operator_permissions_ids_arr) . ') (' . implode(',', $assigned_permissions_titles_arr) . ') matched requested list: ' . implode(',', $requested_permissions_arr));
 
         return false;
+*/
+        return Auth::currentUserHasAnyOfPermissions($requested_permissions_arr);
     }
 
     static public function getAllIdsArrByCreatedAtDesc()

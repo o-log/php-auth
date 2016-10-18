@@ -151,13 +151,12 @@ class User implements
     }
 
     /**
-     * @param $user_id
      * @param $requested_permissions_arr
      * @return bool
      */
-    public static function userHasAnyOfPermissions($user_id, $requested_permissions_arr)
+    public function hasAnyOfPermissions($requested_permissions_arr)
     {
-        $user_permissions_ids_arr = PermissionToUser::getIdsArrForUserIdByCreatedAtDesc($user_id);
+        $user_permissions_ids_arr = PermissionToUser::getIdsArrForUserIdByCreatedAtDesc($this->getId());
         foreach ($user_permissions_ids_arr as $permissiontouser_id) {
             $permissiontouser_obj = PermissionToUser::factory($permissiontouser_id);
             $permission_id = $permissiontouser_obj->getPermissionId();
@@ -168,27 +167,5 @@ class User implements
         }
 
         return false;
-    }
-
-    /**
-     * @param $requested_permissions_arr
-     * @return bool
-     */
-    static public function currentUserHasAnyOfPermissions($requested_permissions_arr)
-    {
-        $auth_cookie_name = AuthConfig::getFullAccessCookieName();
-
-        if ($auth_cookie_name) {
-            if (isset($_COOKIE[$auth_cookie_name])) {
-                return true;
-            }
-        }
-
-        $current_user_id = Auth::currentUserId();
-        if (!$current_user_id) {
-            return false;
-        }
-
-        return self::userHasAnyOfPermissions($current_user_id, $requested_permissions_arr);
     }
 }

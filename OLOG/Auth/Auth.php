@@ -165,4 +165,27 @@ class Auth
 
         return $data->id;
     }
+
+    /**
+     * @param $requested_permissions_arr
+     * @return bool
+     */
+    static public function currentUserHasAnyOfPermissions($requested_permissions_arr)
+    {
+        $auth_cookie_name = AuthConfig::getFullAccessCookieName();
+
+        if ($auth_cookie_name) {
+            if (isset($_COOKIE[$auth_cookie_name])) {
+                return true;
+            }
+        }
+
+        $current_user_id = self::currentUserId();
+        if (!$current_user_id) {
+            return false;
+        }
+
+        $current_user_obj = User::factory($current_user_id);
+        return $current_user_obj->hasAnyOfPermissions($requested_permissions_arr);
+    }
 }
