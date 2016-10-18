@@ -66,32 +66,15 @@ class Operator implements
 
     static public function currentOperatorHasAnyOfPermissions($requested_permissions_arr)
     {
-/*
-        //$auth_cookie_name = ConfWrapper::value('php_auth.full_access_cookie_name');
-        $auth_cookie_name = AuthConfig::getFullAccessCookieName();
-
-        if ($auth_cookie_name) {
-            if (isset($_COOKIE[$auth_cookie_name])) {
-                return true;
-            }
+        $current_user_has_any_of_permissions = Auth::currentUserHasAnyOfPermissions($requested_permissions_arr);
+        if($current_user_has_any_of_permissions) {
+            return true;
         }
 
         $current_user_id = Auth::currentUserId();
         if (!$current_user_id) {
             //error_log('Auth: no current user');
             return false;
-        }
-
-        // check user permissions
-
-        $user_permissions_ids_arr = PermissionToUser::getIdsArrForUserIdByCreatedAtDesc($current_user_id);
-        foreach ($user_permissions_ids_arr as $permissiontouser_id) {
-            $permissiontouser_obj = PermissionToUser::factory($permissiontouser_id);
-            $permission_id = $permissiontouser_obj->getPermissionId();
-            $permission_obj = Permission::factory($permission_id);
-            if (in_array($permission_obj->getTitle(), $requested_permissions_arr)) {
-                return true;
-            }
         }
 
         // check operator permissions
@@ -121,8 +104,6 @@ class Operator implements
         //error_log('Auth: no permissions for operator ' . $current_operator_id . ' (' . implode(',', $operator_permissions_ids_arr) . ') (' . implode(',', $assigned_permissions_titles_arr) . ') matched requested list: ' . implode(',', $requested_permissions_arr));
 
         return false;
-*/
-        return Auth::currentUserHasAnyOfPermissions($requested_permissions_arr);
     }
 
     static public function getAllIdsArrByCreatedAtDesc()
