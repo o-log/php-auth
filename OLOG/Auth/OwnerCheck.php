@@ -25,9 +25,7 @@ class OwnerCheck
      */
     static public function userOwnsObj($user_id, $obj)
     {
-        if (!($obj instanceof InterfaceOwner)) {
-            return false;
-        }
+        \OLOG\Assert::assert($obj instanceof InterfaceOwner, 'Object must implement '. \OLOG\Auth\InterfaceOwner::class .' interface');
 
         $current_user_obj = User::factory($user_id);
         if ($current_user_obj->getHasFullAccess()) {
