@@ -10,6 +10,13 @@ class OwnerCheck
      */
     static public function currentUserOwnsObj($obj)
     {
+        $auth_cookie_name = AuthConfig::getFullAccessCookieName();
+        if ($auth_cookie_name) {
+            if (isset($_COOKIE[$auth_cookie_name])) {
+                return true;
+            }
+        }
+
         $current_user_id = Auth::currentUserId();
         if (!$current_user_id) {
             return false;
