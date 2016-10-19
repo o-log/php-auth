@@ -4,43 +4,30 @@ namespace OLOG\Auth\Admin;
 
 use OLOG\Auth\Operator;
 use OLOG\Auth\Permissions;
-use OLOG\BT\BT;
-use OLOG\BT\InterfaceBreadcrumbs;
-use OLOG\BT\InterfacePageTitle;
-use OLOG\BT\InterfaceUserName;
-use OLOG\BT\Layout;
 use OLOG\Exits;
+use OLOG\HTML;
+use OLOG\InterfaceAction;
+use OLOG\Layouts\AdminLayoutSelector;
+use OLOG\Layouts\InterfacePageTitle;
 
-class AuthAdminAction extends AuthAdminBaseAction 
-    implements InterfaceBreadcrumbs,
-    InterfacePageTitle,
-    InterfaceUserName
+class AuthAdminAction extends AuthAdminActionsBaseProxy implements
+    InterfaceAction,
+    InterfacePageTitle
 {
     use CurrentUserNameTrait;
 
-    static public function getUrl(){
-        return '/admin/auth'; // TODO: common prefix from config
+    public function url()
+    {
+        return '/admin/auth';
     }
 
-    public function currentBreadcrumbsArr(){
-        return self::breadcrumbsArr();
-    }
-
-    static public function breadcrumbsArr()
+    public function pageTitle()
     {
-        return [BT::a(self::getUrl(), self::pageTitle())];
-    }
-    
-    public function currentPageTitle()
-    {
-        return self::pageTitle();
-    }
-    
-    static public function pageTitle(){
         return 'Авторизация';
     }
 
-    public function action(){
+    public function action()
+    {
         Exits::exit403If(
             !Operator::currentOperatorHasAnyOfPermissions(
                 [
@@ -51,11 +38,11 @@ class AuthAdminAction extends AuthAdminBaseAction
         );
 
         $html = '';
-        $html .= '<div>' . BT::a(PermissionsListAction::getUrl(), 'Разрешения') . '</div>';
-        $html .= '<div>' . BT::a(UsersListAction::getUrl(), 'Пользователи') . '</div>';
-        $html .= '<div>' . BT::a(GroupsListAction::getUrl(), 'Группы') . '</div>';
-        $html .= '<div>' . BT::a(OperatorsListAction::getUrl(), 'Операторы') . '</div>';
+        $html .= '<div>' . HTML::a((new PermissionsListAction())->url(), 'Разрешения') . '</div>';
+        $html .= '<div>' . HTML::a((new UsersListAction())->url(), 'Пользователи') . '</div>';
+        $html .= '<div>' . HTML::a((new GroupsListAction())->url(), 'Группы') . '</div>';
+        $html .= '<div>' . HTML::a((new OperatorsListAction())->url(), 'Операторы') . '</div>';
 
-        Layout::render($html, $this);
+        AdminLayoutSelector::render($html, $this);
     }
 }

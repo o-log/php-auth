@@ -7,13 +7,8 @@ use OLOG\Auth\OperatorPermission;
 use OLOG\Auth\Permission;
 use OLOG\Auth\Permissions;
 use OLOG\Auth\User;
-use OLOG\BT\BT;
 use OLOG\BT\CallapsibleWidget;
-use OLOG\BT\HTML;
-use OLOG\BT\InterfaceBreadcrumbs;
-use OLOG\BT\InterfacePageTitle;
-use OLOG\BT\InterfaceUserName;
-use OLOG\BT\Layout;
+use OLOG\HTML;
 use OLOG\CRUD\CRUDForm;
 use OLOG\CRUD\CRUDFormRow;
 use OLOG\CRUD\CRUDFormWidgetInput;
@@ -25,44 +20,47 @@ use OLOG\CRUD\CRUDTableFilterEqualInvisible;
 use OLOG\CRUD\CRUDTableFilterNotInInvisible;
 use OLOG\CRUD\CRUDTableWidgetTextWithLink;
 use OLOG\Exits;
+use OLOG\InterfaceAction;
+use OLOG\Layouts\AdminLayoutSelector;
+use OLOG\Layouts\InterfacePageTitle;
+use OLOG\Layouts\InterfaceTopActionObj;
 
-class OperatorEditAction extends AuthAdminBaseAction implements
-    InterfaceBreadcrumbs,
+class OperatorEditAction extends AuthAdminActionsBaseProxy implements
+    InterfaceAction,
     InterfacePageTitle,
-    InterfaceUserName
+    InterfaceTopActionObj
 {
-    use CurrentUserNameTrait;
-
     protected $operator_id;
 
-    public function currentBreadcrumbsArr(){
-        return self::breadcrumbsArr($this->operator_id);
-    }
-
-    static public function breadcrumbsArr($user_id)
+    public function topActionObj()
     {
-        return array_merge(OperatorsListAction::breadcrumbsArr(), [BT::a(self::getUrl($user_id), self::pageTitle($user_id))]);
+        return new OperatorsListAction();
     }
 
-    public function currentPageTitle()
+    public function __construct($operator_id)
     {
-        return self::pageTitle($this->operator_id);
+        $this->operator_id = $operator_id;
     }
 
-    static public function pageTitle($user_id){
-        return 'Оператор ' . $user_id;
+    public function pageTitle(){
+        return 'Оператор ' . $this->operator_id;
     }
 
-    static public function getUrl($user_id = '(\d+)'){
-        return '/admin/auth/operator/' . $user_id;
+    public function url(){
+        return '/admin/auth/operator/' . $this->operator_id;
     }
 
-    public function action($operator_id){
+    static public function urlMask(){
+        return '/admin/auth/operator/(\d+)';
+    }
+
+    public function action(){
         Exits::exit403If(
             !Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_OPERATORS])
         );
 
-        $this->operator_id = $operator_id;
+
+        $operator_id = $this->operator_id;
 
         $operator_obj = Operator::factory($operator_id);
 
@@ -82,7 +80,7 @@ class OperatorEditAction extends AuthAdminBaseAction implements
                 ),
                 new CRUDFormRow(
                     'User id',
-                    new CRUDFormWidgetReferenceAjax('user_id', User::class, 'login', UsersListAjaxAction::getUrl(), UserEditAction::getUrl('REFERENCED_ID'))
+                    new CRUDFormWidgetReferenceAjax('user_id', User::class, 'login', (new UsersListAjaxAction())->url(), (new UserEditAction('REFERENCED_ID'))->url())
                 )
             ]
         );
@@ -141,6 +139,6 @@ class OperatorEditAction extends AuthAdminBaseAction implements
         }
         $html.= '</div>';
 
-        Layout::render($html, $this);
+        AdminLayoutSelector::render($html, $this);
     }
 }

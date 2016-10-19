@@ -10,7 +10,7 @@ require_once '../vendor/autoload.php';
 
 \OLOG\Auth\RegisterRoutes::registerRoutes();
 
-\OLOG\Router::matchAction(\PhpAuthDemo\Pages\MainPageAction::class, 0);
+\OLOG\Router::processAction(\PhpAuthDemo\Pages\MainPageAction::class, 0);
 
 //
 // Обработка после завершения роутинга

@@ -9,13 +9,7 @@ use OLOG\Auth\Permission;
 use OLOG\Auth\Permissions;
 use OLOG\Auth\PermissionToUser;
 use OLOG\Auth\User;
-use OLOG\BT\BT;
 use OLOG\BT\CallapsibleWidget;
-use OLOG\BT\HTML;
-use OLOG\BT\InterfaceBreadcrumbs;
-use OLOG\BT\InterfacePageTitle;
-use OLOG\BT\InterfaceUserName;
-use OLOG\BT\Layout;
 use OLOG\CRUD\CRUDForm;
 use OLOG\CRUD\CRUDFormRow;
 use OLOG\CRUD\CRUDFormWidgetInput;
@@ -27,50 +21,53 @@ use OLOG\CRUD\CRUDTableFilterEqualInvisible;
 use OLOG\CRUD\CRUDTableFilterNotInInvisible;
 use OLOG\CRUD\CRUDTableWidgetTextWithLink;
 use OLOG\Exits;
+use OLOG\HTML;
+use OLOG\InterfaceAction;
+use OLOG\Layouts\AdminLayoutSelector;
+use OLOG\Layouts\InterfacePageTitle;
+use OLOG\Layouts\InterfaceTopActionObj;
 use OLOG\Operations;
 use OLOG\POSTAccess;
 use OLOG\Url;
 
-class UserEditAction extends AuthAdminBaseAction implements
-    InterfaceBreadcrumbs,
+class UserEditAction extends AuthAdminActionsBaseProxy implements
+    InterfaceAction,
     InterfacePageTitle,
-    InterfaceUserName
+    InterfaceTopActionObj
 {
-    use CurrentUserNameTrait;
-
     const OPERATION_SET_PASSWORD = 'OPERATION_SET_PASSWORD';
     const FIELD_NAME_PASSWORD = 'password';
 
     protected $user_id;
 
-    public function currentBreadcrumbsArr(){
-        return self::breadcrumbsArr($this->user_id);
-    }
-
-    static public function breadcrumbsArr($user_id)
+    public function topActionObj()
     {
-        return array_merge(UsersListAction::breadcrumbsArr(), [BT::a(self::getUrl($user_id), self::pageTitle($user_id))]);
+        return new UsersListAction();
     }
 
-    public function currentPageTitle()
+    public function __construct($user_id)
     {
-        return self::pageTitle($this->user_id);
+        $this->user_id = $user_id;
     }
 
-    static public function pageTitle($user_id){
-        return 'Пользователь ' . $user_id;
+    public function pageTitle(){
+        return 'Пользователь ' . $this->user_id;
     }
 
-    static public function getUrl($user_id = '(\d+)'){
-        return '/admin/auth/user/' . $user_id;
+    public function url(){
+        return '/admin/auth/user/' . $this->user_id;
     }
 
-    public function action($user_id){
+    static public function urlMask(){
+        return '/admin/auth/user/(\d+)';
+    }
+
+    public function action(){
         Exits::exit403If(
             !Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS])
         );
 
-        $this->user_id = $user_id;
+        $user_id = $this->user_id;
         $user_obj = User::factory($user_id);
 
         Exits::exit403If(
@@ -146,7 +143,7 @@ class UserEditAction extends AuthAdminBaseAction implements
         }
 
         $html .= '</div></div>';
-        Layout::render($html, $this);
+        AdminLayoutSelector::render($html, $this);
     }
 
     /**
@@ -272,10 +269,10 @@ class UserEditAction extends AuthAdminBaseAction implements
             ),
             [
                 new \OLOG\CRUD\CRUDTableColumn(
-                    'title', new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{this->title}', OperatorEditAction::getUrl('{this->id}'))
+                    'title', new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{this->title}', (new OperatorEditAction('{this->id}'))->url())
                 ),
                 new \OLOG\CRUD\CRUDTableColumn(
-                    'Описание', new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{this->description}', OperatorEditAction::getUrl('{this->id}'))
+                    'Описание', new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{this->description}', (new OperatorEditAction('{this->id}'))->url())
                 ),
                 new \OLOG\CRUD\CRUDTableColumn(
                     'Удалить', new \OLOG\CRUD\CRUDTableWidgetDelete()

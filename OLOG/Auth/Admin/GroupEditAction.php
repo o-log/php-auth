@@ -8,17 +8,30 @@ use OLOG\Auth\Operator;
 use OLOG\Auth\OwnerCheck;
 use OLOG\Auth\Permissions;
 use OLOG\Auth\User;
-use OLOG\BT\Layout;
 use OLOG\CRUD\CRUDForm;
 use OLOG\CRUD\CRUDFormRow;
 use OLOG\CRUD\CRUDFormWidgetInput;
 use OLOG\Exits;
 use OLOG\InterfaceAction;
+use OLOG\Layouts\AdminLayoutSelector;
+use OLOG\Layouts\InterfacePageTitle;
+use OLOG\Layouts\InterfaceTopActionObj;
 
-class GroupEditAction extends AuthAdminBaseAction implements
-    InterfaceAction
+class GroupEditAction extends AuthAdminActionsBaseProxy implements
+    InterfaceAction,
+    InterfaceTopActionObj,
+    InterfacePageTitle
 {
     private $group_id;
+
+    public function pageTitle(){
+        return 'Группа ' . $this->group_id;
+    }
+
+    public function topActionObj()
+    {
+        return new GroupsListAction();
+    }
 
     public function __construct($group_id)
     {
@@ -77,7 +90,7 @@ class GroupEditAction extends AuthAdminBaseAction implements
 
         $html .= self::adminParamsForm($this->group_id);
 
-        Layout::render($html, $this);
+        AdminLayoutSelector::render($html, $this);
     }
 
     /**
@@ -117,6 +130,4 @@ class GroupEditAction extends AuthAdminBaseAction implements
 
         return $html;
     }
-
-
 }

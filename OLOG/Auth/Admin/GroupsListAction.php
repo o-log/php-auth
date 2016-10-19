@@ -6,39 +6,28 @@ use OLOG\Auth\CRUDTableFilterOwnerInvisible;
 use OLOG\Auth\Group;
 use OLOG\Auth\Operator;
 use OLOG\Auth\Permissions;
-use OLOG\Auth\User;
-use OLOG\BT\BT;
-use OLOG\BT\InterfaceBreadcrumbs;
-use OLOG\BT\InterfacePageTitle;
-use OLOG\BT\InterfaceUserName;
-use OLOG\BT\Layout;
 use OLOG\CRUD\CRUDForm;
 use OLOG\CRUD\CRUDFormRow;
 use OLOG\CRUD\CRUDFormWidgetInput;
-use OLOG\CRUD\CRUDFormWidgetTextarea;
 use OLOG\CRUD\CRUDTableFilterLike;
 use OLOG\Exits;
+use OLOG\InterfaceAction;
+use OLOG\Layouts\AdminLayoutSelector;
+use OLOG\Layouts\InterfacePageTitle;
 
-class GroupsListAction extends AuthAdminBaseAction implements
-    InterfaceBreadcrumbs,
-    InterfacePageTitle,
-    InterfaceUserName
+class GroupsListAction extends AuthAdminActionsBaseProxy implements
+    InterfaceAction,
+    InterfacePageTitle
 {
-    use CurrentUserNameTrait;
-
-    static public function getUrl(){
+    public function url(){
         return '/admin/auth/groups';
     }
 
-    public function currentPageTitle()
-    {
-        return self::pageTitle();
-    }
-
-    static public function pageTitle(){
+    public function pageTitle(){
         return 'Группы';
     }
 
+    /*
     public function currentBreadcrumbsArr(){
         return self::breadcrumbsArr();
     }
@@ -47,7 +36,7 @@ class GroupsListAction extends AuthAdminBaseAction implements
     {
         return array_merge(AuthAdminAction::breadcrumbsArr(), [BT::a(self::getUrl(), self::pageTitle())]);
     }
-
+    */
 
     public function action(){
         Exits::exit403If(
@@ -85,6 +74,6 @@ class GroupsListAction extends AuthAdminBaseAction implements
             \OLOG\CRUD\CRUDTable::FILTERS_POSITION_TOP
         );
 
-        Layout::render($html, $this);
+        AdminLayoutSelector::render($html, $this);
     }
 }

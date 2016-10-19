@@ -5,9 +5,6 @@ namespace OLOG\Auth\Admin;
 use OLOG\Auth\Operator;
 use OLOG\Auth\Permissions;
 use OLOG\Auth\User;
-use OLOG\BT\BT;
-use OLOG\BT\InterfaceUserName;
-use OLOG\BT\Layout;
 use OLOG\CRUD\CRUDForm;
 use OLOG\CRUD\CRUDFormRow;
 use OLOG\CRUD\CRUDFormWidgetInput;
@@ -15,34 +12,20 @@ use OLOG\CRUD\CRUDFormWidgetReference;
 use OLOG\CRUD\CRUDFormWidgetTextarea;
 use OLOG\CRUD\CRUDTableFilterLike;
 use OLOG\Exits;
+use OLOG\InterfaceAction;
+use OLOG\Layouts\AdminLayoutSelector;
+use OLOG\Layouts\InterfacePageTitle;
 
-class OperatorsListAction extends AuthAdminBaseAction implements
-    \OLOG\BT\InterfaceBreadcrumbs,
-    \OLOG\BT\InterfacePageTitle,
-    InterfaceUserName
+class OperatorsListAction extends AuthAdminActionsBaseProxy implements
+    InterfaceAction,
+    InterfacePageTitle
 {
-    use CurrentUserNameTrait;
-
-    public function currentBreadcrumbsArr()
-    {
-        return self::breadcrumbsArr();
-    }
-
-    static public function breadcrumbsArr(){
-        return array_merge(AuthAdminAction::breadcrumbsArr(), [BT::a(self::getUrl(), self::pageTitle())]);
-    }
-
-    public function currentPageTitle()
-    {
-        return self::pageTitle();
-    }
-
-    static public function pageTitle(){
+    public function pageTitle(){
         return 'Операторы';
     }
 
-    static public function getUrl(){
-        return '/admin/auth/operators'; // TODO common prefix from config
+    public function url(){
+        return '/admin/auth/operators';
     }
 
     public function action(){
@@ -71,7 +54,7 @@ class OperatorsListAction extends AuthAdminBaseAction implements
             ),
             [
                 new \OLOG\CRUD\CRUDTableColumn(
-                    'ID', new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{this->id}', OperatorEditAction::getUrl('{this->id}'))
+                    'ID', new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{this->id}', (new OperatorEditAction('{this->id}'))->url())
                 ),
                 new \OLOG\CRUD\CRUDTableColumn(
                     'title', new \OLOG\CRUD\CRUDTableWidgetText('{this->title}')
@@ -93,7 +76,7 @@ class OperatorsListAction extends AuthAdminBaseAction implements
 
         );
 
-        Layout::render($html, $this);
+        AdminLayoutSelector::render($html, $this);
     }
 
 }

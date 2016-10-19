@@ -5,7 +5,7 @@ namespace PhpAuthDemo;
 use OLOG\Auth\Admin\AuthAdminMenu;
 use OLOG\Layouts\InterfaceMenu;
 
-class AdminActionsBase implements InterfaceMenu
+class AdminDemoActionsBase implements InterfaceMenu
 {
     static public function menuArr()
     {

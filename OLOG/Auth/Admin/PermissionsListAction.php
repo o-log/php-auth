@@ -4,40 +4,20 @@ namespace OLOG\Auth\Admin;
 
 use OLOG\Auth\Operator;
 use OLOG\Auth\Permissions;
-use OLOG\BT\BT;
-use OLOG\BT\InterfaceBreadcrumbs;
-use OLOG\BT\InterfacePageTitle;
-use OLOG\BT\InterfaceUserName;
-use OLOG\BT\Layout;
-use OLOG\CRUD\CRUDForm;
 use OLOG\Exits;
+use OLOG\InterfaceAction;
+use OLOG\Layouts\AdminLayoutSelector;
+use OLOG\Layouts\InterfacePageTitle;
 
-class PermissionsListAction implements
-    InterfaceBreadcrumbs,
-    InterfacePageTitle, 
-    InterfaceUserName
+class PermissionsListAction extends AuthAdminActionsBaseProxy implements
+    InterfaceAction,
+    InterfacePageTitle
 {
-    use CurrentUserNameTrait;
-
-    public function currentBreadcrumbsArr()
-    {
-        return self::breadcrumbsArr();
-    }
-
-    public function breadcrumbsArr(){
-        return array_merge(AuthAdminAction::breadcrumbsArr(), [BT::a(self::getUrl(), self::pageTitle())]);
-    }
-
-    public function currentPageTitle()
-    {
-        return self::pageTitle();
-    }
-
-    static public function pageTitle(){
+    public function pageTitle(){
         return 'Разрешения';
     }
 
-    static public function getUrl(){
+    public function url(){
         return '/admin/auth/permissions';
     }
 
@@ -59,7 +39,6 @@ class PermissionsListAction implements
             ]
         );
 
-        Layout::render($html, $this);
+        AdminLayoutSelector::render($html, $this);
     }
-
 }

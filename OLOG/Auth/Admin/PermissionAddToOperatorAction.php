@@ -4,7 +4,6 @@ namespace OLOG\Auth\Admin;
 use OLOG\Auth\Operator;
 use OLOG\Auth\OperatorPermission;
 use OLOG\Auth\Permissions;
-use OLOG\Auth\PermissionToUser;
 use OLOG\Exits;
 use OLOG\InterfaceAction;
 

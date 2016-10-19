@@ -4,11 +4,13 @@ namespace Config;
 
 use OLOG\Auth\AuthConfig;
 use OLOG\Auth\AuthConstants;
+use OLOG\BT\LayoutBootstrap;
 use OLOG\Cache\CacheConfig;
 use OLOG\Cache\MemcacheServerSettings;
 use OLOG\DB\DBConfig;
 use OLOG\DB\DBSettings;
-use PhpAuthDemo\AdminActionsBase;
+use OLOG\Layouts\LayoutsConfig;
+use PhpAuthDemo\AdminDemoActionsBase;
 
 class AuthDemoConfig
 {
@@ -32,7 +34,8 @@ class AuthDemoConfig
 
         );
 
-        AuthConfig::setAdminActionsBaseClassname(AdminActionsBase::class);
+        AuthConfig::setAdminActionsBaseClassname(AdminDemoActionsBase::class);
+        LayoutsConfig::setAdminLayoutClassName(LayoutBootstrap::class);
 
 		//AuthConfig::setFullAccessCookieName('php_auth');
 

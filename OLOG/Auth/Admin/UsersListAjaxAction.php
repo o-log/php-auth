@@ -6,12 +6,13 @@ use OLOG\Auth\Operator;
 use OLOG\Auth\Permissions;
 use OLOG\CRUD\CRUDTableFilterLike;
 use OLOG\Exits;
+use OLOG\InterfaceAction;
 
-class UsersListAjaxAction
+class UsersListAjaxAction implements InterfaceAction
 {
     use CurrentUserNameTrait;
 
-    static public function getUrl(){
+    public function url(){
         return '/admin/auth/users_ajax';
     }
 

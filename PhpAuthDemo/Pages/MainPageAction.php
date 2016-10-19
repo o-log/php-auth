@@ -4,25 +4,20 @@ namespace PhpAuthDemo\Pages;
 
 use OLOG\Auth\Auth;
 use OLOG\BT\BT;
-use OLOG\BT\InterfacePageTitle;
-use OLOG\BT\InterfaceUserName;
 use OLOG\BT\LayoutBootstrap;
+use OLOG\InterfaceAction;
+use OLOG\Layouts\InterfacePageTitle;
 
 class MainPageAction implements
-    InterfacePageTitle,
-    InterfaceUserName
+    InterfaceAction,
+    InterfacePageTitle
 {
-        public function currentUserName()
-        {
-            return Auth::currentUserLogin();
-        }
-
-        public function currentPageTitle()
+        public function pageTitle()
         {
             return 'PHP-Auth demo';
         }
 
-        static public function getUrl(){
+        public function url(){
             return '/';
         }
     
@@ -33,7 +28,7 @@ class MainPageAction implements
             $html .= '<div>' . BT::a(\OLOG\Auth\Pages\LoginAction::getUrl(), 'login') . '</div>';
             $html .= '<div>' . BT::a(\OLOG\Auth\Pages\LogoutAction::getUrl(), 'logout') . '</div>';
 
-            $html .= '<div>' . BT::a(\OLOG\Auth\Admin\UsersListAction::getUrl(), 'Auth admin') . '</div>';
+            $html .= '<div>' . BT::a((new \OLOG\Auth\Admin\UsersListAction())->url(), 'Auth admin') . '</div>';
 
             LayoutBootstrap::render($html, $this);
         }
