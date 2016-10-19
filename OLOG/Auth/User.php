@@ -156,6 +156,10 @@ class User implements
      */
     public function hasAnyOfPermissions($requested_permissions_arr)
     {
+        if ($this->getHasFullAccess()){
+            return true;
+        }
+
         $user_permissions_ids_arr = PermissionToUser::getIdsArrForUserIdByCreatedAtDesc($this->getId());
         foreach ($user_permissions_ids_arr as $permissiontouser_id) {
             $permissiontouser_obj = PermissionToUser::factory($permissiontouser_id);
