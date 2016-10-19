@@ -11,7 +11,7 @@ use OLOG\BT\InterfaceUserName;
 use OLOG\BT\Layout;
 use OLOG\Exits;
 
-class AuthAdminAction
+class AuthAdminAction extends AuthAdminBaseAction 
     implements InterfaceBreadcrumbs,
     InterfacePageTitle,
     InterfaceUserName

@@ -19,7 +19,7 @@ use OLOG\CRUD\CRUDFormWidgetTextarea;
 use OLOG\CRUD\CRUDTableFilterLike;
 use OLOG\Exits;
 
-class GroupsListAction implements
+class GroupsListAction extends AuthAdminBaseAction implements
     InterfaceBreadcrumbs,
     InterfacePageTitle,
     InterfaceUserName

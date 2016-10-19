@@ -16,7 +16,7 @@ use OLOG\CRUD\CRUDFormWidgetTextarea;
 use OLOG\CRUD\CRUDTableFilterLike;
 use OLOG\Exits;
 
-class OperatorsListAction implements
+class OperatorsListAction extends AuthAdminBaseAction implements
     \OLOG\BT\InterfaceBreadcrumbs,
     \OLOG\BT\InterfacePageTitle,
     InterfaceUserName

@@ -26,8 +26,8 @@ use OLOG\CRUD\CRUDTableFilterNotInInvisible;
 use OLOG\CRUD\CRUDTableWidgetTextWithLink;
 use OLOG\Exits;
 
-class OperatorEditAction
-    implements InterfaceBreadcrumbs,
+class OperatorEditAction extends AuthAdminBaseAction implements
+    InterfaceBreadcrumbs,
     InterfacePageTitle,
     InterfaceUserName
 {

@@ -8,6 +8,23 @@ class AuthConfig
     static protected $session_id_cookie_domain = null; // default value must be null for proper setcookie
     static protected $full_access_cookie_name = '';
     static protected $extra_cookies_arr = [];
+    static protected $admin_actions_base_classname;
+
+    /**
+     * @return mixed
+     */
+    public static function getAdminActionsBaseClassname()
+    {
+        return self::$admin_actions_base_classname;
+    }
+
+    /**
+     * @param mixed $admin_actions_base_classname
+     */
+    public static function setAdminActionsBaseClassname($admin_actions_base_classname)
+    {
+        self::$admin_actions_base_classname = $admin_actions_base_classname;
+    }
 
     /**
      * @return array

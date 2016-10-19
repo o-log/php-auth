@@ -15,7 +15,7 @@ use OLOG\CRUD\CRUDFormWidgetInput;
 use OLOG\Exits;
 use OLOG\InterfaceAction;
 
-class GroupEditAction implements
+class GroupEditAction extends AuthAdminBaseAction implements
     InterfaceAction
 {
     private $group_id;

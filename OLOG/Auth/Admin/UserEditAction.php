@@ -31,8 +31,8 @@ use OLOG\Operations;
 use OLOG\POSTAccess;
 use OLOG\Url;
 
-class UserEditAction
-    implements InterfaceBreadcrumbs,
+class UserEditAction extends AuthAdminBaseAction implements
+    InterfaceBreadcrumbs,
     InterfacePageTitle,
     InterfaceUserName
 {
