@@ -40,6 +40,6 @@ class PermissionAddToUserAction implements InterfaceAction
         $permissiontouser_obj->setPermissionId($this->permission_id);
         $permissiontouser_obj->save();
 
-        \OLOG\Redirects::redirect(UserEditAction::getUrl($this->user_id));
+        \OLOG\Redirects::redirect((new UserEditAction($this->user_id))->url());
     }
 }

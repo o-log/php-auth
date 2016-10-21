@@ -2,8 +2,6 @@
 
 namespace OLOG\Auth;
 
-use OLOG\Layouts\IntefacePageLogoHtml;
-
 class User implements
     \OLOG\Model\InterfaceFactory,
     \OLOG\Model\InterfaceLoad,

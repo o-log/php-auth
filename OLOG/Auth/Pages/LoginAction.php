@@ -5,11 +5,8 @@ namespace OLOG\Auth\Pages;
 use OLOG\Auth\Auth;
 use OLOG\Auth\AuthConfig;
 use OLOG\Auth\User;
-use OLOG\BT\Layout;
 use OLOG\BT\LayoutBootstrap;
 use OLOG\POSTAccess;
-use OLOG\Sanitize;
-use OLOG\Url;
 
 class LoginAction
 {

@@ -2,12 +2,7 @@
 
 namespace OLOG\Auth;
 
-use OLOG\Assert;
-use OLOG\Auth\Auth;
-use OLOG\Auth\User;
-use OLOG\Auth\UserToGroup;
 use OLOG\CRUD\InterfaceCRUDTableFilterInvisible;
-use OLOG\GETAccess;
 
 class CRUDTableFilterOwnerInvisible implements InterfaceCRUDTableFilterInvisible
 {

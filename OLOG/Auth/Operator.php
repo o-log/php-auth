@@ -2,8 +2,6 @@
 
 namespace OLOG\Auth;
 
-use OLOG\ConfWrapper;
-
 class Operator implements
     \OLOG\Model\InterfaceFactory,
     \OLOG\Model\InterfaceLoad,
