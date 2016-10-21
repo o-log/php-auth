@@ -6,10 +6,12 @@ use OLOG\CRUD\InterfaceCRUDTableFilterInvisible;
 
 class CRUDTableFilterOwnerInvisible implements InterfaceCRUDTableFilterInvisible
 {
-    public function __construct(){
+    public function __construct()
+    {
     }
 
-    public function getHtml(){
+    public function getHtml()
+    {
         return '';
     }
 
@@ -31,19 +33,24 @@ class CRUDTableFilterOwnerInvisible implements InterfaceCRUDTableFilterInvisible
         // check current user
 
         $current_user_id = Auth::currentUserId();
-        if (!$current_user_id){
+        if (!$current_user_id) {
             return [' 1=2 ', []]; // no current user, select nothing
         }
 
-        $current_user_obj = User::factory($current_user_id);
-        if ($current_user_obj->getHasFullAccess()){
+        return $this->sqlConditionAndPlaceholderValueForUserId($current_user_id);
+    }
+
+    public function sqlConditionAndPlaceholderValueForUserId($user_id)
+    {
+        $user_obj = User::factory($user_id);
+        if ($user_obj->getHasFullAccess()) {
             return ['', []]; // do not filter
         }
 
-        $current_user_usertogroup_ids_arr = UserToGroup::getIdsArrForUserIdByCreatedAtDesc($current_user_id);
+        $current_user_usertogroup_ids_arr = UserToGroup::getIdsArrForUserIdByCreatedAtDesc($user_id);
         $current_user_groups_ids_arr = [];
 
-        foreach ($current_user_usertogroup_ids_arr as $usertogroup_id){
+        foreach ($current_user_usertogroup_ids_arr as $usertogroup_id) {
             $usertogroup_obj = UserToGroup::factory($usertogroup_id);
             $current_user_groups_ids_arr[] = $usertogroup_obj->getGroupId();
         }
@@ -51,7 +58,7 @@ class CRUDTableFilterOwnerInvisible implements InterfaceCRUDTableFilterInvisible
         $placeholder_values_arr = [];
         $where = ' (';
         $where .= '(owner_user_id = ?)';
-        $placeholder_values_arr[] = $current_user_id;
+        $placeholder_values_arr[] = $user_id;
 
         if (count($current_user_groups_ids_arr) > 0) {
             $user_groups_placeholders_arr = array_fill(0, count($current_user_groups_ids_arr), '?');
