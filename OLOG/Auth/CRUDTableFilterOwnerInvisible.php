@@ -21,6 +21,11 @@ class CRUDTableFilterOwnerInvisible implements InterfaceCRUDTableFilterInvisible
      */
     public function sqlConditionAndPlaceholderValue()
     {
+        return $this->sqlConditionAndPlaceholderValueForCurrentUser();
+    }
+    
+    public function sqlConditionAndPlaceholderValueForCurrentUser()
+    {
         // check full access cookie
 
         $auth_cookie_name = AuthConfig::getFullAccessCookieName();
