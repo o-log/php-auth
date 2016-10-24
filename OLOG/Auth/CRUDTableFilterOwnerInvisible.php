@@ -69,7 +69,7 @@ class CRUDTableFilterOwnerInvisible implements InterfaceCRUDTableFilterInvisible
             $user_groups_placeholders_arr = array_fill(0, count($current_user_groups_ids_arr), '?');
 
             $where .= ' or (owner_group_id in (' . implode($user_groups_placeholders_arr) . '))';
-            $placeholder_values_arr[] = array_merge($placeholder_values_arr, $current_user_groups_ids_arr);
+            $placeholder_values_arr = array_merge($placeholder_values_arr, $current_user_groups_ids_arr);
         }
 
         $where .= ') ';
