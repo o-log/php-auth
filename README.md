@@ -53,8 +53,8 @@
 ## Инструкция по добавлению владельца к модели
 
 Добавить поля владельцев с внешними ключами
-- owner_user_id
-- owner_group_id
+- owner_user_id int nullable
+- owner_group_id int nullable
 
 Добавить в implements InterfaceOwner
 
