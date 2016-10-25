@@ -2,6 +2,7 @@
 
 namespace OLOG\Auth\Admin;
 
+use OLOG\Auth\CRUDTableFilterOwnerInvisible;
 use OLOG\Auth\Operator;
 use OLOG\Auth\Permissions;
 use OLOG\CRUD\CRUDTableFilterLike;
@@ -39,7 +40,8 @@ class UsersListAjaxAction implements InterfaceAction
                 )
             ],
             [
-                new CRUDTableFilterLike('login', 'login', '')
+                new CRUDTableFilterLike('login', 'login', ''),
+                new CRUDTableFilterOwnerInvisible()
             ]
         );
 
