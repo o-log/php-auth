@@ -49,3 +49,27 @@
     'insert into olog_auth_permission (title) values ("PERMISSION_MODULENAME_MANAGE_NODES") /* 364563456 */;',
 
 Запись в таблице будет использоваться админкой для назначения разрешений операторам.
+
+## Инструкция по добавлению владельца к модели
+
+Добавить поля владельцев с внешними ключами
+- owner_user_id
+- owner_group_id
+
+Добавить в implements InterfaceOwner
+
+Добавить инициализацию полей владельцев в конструктор из текущего пользователя и его основной группы:
+
+    public function __construct()
+    {
+        $this->created_at_ts = time();
+
+        OwnerAssign::assignCurrentUserAsOwnerToObj($this);
+    }
+
+
+Добавить фильтры к спискам: CRUDTableFilterOwner
+
+Добавить проверку прав в редакторы: OwnerCheck::currentUserOwnsObj()
+
+Если нужно - проставить владельцев для существующих моделей
