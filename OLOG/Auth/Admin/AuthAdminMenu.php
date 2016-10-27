@@ -15,7 +15,7 @@ class AuthAdminMenu implements InterfaceMenu
 
         if (Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS, Permissions::PERMISSION_PHPAUTH_MANAGE_GROUPS, Permissions::PERMISSION_PHPAUTH_MANAGE_OPERATORS])) {
             $menu_arr = [
-                new MenuItem('Авторизация', '', [
+                new MenuItem('Пользователи', '', [
                     new MenuItem((new UsersListAction())->pageTitle(), (new UsersListAction())->url(), NULL, 'glyphicon glyphicon-user'),
                     new MenuItem((new OperatorsListAction())->pageTitle(), (new OperatorsListAction())->url(), NULL, 'glyphicon glyphicon-eye-open'),
                     new MenuItem((new PermissionsListAction())->pageTitle(), (new PermissionsListAction())->url(), NULL, 'glyphicon glyphicon-check'),
