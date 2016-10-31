@@ -38,7 +38,7 @@ class AuthDemoConfig
         AuthConfig::setAdminActionsBaseClassname(AdminDemoActionsBase::class);
         LayoutsConfig::setAdminLayoutClassName(LayoutBootstrap::class);
 
-        AuthConfig::setUserEventClass(UserEvents::class);
+       // AuthConfig::setUserEventClass(UserEvents::class);
 
 		//AuthConfig::setFullAccessCookieName('php_auth');
 

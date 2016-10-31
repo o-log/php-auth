@@ -24,21 +24,10 @@ class MainPageAction implements
     
         public function action(){
             $html = '';
-
             $html .= '<div>Current user ID: "' . Auth::currentUserId() . '"</div>';
             $html .= '<div>' . BT::a(\OLOG\Auth\Pages\LoginAction::getUrl(), 'login') . '</div>';
             $html .= '<div>' . BT::a(\OLOG\Auth\Pages\LogoutAction::getUrl(), 'logout') . '</div>';
-
             $html .= '<div>' . BT::a((new \OLOG\Auth\Admin\UsersListAction())->url(), 'Auth admin') . '</div>';
-
-            $user = new User();
-
-            $user->setLogin('Test user Login');
-
-            $html .= ' Login before save: '.$user->getLogin();
-            $user->save();
-            $html .= '<br>';
-            $html .= ' Login after save: '.$user->getLogin();
 
             LayoutBootstrap::render($html, $this);
         }
