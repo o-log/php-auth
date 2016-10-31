@@ -9,28 +9,28 @@ class AuthConfig
     static protected $full_access_cookie_name = '';
     static protected $extra_cookies_arr = [];
     static protected $admin_actions_base_classname;
-    static protected $user_event_aftersave_callback_class = '';
+    static protected $user_aftersave_callback_class_name = '';
 
     /**
      * @return null
      */
-    public static function getUserEventAfterSaveCallbackClass()
+    public static function getUserAfterSaveCallbackClassName()
     {
-        return self::$user_event_aftersave_callback_class;
+        return self::$user_aftersave_callback_class_name;
     }
 
     /**
      * @param null $user_event_class
      */
-    public static function setUserEventAfterSaveCallbackClass($user_event_aftersave_callback_class)
+    public static function setUserAfterSaveCallbackClass($user_aftersave_callback_class_name)
     {
-        self::$user_event_aftersave_callback_class = $user_event_aftersave_callback_class;
+        self::$user_aftersave_callback_class_name = $user_aftersave_callback_class_name;
     }
 
     /**
      * @return mixed
      */
-    public static function getAdminActionsBaseClassname()
+    public static function getAdminActionsBaseClassName()
     {
         return self::$admin_actions_base_classname;
     }

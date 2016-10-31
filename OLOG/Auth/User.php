@@ -176,9 +176,9 @@ class User implements
     public function afterSave()
     {
         $this->removeFromFactoryCache();
-        if( AuthConfig::getUserEventAfterSaveCallbackClass()){
-            Assert::assert(class_implements(AuthConfig::getUserEventAfterSaveCallbackClass(), 'InterfaceUserAfterSaveCallback') );
-            $events_class = AuthConfig::getUserEventAfterSaveCallbackClass();
+        if( AuthConfig::getUserAfterSaveCallbackClassName()){
+            Assert::assert(class_implements(AuthConfig::getUserAfterSaveCallbackClassName(), 'InterfaceUserAfterSaveCallback') );
+            $events_class = AuthConfig::getUserAfterSaveCallbackClassName();
             $events_class::userAfterSaveCallback($this);
         }
     }
