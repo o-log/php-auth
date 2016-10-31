@@ -9,6 +9,23 @@ class AuthConfig
     static protected $full_access_cookie_name = '';
     static protected $extra_cookies_arr = [];
     static protected $admin_actions_base_classname;
+    static protected $user_event_class = null;
+
+    /**
+     * @return null
+     */
+    public static function getUserEventClass()
+    {
+        return self::$user_event_class;
+    }
+
+    /**
+     * @param null $user_event_class
+     */
+    public static function setUserEventClass($user_event_class)
+    {
+        self::$user_event_class = $user_event_class;
+    }
 
     /**
      * @return mixed

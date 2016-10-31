@@ -170,4 +170,26 @@ class User implements
 
         return false;
     }
+
+    public function beforeSave()
+    {
+        $this->callBindedEvent(__FUNCTION__);
+    }
+
+    public function afterSave()
+    {
+        $this->callBindedEvent(__FUNCTION__);
+    }
+
+    protected function callBindedEvent($event_name){
+        if( !is_null(AuthConfig::getUserEventClass())){
+            if(class_exists(AuthConfig::getUserEventClass())){
+                if(method_exists(AuthConfig::getUserEventClass(), $event_name)){
+                    $events_class = AuthConfig::getUserEventClass();
+                    $events_class::$event_name( $this);
+                }
+
+            }
+        }
+    }
 }

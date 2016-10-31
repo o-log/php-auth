@@ -3,6 +3,7 @@
 namespace PhpAuthDemo\Pages;
 
 use OLOG\Auth\Auth;
+use OLOG\Auth\User;
 use OLOG\BT\BT;
 use OLOG\BT\LayoutBootstrap;
 use OLOG\InterfaceAction;
@@ -29,6 +30,15 @@ class MainPageAction implements
             $html .= '<div>' . BT::a(\OLOG\Auth\Pages\LogoutAction::getUrl(), 'logout') . '</div>';
 
             $html .= '<div>' . BT::a((new \OLOG\Auth\Admin\UsersListAction())->url(), 'Auth admin') . '</div>';
+
+            $user = new User();
+
+            $user->setLogin('Test user Login');
+
+            $html .= ' Login before save: '.$user->getLogin();
+            $user->save();
+            $html .= '<br>';
+            $html .= ' Login after save: '.$user->getLogin();
 
             LayoutBootstrap::render($html, $this);
         }
