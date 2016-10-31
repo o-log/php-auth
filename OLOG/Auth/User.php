@@ -177,7 +177,7 @@ class User implements
     {
         $this->removeFromFactoryCache();
         if( AuthConfig::getUserAfterSaveCallbackClassName()){
-           \OLOG\CheckClassInterfaces::exceptionIfClassNotImplementsInterface(AuthConfig::getUserAfterSaveCallbackClassName(), 'InterfaceUserAfterSaveCallback');
+           \OLOG\CheckClassInterfaces::exceptionIfClassNotImplementsInterface(AuthConfig::getUserAfterSaveCallbackClassName(), InterfaceUserAfterSaveCallback::class);
             $events_class = AuthConfig::getUserAfterSaveCallbackClassName();
             $events_class::userAfterSaveCallback($this);
         }
