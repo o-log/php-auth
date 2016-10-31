@@ -30,7 +30,7 @@ class AuthConfig
     /**
      * @return mixed
      */
-    public static function getAdminActionsBaseClassName()
+    public static function getAdminActionsBaseClass()
     {
         return self::$admin_actions_base_classname;
     }
