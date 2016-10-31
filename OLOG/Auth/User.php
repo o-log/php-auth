@@ -2,6 +2,8 @@
 
 namespace OLOG\Auth;
 
+use OLOG\Assert;
+
 class User implements
     \OLOG\Model\InterfaceFactory,
     \OLOG\Model\InterfaceLoad,
@@ -169,5 +171,15 @@ class User implements
         }
 
         return false;
+    }
+
+    public function afterSave()
+    {
+        $this->removeFromFactoryCache();
+        if( AuthConfig::getUserAfterSaveCallbackClassName()){
+           \OLOG\CheckClassInterfaces::exceptionIfClassNotImplementsInterface(AuthConfig::getUserAfterSaveCallbackClassName(), InterfaceUserAfterSaveCallback::class);
+            $events_class = AuthConfig::getUserAfterSaveCallbackClassName();
+            $events_class::userAfterSaveCallback($this);
+        }
     }
 }

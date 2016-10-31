@@ -11,6 +11,7 @@ use OLOG\DB\DBConfig;
 use OLOG\DB\DBSettings;
 use OLOG\Layouts\LayoutsConfig;
 use PhpAuthDemo\AdminDemoActionsBase;
+use PhpAuthDemo\UserEvents;
 
 class AuthDemoConfig
 {
@@ -20,7 +21,7 @@ class AuthDemoConfig
 
         DBConfig::setDBSettingsObj(
             AuthConstants::DB_NAME_PHPAUTH,
-            new DBSettings('localhost', 'db_phpauthdemo', 'root', 1)
+            new DBSettings('localhost', 'db_phpauthdemo', 'root', '1')
         );
 
         CacheConfig::addServerSettingsObj(
@@ -36,6 +37,8 @@ class AuthDemoConfig
 
         AuthConfig::setAdminActionsBaseClassname(AdminDemoActionsBase::class);
         LayoutsConfig::setAdminLayoutClassName(LayoutBootstrap::class);
+
+       // AuthConfig::setUserEventClass(UserEvents::class);
 
 		//AuthConfig::setFullAccessCookieName('php_auth');
 

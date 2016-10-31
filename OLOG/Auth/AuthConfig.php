@@ -9,6 +9,23 @@ class AuthConfig
     static protected $full_access_cookie_name = '';
     static protected $extra_cookies_arr = [];
     static protected $admin_actions_base_classname;
+    static protected $user_aftersave_callback_class_name = '';
+
+    /**
+     * @return null
+     */
+    public static function getUserAfterSaveCallbackClassName()
+    {
+        return self::$user_aftersave_callback_class_name;
+    }
+
+    /**
+     * @param null $user_event_class
+     */
+    public static function setUserAfterSaveCallbackClassName($user_aftersave_callback_class_name)
+    {
+        self::$user_aftersave_callback_class_name = $user_aftersave_callback_class_name;
+    }
 
     /**
      * @return mixed
