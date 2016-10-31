@@ -9,7 +9,11 @@ use OLOG\Layouts\InterfaceMenu;
 use OLOG\Layouts\InterfaceSiteTitle;
 use OLOG\Layouts\InterfaceTopActionObj;
 
-class AuthAdminActionsBaseProxy implements InterfaceMenu
+class AuthAdminActionsBaseProxy implements
+    InterfaceMenu,
+    InterfaceTopActionObj,
+    InterfaceSiteTitle,
+    InterfaceCurrentUserName
 {
     static public function menuArr(){
         $admin_actions_base_classname = AuthConfig::getAdminActionsBaseClassname();
