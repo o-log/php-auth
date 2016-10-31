@@ -22,7 +22,7 @@ class AuthConfig
     /**
      * @param null $user_event_class
      */
-    public static function setUserAfterSaveCallbackClass($user_aftersave_callback_class_name)
+    public static function setUserAfterSaveCallbackClassName($user_aftersave_callback_class_name)
     {
         self::$user_aftersave_callback_class_name = $user_aftersave_callback_class_name;
     }
