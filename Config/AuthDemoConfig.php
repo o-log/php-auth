@@ -21,7 +21,7 @@ class AuthDemoConfig
 
         DBConfig::setDBSettingsObj(
             AuthConstants::DB_NAME_PHPAUTH,
-            new DBSettings('localhost', 'db_imbalance', 'root', '1')
+            new DBSettings('localhost', 'db_phpauthdemo', 'root', '1')
         );
 
         CacheConfig::addServerSettingsObj(
