@@ -2,6 +2,8 @@
 
 namespace OLOG\Auth;
 
+use OLOG\Assert;
+
 class User implements
     \OLOG\Model\InterfaceFactory,
     \OLOG\Model\InterfaceLoad,
@@ -174,20 +176,10 @@ class User implements
     public function afterSave()
     {
         $this->removeFromFactoryCache();
-        if( !is_null(AuthConfig::getUserEventClass())){
-            if(class_exists(AuthConfig::getUserEventClass())){
-
-                if(class_implements(AuthConfig::getUserEventClass(), 'InterfaceUserAfterSaveCallback') ){
-                    $event_name = 'userAfterSaveCallback';
-                    if(method_exists(AuthConfig::getUserEventClass(), $event_name)){
-                        $events_class = AuthConfig::getUserEventClass();
-                        $events_class::$event_name( $this);
-                    }
-                }
-
-            }
+        if( AuthConfig::getUserEventAfterSaveCallbackClass()){
+            Assert::assert(class_implements(AuthConfig::getUserEventAfterSaveCallbackClass(), 'InterfaceUserAfterSaveCallback') );
+            $events_class = AuthConfig::getUserEventAfterSaveCallbackClass();
+            $events_class::userAfterSaveCallback($this);
         }
     }
-
-
 }

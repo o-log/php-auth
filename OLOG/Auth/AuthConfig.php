@@ -9,22 +9,22 @@ class AuthConfig
     static protected $full_access_cookie_name = '';
     static protected $extra_cookies_arr = [];
     static protected $admin_actions_base_classname;
-    static protected $user_event_class = null;
+    static protected $user_event_aftersave_callback_class = '';
 
     /**
      * @return null
      */
-    public static function getUserEventClass()
+    public static function getUserEventAfterSaveCallbackClass()
     {
-        return self::$user_event_class;
+        return self::$user_event_aftersave_callback_class;
     }
 
     /**
      * @param null $user_event_class
      */
-    public static function setUserEventClass($user_event_class)
+    public static function setUserEventAfterSaveCallbackClass($user_event_aftersave_callback_class)
     {
-        self::$user_event_class = $user_event_class;
+        self::$user_event_aftersave_callback_class = $user_event_aftersave_callback_class;
     }
 
     /**
