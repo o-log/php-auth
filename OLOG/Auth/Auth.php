@@ -9,35 +9,38 @@ class Auth
     /**
      * @return null|int Returns null if no user currently logged
      */
-    static public function currentUserId(){
+    static public function currentUserId()
+    {
 
-        static $user_id=null;
+        static $user_id = null;
         static $user_id_approved = false;
 
-        if($user_id_approved){
+        if ($user_id_approved) {
             return $user_id;
         }
         $user_id_approved = true;
         $session_id_from_cookie = self::getSessionIdFromCookie();
-        if ($session_id_from_cookie){
-            $user_id =  self::getSessionUserIdBySessionId($session_id_from_cookie);
+        if ($session_id_from_cookie) {
+            $user_id = self::getSessionUserIdBySessionId($session_id_from_cookie);
         }
         return $user_id;
     }
 
-    static public function currentUserObj(){
+    static public function currentUserObj()
+    {
         $current_user_id = self::currentUserId();
 
-        if (is_null($current_user_id)){
+        if (is_null($current_user_id)) {
             return null;
         }
 
         return User::factory($current_user_id);
     }
 
-    static public function currentUserLogin(){
+    static public function currentUserLogin()
+    {
         $user_id = Auth::currentUserId();
-        if (!$user_id){
+        if (!$user_id) {
             return '';
         }
 
@@ -45,7 +48,8 @@ class Auth
         return $user_obj->getLogin();
     }
 
-    public static function sessionCookieName(){
+    public static function sessionCookieName()
+    {
         //return \OLOG\ConfWrapper::value('php-auth.ssid_cookie_name', 'php-auth-session-id');
         return AuthConfig::getSsidCookieName();
     }
@@ -62,7 +66,8 @@ class Auth
         return $_COOKIE[$cookie_name];
     }
 
-    static public function sessionCacheKey($user_session_id){
+    static public function sessionCacheKey($user_session_id)
+    {
         return 'php_auth_user_' . $user_session_id;
     }
 
@@ -111,13 +116,15 @@ class Auth
     public static function startUserSession($user_id)
     {
         $user_obj = User::factory($user_id, false);
-        if(is_null($user_obj)){
+        if (is_null($user_obj)) {
             throw new \Exception('User not found. Can`t start session!');
         }
         $user_session_id = uniqid('as_', true);
         self::updateUserSession($user_id, $user_session_id);
     }
-    public static function updateUserSession($user_id, $user_session_id){
+
+    public static function updateUserSession($user_id, $user_session_id)
+    {
         self::storeUserSessionId($user_id, $user_session_id);
         self::setAuthCookieValueBySessionId($user_session_id);
     }
@@ -135,7 +142,8 @@ class Auth
         setcookie($cookie_name, $user_session_id, time() + self::SESSION_LIFETIME_SECONDS, '/', $cookie_domain, false, true);
     }
 
-    public static function sessionCookieDomain(){
+    public static function sessionCookieDomain()
+    {
         //return \OLOG\ConfWrapper::value('auth.session_id_cookie_domain', null);
         return AuthConfig::getSessionIdCookieDomain();
     }

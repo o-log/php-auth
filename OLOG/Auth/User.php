@@ -23,6 +23,7 @@ class User implements
     protected $password_hash = "";
     protected $description;
     const _OWNER_USER_ID = 'owner_user_id';
+    const _LOGIN = 'login';
     protected $owner_user_id;
     const _OWNER_GROUP_ID = 'owner_group_id';
     protected $owner_group_id;

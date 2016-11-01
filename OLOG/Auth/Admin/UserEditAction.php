@@ -3,17 +3,21 @@
 namespace OLOG\Auth\Admin;
 
 use OLOG\Auth\Auth;
+use OLOG\Auth\Group;
 use OLOG\Auth\Operator;
 use OLOG\Auth\OwnerCheck;
 use OLOG\Auth\Permission;
 use OLOG\Auth\Permissions;
 use OLOG\Auth\PermissionToUser;
 use OLOG\Auth\User;
+use OLOG\Auth\UserToGroup;
 use OLOG\BT\CallapsibleWidget;
 use OLOG\CRUD\CRUDForm;
+use OLOG\CRUD\CRUDFormInvisibleRow;
 use OLOG\CRUD\CRUDFormRow;
 use OLOG\CRUD\CRUDFormWidgetInput;
 use OLOG\CRUD\CRUDFormWidgetReference;
+use OLOG\CRUD\CRUDFormWidgetReferenceAjax;
 use OLOG\CRUD\CRUDFormWidgetTextarea;
 use OLOG\CRUD\CRUDTable;
 use OLOG\CRUD\CRUDTableColumn;
@@ -50,19 +54,23 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
         $this->user_id = $user_id;
     }
 
-    public function pageTitle(){
+    public function pageTitle()
+    {
         return 'Пользователь ' . $this->user_id;
     }
 
-    public function url(){
+    public function url()
+    {
         return '/admin/auth/user/' . $this->user_id;
     }
 
-    static public function urlMask(){
+    static public function urlMask()
+    {
         return '/admin/auth/user/(\d+)';
     }
 
-    public function action(){
+    public function action()
+    {
         Exits::exit403If(
             !Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS])
         );
@@ -74,7 +82,7 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
             !OwnerCheck::currentUserOwnsObj($user_obj)
         );
 
-        Operations::matchOperation(self::OPERATION_SET_PASSWORD, function() use ($user_id) {
+        Operations::matchOperation(self::OPERATION_SET_PASSWORD, function () use ($user_id) {
             $new_password = POSTAccess::getOptionalPostValue(self::FIELD_NAME_PASSWORD);
             $new_password_hash = password_hash($new_password, PASSWORD_BCRYPT);
 
@@ -96,7 +104,7 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
 
         if (Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS_PERMISSIONS])) {
             $html .= '<h2>Разрешения</h2>';
-            $html .= HTML::div('', '',  function () use ($user_id) {
+            $html .= HTML::div('', '', function () use ($user_id) {
                 $new_permissiontouser_obj = new PermissionToUser();
                 $new_permissiontouser_obj->setUserId($user_id);
 
@@ -117,7 +125,7 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
                     ''
                 );
 
-                echo CallapsibleWidget::buttonAndCollapse('Показать все неназначенные разрешения', function () use($user_id) {
+                echo CallapsibleWidget::buttonAndCollapse('Показать все неназначенные разрешения', function () use ($user_id) {
                     $html = CRUDTable::html(
                         Permission::class,
                         '',
@@ -142,6 +150,8 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
             });
         }
 
+        $html .= self::userGroupsTable($user_id);
+
         $html .= '</div></div>';
         AdminLayoutSelector::render($html, $this);
     }
@@ -151,10 +161,11 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
      * @param $user_id
      * @return string
      */
-    static public function adminParamsForm($user_id){
+    static public function adminParamsForm($user_id)
+    {
         /** @var User $current_user_obj */
         $current_user_obj = Auth::currentUserObj();
-        if (!$current_user_obj){
+        if (!$current_user_obj) {
             return '';
         }
 
@@ -192,7 +203,8 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
         return $html;
     }
 
-    static public function commonParamsForm($user_id){
+    static public function commonParamsForm($user_id)
+    {
         $html = '';
 
         $html .= '<h2>Параметры</h2>';
@@ -215,7 +227,8 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
         return $html;
     }
 
-    static public function passwordForm(){
+    static public function passwordForm()
+    {
         $html = '';
 
         $html .= '<h2>Изменение пароля</h2>';
@@ -240,7 +253,8 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
         return $html;
     }
 
-    static public function userOperatorsTable($user_id){
+    static public function userOperatorsTable($user_id)
+    {
         $html = '';
 
         $html .= '<h2>Операторы пользователя</h2>';
@@ -280,6 +294,45 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
             ],
             [
                 new CRUDTableFilterEqualInvisible('user_id', $user_id)
+            ]
+        );
+
+        return $html;
+    }
+
+    static public function userGroupsTable($user_id)
+    {
+        if (!Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_GROUPS])) {
+            return '';
+        }
+        $html = '';
+
+        $html .= '<h2>В составе групп</h2>';
+
+        $new_user_to_group_obj = new UserToGroup();
+        $new_user_to_group_obj->setUserId($user_id);
+
+        $html .= \OLOG\CRUD\CRUDTable::html(
+            UserToGroup::class,
+
+            CRUDForm::html(
+                $new_user_to_group_obj,
+                [
+                    new CRUDFormInvisibleRow(new CRUDFormWidgetInput(UserToGroup::_USER_ID)),
+                    new CRUDFormRow('Группа',
+                        new CRUDFormWidgetReferenceAjax(UserToGroup::_GROUP_ID, Group::class, Group::_TITLE, (new GroupsListAjaxAction())->url(), (new GroupEditAction('REFERENCED_ID'))->url(), true))
+                ]
+            ),
+            [
+                new \OLOG\CRUD\CRUDTableColumn(
+                    'Группа', new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{' . Group::class . '.{this->' . UserToGroup::_GROUP_ID . '}->' . Group::_TITLE . '}', (new GroupEditAction('{this->' . UserToGroup::_GROUP_ID . '}'))->url())
+                ),
+                new \OLOG\CRUD\CRUDTableColumn(
+                    'Удалить', new \OLOG\CRUD\CRUDTableWidgetDelete()
+                )
+            ],
+            [
+                new CRUDTableFilterEqualInvisible(UserToGroup::_USER_ID, $user_id)
             ]
         );
 

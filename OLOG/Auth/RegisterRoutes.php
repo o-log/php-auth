@@ -17,6 +17,7 @@ class RegisterRoutes
         Router::processAction(\OLOG\Auth\Admin\OperatorEditAction::class, 0);
         Router::processAction(\OLOG\Auth\Admin\GroupsListAction::class, 0);
         Router::processAction(\OLOG\Auth\Admin\GroupEditAction::class, 0);
+        Router::processAction(\OLOG\Auth\Admin\GroupsListAjaxAction::class, 0);
 
         Router::processAction(\OLOG\Auth\Admin\PermissionAddToUserAction::class, 0);
         Router::processAction(\OLOG\Auth\Admin\PermissionAddToOperatorAction::class, 0);

@@ -11,8 +11,6 @@ use OLOG\InterfaceAction;
 
 class UsersListAjaxAction implements InterfaceAction
 {
-    use CurrentUserNameTrait;
-
     public function url(){
         return '/admin/auth/users_ajax';
     }
