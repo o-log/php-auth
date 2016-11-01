@@ -75,7 +75,8 @@ class GroupEditAction extends AuthAdminActionsBaseProxy implements
             !Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_GROUPS])
         );
 
-        $group_obj = Group::factory($this->getGroupId());
+        $group_obj = Group::factory($this->getGroupId(), false);
+        \OLOG\Exits::exit404If(!$group_obj);
 
         Exits::exit403If(
             !OwnerCheck::currentUserOwnsObj($group_obj)
@@ -143,7 +144,6 @@ class GroupEditAction extends AuthAdminActionsBaseProxy implements
         if (!Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS])) {
             return '';
         }
-
 
         $html = '<h2>Пользователи в группе</h2>';
 
