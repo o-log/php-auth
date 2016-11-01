@@ -14,6 +14,10 @@ use OLOG\CRUD\CRUDFormInvisibleRow;
 use OLOG\CRUD\CRUDFormRow;
 use OLOG\CRUD\CRUDFormWidgetInput;
 use OLOG\CRUD\CRUDFormWidgetReferenceAjax;
+use OLOG\CRUD\CRUDTable;
+use OLOG\CRUD\CRUDTableColumn;
+use OLOG\CRUD\CRUDTableFilterEqualInvisible;
+use OLOG\CRUD\CRUDTableWidgetDelete;
 use OLOG\Exits;
 use OLOG\InterfaceAction;
 use OLOG\Layouts\AdminLayoutSelector;
@@ -150,7 +154,7 @@ class GroupEditAction extends AuthAdminActionsBaseProxy implements
         $new_user_to_group_obj = new UserToGroup();
         $new_user_to_group_obj->setGroupId($group_id);
 
-        $html .= \OLOG\CRUD\CRUDTable::html(
+        $html .= CRUDTable::html(
             UserToGroup::class,
             CRUDForm::html(
                 $new_user_to_group_obj,
@@ -161,17 +165,17 @@ class GroupEditAction extends AuthAdminActionsBaseProxy implements
                 ]
             ),
             [
-                new \OLOG\CRUD\CRUDTableColumn(
+                new CRUDTableColumn(
                     'Логин',
                     new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{' . User::class . '.{this->' . UserToGroup::_USER_ID . '}->' . User::_LOGIN . '}', (new UserEditAction('{this->' . UserToGroup::_USER_ID . '}'))->url())
                 ),
-                new \OLOG\CRUD\CRUDTableColumn(
+                new CRUDTableColumn(
                     'Удалить',
-                    new \OLOG\CRUD\CRUDTableWidgetDelete()
+                    new CRUDTableWidgetDelete()
                 )
             ],
             [
-                new \OLOG\CRUD\CRUDTableFilterEqualInvisible(UserToGroup::_GROUP_ID, $group_id)
+                new CRUDTableFilterEqualInvisible(UserToGroup::_GROUP_ID, $group_id)
             ]
         );
 
