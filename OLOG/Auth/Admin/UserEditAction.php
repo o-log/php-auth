@@ -314,7 +314,6 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
 
         $html .= \OLOG\CRUD\CRUDTable::html(
             UserToGroup::class,
-
             CRUDForm::html(
                 $new_user_to_group_obj,
                 [
