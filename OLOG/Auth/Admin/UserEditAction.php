@@ -77,8 +77,7 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
         );
 
         $user_id = $this->user_id;
-        $user_obj = User::factory($user_id, false);
-        \OLOG\Exits::exit404If(!$user_obj);
+        $user_obj = User::factory($user_id);
 
         Exits::exit403If(
             !OwnerCheck::currentUserOwnsObj($user_obj)

@@ -38,7 +38,6 @@ array(
 'alter table olog_auth_usertogroup add constraint FK_user_id_668530 foreign key (user_id)  references olog_auth_user (id) /* rand704331 */;',
 'alter table olog_auth_usertogroup add column group_id int  not null    /* rand684719 */;',
 'alter table olog_auth_usertogroup add constraint FK_group_id_650820 foreign key (group_id)  references olog_auth_group (id) /* rand249455 */;',
-'alter table olog_auth_usertogroup add unique key UK_user_id_group_id_650820 (user_id, group_id) /* rand249455 */;',
 'alter table olog_auth_user add column owner_user_id int    /* rand537871 */;',
 'alter table olog_auth_user add constraint FK_owner_user_id_901133 foreign key (owner_user_id)  references olog_auth_user (id) /* rand135905 */;',
 'alter table olog_auth_user add column owner_group_id int    /* rand789986 */;',

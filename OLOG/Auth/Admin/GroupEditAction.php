@@ -79,8 +79,7 @@ class GroupEditAction extends AuthAdminActionsBaseProxy implements
             !Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_GROUPS])
         );
 
-        $group_obj = Group::factory($this->getGroupId(), false);
-        \OLOG\Exits::exit404If(!$group_obj);
+        $group_obj = Group::factory($this->getGroupId());
 
         Exits::exit403If(
             !OwnerCheck::currentUserOwnsObj($group_obj)
@@ -160,7 +159,7 @@ class GroupEditAction extends AuthAdminActionsBaseProxy implements
                 $new_user_to_group_obj,
                 [
                     new CRUDFormInvisibleRow(new CRUDFormWidgetInput(UserToGroup::_GROUP_ID)),
-                    new CRUDFormRow('Пользовтель',
+                    new CRUDFormRow('Пользователь',
                         new CRUDFormWidgetReferenceAjax(UserToGroup::_USER_ID, User::class, User::_LOGIN, (new UsersListAjaxAction())->url(), (new UserEditAction('REFERENCED_ID'))->url(), true))
                 ]
             ),
