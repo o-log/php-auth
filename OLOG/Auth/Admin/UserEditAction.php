@@ -152,7 +152,7 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
             });
         }
 
-        $html .= self::userGroupsTable($user_id);
+        $html .= self::userInGroupsTable($user_id);
 
         $html .= '</div></div>';
         AdminLayoutSelector::render($html, $this);
@@ -302,7 +302,7 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
         return $html;
     }
 
-    static public function userGroupsTable($user_id)
+    static public function userInGroupsTable($user_id)
     {
         if (!Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_GROUPS])) {
             return '';
