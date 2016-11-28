@@ -93,6 +93,12 @@ class Auth
         if ($user_session_id) {
             self::clearUserSession($user_session_id);
         }
+
+        if( AuthConfig::getAfterLogoutCallbackClassName()){
+            \OLOG\CheckClassInterfaces::exceptionIfClassNotImplementsInterface(AuthConfig::getAfterLogoutCallbackClassName(), InterfaceAfterLogoutCallback::class);
+            $events_class = AuthConfig::getAfterLogoutCallbackClassName();
+            $events_class::afterLogoutCallback();
+        }
     }
 
     public static function clearUserSession($user_session_id)
