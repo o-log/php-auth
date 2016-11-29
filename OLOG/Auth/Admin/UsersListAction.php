@@ -69,7 +69,7 @@ class UsersListAction extends AuthAdminActionsBaseProxy implements
                 new CRUDTableFilterLike('description_1287318', 'комментарий', 'description'),
                 new \OLOG\Auth\CRUDTableFilterOwnerInvisible()
             ],
-            '',
+            'login',
             '1',
             \OLOG\CRUD\CRUDTable::FILTERS_POSITION_TOP
         );
