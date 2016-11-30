@@ -40,7 +40,8 @@ class GroupsListAjaxAction implements InterfaceAction
             ],
             [
                 new CRUDTableFilterOwnerInvisible()
-            ]
+            ],
+            'title'
         );
 
         echo $html;
