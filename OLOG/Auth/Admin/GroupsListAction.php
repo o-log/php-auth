@@ -69,7 +69,7 @@ class GroupsListAction extends AuthAdminActionsBaseProxy implements
                 new CRUDTableFilterLike('wgieruygfigfe', 'Title', Group::_TITLE),
                 new CRUDTableFilterOwnerInvisible()
             ],
-            '',
+            'title',
             '1',
             \OLOG\CRUD\CRUDTable::FILTERS_POSITION_TOP
         );

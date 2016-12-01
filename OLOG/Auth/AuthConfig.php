@@ -10,6 +10,23 @@ class AuthConfig
     static protected $extra_cookies_arr = [];
     static protected $admin_actions_base_classname;
     static protected $user_aftersave_callback_class_name = '';
+    static protected $after_logout_callback_class_name = '';
+
+    /**
+     * @return string
+     */
+    public static function getAfterLogoutCallbackClassName()
+    {
+        return self::$after_logout_callback_class_name;
+    }
+
+    /**
+     * @param string $after_logout_callback_class_name
+     */
+    public static function setAfterLogoutCallbackClassName($after_logout_callback_class_name)
+    {
+        self::$after_logout_callback_class_name = $after_logout_callback_class_name;
+    }
 
     /**
      * @return null
