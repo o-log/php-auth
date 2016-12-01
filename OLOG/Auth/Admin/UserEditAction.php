@@ -142,7 +142,7 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
                         [
                             new CRUDTableFilterNotInInvisible('id', PermissionToUser::getPermissionIdsArrForUserId($user_id)),
                         ],
-                        'id',
+                        'title asc',
                         '79687tg8976rt87'
                     );
                     return $html;
