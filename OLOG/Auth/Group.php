@@ -35,8 +35,6 @@ class Group implements
         $this->owner_group_id = $value;
     }
 
-
-
     public function getOwnerUserId(){
         return $this->owner_user_id;
     }
@@ -44,8 +42,6 @@ class Group implements
     public function setOwnerUserId($value){
         $this->owner_user_id = $value;
     }
-
-
 
     public function getTitle(){
         return $this->title;
@@ -55,7 +51,10 @@ class Group implements
         $this->title = $value;
     }
 
-
+    public function beforeSave()
+    {
+        OwnerAssign::assignCurrentUserAsOwnerToObj($this);
+    }
 
     static public function getAllIdsArrByCreatedAtDesc($offset = 0, $page_size = 30){
         $ids_arr = \OLOG\DB\DBWrapper::readColumn(
@@ -67,8 +66,6 @@ class Group implements
 
     public function __construct(){
         $this->created_at_ts = time();
-
-        OwnerAssign::assignCurrentUserAsOwnerToObj($this);
     }
 
     /**

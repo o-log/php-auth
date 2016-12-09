@@ -58,12 +58,10 @@
 
 Добавить в implements InterfaceOwner
 
-Добавить инициализацию полей владельцев в конструктор из текущего пользователя и его основной группы:
+Добавить в beforeSave модели инициализацию полей владельцев из текущего пользователя и его основной группы:
 
-    public function __construct()
+    public function beforeSave()
     {
-        $this->created_at_ts = time();
-
         OwnerAssign::assignCurrentUserAsOwnerToObj($this);
     }
 

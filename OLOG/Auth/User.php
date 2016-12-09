@@ -53,11 +53,14 @@ class User implements
         $this->has_full_access = $value;
     }
 
+    public function beforeSave()
+    {
+        OwnerAssign::assignCurrentUserAsOwnerToObj($this);
+    }
+
     public function __construct()
     {
         $this->created_at_ts = time();
-
-        OwnerAssign::assignCurrentUserAsOwnerToObj($this);
     }
 
     public function getOwnerGroupId()
