@@ -55,6 +55,17 @@ class User implements
 
     public function beforeSave()
     {
+        if (!is_null($this->getPrimaryGroupId())){
+            // создаем связь для пользователя с его основной группой, чтобы основная группа участвовала в проверке доступа
+            $user_to_group_obj = UserToGroup::factoryForUserIdAndGroupId($this->getId(), $this->getPrimaryGroupId(), false);
+            if (!$user_to_group_obj){
+                $new_user_to_group_obj = new UserToGroup();
+                $new_user_to_group_obj->setUserId($this->getId());
+                $new_user_to_group_obj->setGroupId($this->getPrimaryGroupId());
+                $new_user_to_group_obj->save();
+            }
+        }
+
         OwnerAssign::assignCurrentUserAsOwnerToObj($this);
     }
 
