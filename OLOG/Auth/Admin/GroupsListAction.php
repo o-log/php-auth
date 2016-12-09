@@ -10,6 +10,7 @@ use OLOG\CRUD\CRUDForm;
 use OLOG\CRUD\CRUDFormRow;
 use OLOG\CRUD\CRUDFormWidgetInput;
 use OLOG\CRUD\CRUDTableFilterLike;
+use OLOG\CRUD\CRUDTableFilterLikeInline;
 use OLOG\Exits;
 use OLOG\InterfaceAction;
 use OLOG\Layouts\AdminLayoutSelector;
@@ -53,25 +54,25 @@ class GroupsListAction extends AuthAdminActionsBaseProxy implements
             ),
             [
                 new \OLOG\CRUD\CRUDTableColumn(
-                    'Title',
+                    '',
                     new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{this->' . Group::_TITLE. '}', (new GroupEditAction('{this->id}'))->url())
                 ),
                 new \OLOG\CRUD\CRUDTableColumn(
-                    'Создана',
+                    '',
                     new \OLOG\CRUD\CRUDTableWidgetTimestamp('{this->created_at_ts}')
                 ),
                 new \OLOG\CRUD\CRUDTableColumn(
-                    'Удалить',
+                    '',
                     new \OLOG\CRUD\CRUDTableWidgetDelete()
                 )
             ],
             [
-                new CRUDTableFilterLike('wgieruygfigfe', 'Title', Group::_TITLE),
+                new CRUDTableFilterLikeInline('wgieruygfigfe', '', Group::_TITLE, 'Название'),
                 new CRUDTableFilterOwnerInvisible()
             ],
             'title',
             '1',
-            \OLOG\CRUD\CRUDTable::FILTERS_POSITION_TOP
+            \OLOG\CRUD\CRUDTable::FILTERS_POSITION_INLINE
         );
 
         AdminLayoutSelector::render($html, $this);

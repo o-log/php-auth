@@ -98,7 +98,7 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
 
         $html .= self::commonParamsForm($user_id);
         $html .= self::passwordForm();
-        $html .= self::userOperatorsTable($user_id);
+        //$html .= self::userOperatorsTable($user_id);
         $html .= self::adminParamsForm($user_id);
 
         $html .= '</div><div class="col-md-6">';
@@ -114,10 +114,10 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
                     '',
                     [
                         new \OLOG\CRUD\CRUDTableColumn(
-                            'Разрешение', new \OLOG\CRUD\CRUDTableWidgetText('{' . Permission::class . '.{this->permission_id}->title}')
+                            '', new \OLOG\CRUD\CRUDTableWidgetText('{' . Permission::class . '.{this->permission_id}->title}')
                         ),
                         new \OLOG\CRUD\CRUDTableColumn(
-                            'Удалить', new \OLOG\CRUD\CRUDTableWidgetDelete()
+                            '', new \OLOG\CRUD\CRUDTableWidgetDelete()
                         )
                     ],
                     [
@@ -254,6 +254,7 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
         return $html;
     }
 
+    /*
     static public function userOperatorsTable($user_id)
     {
         $html = '';
@@ -300,6 +301,7 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
 
         return $html;
     }
+    */
 
     static public function userInGroupsTable($user_id)
     {

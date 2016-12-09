@@ -31,10 +31,10 @@ class PermissionsListAction extends AuthAdminActionsBaseProxy implements
             null,
             [
                 new \OLOG\CRUD\CRUDTableColumn(
-                    'ID', new \OLOG\CRUD\CRUDTableWidgetText('{this->id}')
+                    '', new \OLOG\CRUD\CRUDTableWidgetText('{this->id}')
                 ),
                 new \OLOG\CRUD\CRUDTableColumn(
-                    'title', new \OLOG\CRUD\CRUDTableWidgetText('{this->title}')
+                    '', new \OLOG\CRUD\CRUDTableWidgetText('{this->title}')
                 )
             ]
         );
