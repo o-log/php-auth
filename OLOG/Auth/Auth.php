@@ -145,7 +145,9 @@ class Auth
     {
         $cookie_name = self::sessionCookieName();
         $cookie_domain = self::sessionCookieDomain();
-        setcookie($cookie_name, $user_session_id, time() + self::SESSION_LIFETIME_SECONDS, '/', $cookie_domain, false, true);
+        $session_cookie_is_http_only = AuthConfig::getSessionCookieIsHttpOnly();
+        $session_cookie_is_secure = AuthConfig::getSessionCookieIsSecure();
+        setcookie($cookie_name, $user_session_id, time() + self::SESSION_LIFETIME_SECONDS, '/', $cookie_domain, $session_cookie_is_secure, $session_cookie_is_http_only);
     }
 
     public static function sessionCookieDomain()

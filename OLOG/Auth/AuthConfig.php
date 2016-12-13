@@ -11,6 +11,40 @@ class AuthConfig
     static protected $admin_actions_base_classname;
     static protected $user_aftersave_callback_class_name = '';
     static protected $after_logout_callback_class_name = '';
+    static protected $session_cookie_is_secure = false;
+    static protected $session_cookie_is_http_only = true;
+
+    /**
+     * @return boolean
+     */
+    public static function getSessionCookieIsSecure()
+    {
+        return self::$session_cookie_is_secure;
+    }
+
+    /**
+     * @param boolean $session_cookie_is_secure
+     */
+    public static function setSessionCookieIsSecure($session_cookie_is_secure)
+    {
+        self::$session_cookie_is_secure = $session_cookie_is_secure;
+    }
+
+    /**
+     * @return boolean
+     */
+    public static function getSessionCookieIsHttpOnly()
+    {
+        return self::$session_cookie_is_http_only;
+    }
+
+    /**
+     * @param boolean $session_cookie_is_http_only
+     */
+    public static function setSessionCookieIsHttpOnly($session_cookie_is_http_only)
+    {
+        self::$session_cookie_is_http_only = $session_cookie_is_http_only;
+    }
 
     /**
      * @return string
@@ -37,7 +71,7 @@ class AuthConfig
     }
 
     /**
-     * @param null $user_event_class
+     * @param null $user_aftersave_callback_class_name
      */
     public static function setUserAfterSaveCallbackClassName($user_aftersave_callback_class_name)
     {
