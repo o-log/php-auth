@@ -5,6 +5,7 @@ namespace OLOG\Auth\Pages;
 use OLOG\Auth\Auth;
 use OLOG\Auth\AuthConfig;
 use OLOG\Auth\ExtraCookie;
+use OLOG\Auth\ExtraCookiesLib;
 use OLOG\Auth\User;
 use OLOG\BT\LayoutBootstrap;
 use OLOG\POSTAccess;
@@ -69,7 +70,7 @@ class LoginAction
 
         Auth::startUserSession($user_obj->getId());
 
-        ExtraCookie::setExtraCookies();
+        ExtraCookiesLib::setExtraCookies();
 
         $redirect = '/';
         $success_redirect_url = POSTAccess::getOptionalPostValue('success_redirect_url', '');

@@ -84,7 +84,7 @@ class Auth
         }
         //обновляем куки и сессию в мемекеше, от момента последнегно запроса к сайту
         self::updateUserSession($user_id, $user_session_id);
-        ExtraCookie::setExtraCookies();
+        ExtraCookiesLib::setExtraCookies();
 
         return $user_id;
     }
