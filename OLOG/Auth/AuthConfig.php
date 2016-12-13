@@ -95,7 +95,7 @@ class AuthConfig
     }
 
     /**
-     * @return array
+     * @return string[]|\OLOG\Auth\ExtraCookie[]
      */
     public static function getExtraCookiesArr()
     {
