@@ -11,7 +11,7 @@ use OLOG\Auth\Permissions;
 use OLOG\Auth\PermissionToUser;
 use OLOG\Auth\User;
 use OLOG\Auth\UserToGroup;
-use OLOG\BT\CallapsibleWidget;
+use OLOG\BT\CollapsibleWidget;
 use OLOG\CRUD\CRUDForm;
 use OLOG\CRUD\CRUDFormInvisibleRow;
 use OLOG\CRUD\CRUDFormRow;
@@ -126,8 +126,8 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
                     ''
                 );
 
-                echo CallapsibleWidget::buttonAndCollapse('Показать все неназначенные разрешения', function () use ($user_id) {
-                    $html = CRUDTable::html(
+                echo CollapsibleWidget::buttonAndCollapse('Показать все неназначенные разрешения', function () use ($user_id) {
+                    echo CRUDTable::html(
                         Permission::class,
                         '',
                         [
@@ -145,7 +145,6 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
                         'title asc',
                         '79687tg8976rt87'
                     );
-                    return $html;
                 });
 
             });
