@@ -4,6 +4,7 @@ namespace OLOG\Auth\Pages;
 
 use OLOG\Auth\Auth;
 use OLOG\Auth\AuthConfig;
+use OLOG\Auth\ExtraCookie;
 use OLOG\Auth\User;
 use OLOG\BT\LayoutBootstrap;
 use OLOG\POSTAccess;
@@ -68,7 +69,7 @@ class LoginAction
 
         Auth::startUserSession($user_obj->getId());
 
-        self::setExtraCookies();
+        ExtraCookie::setExtraCookies();
 
         $redirect = '/';
         $success_redirect_url = POSTAccess::getOptionalPostValue('success_redirect_url', '');
@@ -77,30 +78,5 @@ class LoginAction
         }
 
         \OLOG\Redirects::redirect($redirect);
-    }
-
-    public static function setExtraCookies()
-    {
-        $extra_cookies_arr = AuthConfig::getExtraCookiesArr();
-        if (empty($extra_cookies_arr)) {
-            return;
-        }
-
-        foreach ($extra_cookies_arr as $cookie_name => $cookie_value) {
-            if ($cookie_value instanceof \OLOG\Auth\ExtraCookie) {
-                $extra_cookie_obj = $cookie_value;
-                setcookie(
-                    $extra_cookie_obj->getCookieName(),
-                    $extra_cookie_obj->getCookieValue(),
-                    time() + Auth::SESSION_LIFETIME_SECONDS,
-                    '/',
-                    Auth::sessionCookieDomain(),
-                    $extra_cookie_obj->isSecure(),
-                    $extra_cookie_obj->isHttpOnly()
-                );
-            } else {
-                setcookie($cookie_name, $cookie_value, time() + Auth::SESSION_LIFETIME_SECONDS, '/', Auth::sessionCookieDomain(), false, true);
-            }
-        }
     }
 }
