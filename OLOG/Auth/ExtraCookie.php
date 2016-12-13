@@ -20,10 +20,10 @@ class ExtraCookie
      */
     public function __construct($cookie_name, $cookie_value, $secure, $http_only)
     {
-        $this->cookie_name = $cookie_name;
-        $this->cookie_value = $cookie_value;
-        $this->secure = $secure;
-        $this->http_only = $http_only;
+        $this->setCookieName($cookie_name);
+        $this->setCookieValue($cookie_value);
+        $this->setSecure($secure);
+        $this->setHttpOnly($http_only);
     }
 
     /**
