@@ -4,7 +4,7 @@ namespace OLOG\Auth;
 
 class Auth
 {
-    const SESSION_LIFETIME_SECONDS = 60 * 60 * 24 * 7;
+    const SESSION_LIFETIME_SECONDS = 60 * 60 * 24 * 60;
 
     /**
      * @return null|int Returns null if no user currently logged
@@ -132,7 +132,7 @@ class Auth
     public static function updateUserSession($user_id, $user_session_id)
     {
         self::storeUserSessionId($user_id, $user_session_id);
-        self::setAuthCookieValueBySessionId($user_session_id);
+        //self::setAuthCookieValueBySessionId($user_session_id);
     }
 
     public static function storeUserSessionId($user_id, $user_session_id)
