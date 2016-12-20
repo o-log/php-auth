@@ -83,8 +83,8 @@ class Auth
             return null;
         }
         //обновляем куки и сессию в мемекеше, от момента последнегно запроса к сайту
-        self::updateUserSession($user_id, $user_session_id);
-        ExtraCookiesLib::setExtraCookies();
+        self::updateUserSessionInMemcache($user_id, $user_session_id);
+        //ExtraCookiesLib::setExtraCookies();
 
         return $user_id;
     }
@@ -134,7 +134,12 @@ class Auth
     public static function updateUserSession($user_id, $user_session_id)
     {
         self::storeUserSessionId($user_id, $user_session_id);
-        //self::setAuthCookieValueBySessionId($user_session_id);
+        self::setAuthCookieValueBySessionId($user_session_id);
+    }
+
+    public static function updateUserSessionInMemcache($user_id, $user_session_id)
+    {
+        self::storeUserSessionId($user_id, $user_session_id);
     }
 
     public static function storeUserSessionId($user_id, $user_session_id)
