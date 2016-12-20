@@ -7,7 +7,7 @@ use OLOG\Auth\OperatorPermission;
 use OLOG\Auth\Permission;
 use OLOG\Auth\Permissions;
 use OLOG\Auth\User;
-use OLOG\BT\CallapsibleWidget;
+use OLOG\BT\CollapsibleWidget;
 use OLOG\HTML;
 use OLOG\CRUD\CRUDForm;
 use OLOG\CRUD\CRUDFormRow;
@@ -114,8 +114,8 @@ class OperatorEditAction extends AuthAdminActionsBaseProxy implements
                     ''
                 );
 
-                echo CallapsibleWidget::buttonAndCollapse('Показать все неназначенные разрешения', function () use ($operator_id) {
-                    $html = CRUDTable::html(
+                echo CollapsibleWidget::buttonAndCollapse('Показать все неназначенные разрешения', function () use ($operator_id) {
+                    echo CRUDTable::html(
                         Permission::class,
                         '',
                         [
@@ -133,7 +133,6 @@ class OperatorEditAction extends AuthAdminActionsBaseProxy implements
                         'id',
                         '79687tg8976rt87'
                     );
-                    return $html;
                 });
             });
         }

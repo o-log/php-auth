@@ -4,26 +4,22 @@ namespace OLOG\Auth\Pages;
 
 use OLOG\Auth\Auth;
 use OLOG\Auth\AuthConfig;
+use OLOG\Auth\ExtraCookie;
+use OLOG\Auth\ExtraCookiesLib;
 use OLOG\Sanitize;
 
 class LogoutAction
 {
-    static public function getUrl(){
+    static public function getUrl()
+    {
         return '/auth/logout';
     }
 
-    public function action(){
+    public function action()
+    {
         Auth::logout();
 
-        // remove extra cookies
-        if (!empty(AuthConfig::getExtraCookiesArr())){
-            $extra_cookies_arr = AuthConfig::getExtraCookiesArr();
-
-            foreach ($extra_cookies_arr as $cookie_name => $cookie_value){
-                //setcookie($cookie_name, $cookie_value, time() + Auth::SESSION_LIFETIME_SECONDS, '/', Auth::sessionCookieDomain());
-                setcookie($cookie_name, "", 1000, '/', Auth::sessionCookieDomain(), false, true);
-            }
-        }
+        ExtraCookiesLib::unsetExtraCookies();
 
         $redirect = '/';
         if (isset($_GET['destination'])) {

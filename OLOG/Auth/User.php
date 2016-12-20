@@ -33,6 +33,22 @@ class User implements
     protected $primary_group_id;
     protected $id;
 
+    /**
+     * @param $exception_if_not_found
+     */
+    static public function factoryForCurrentAuthSession($exception_if_not_found) {
+        $user_id = Auth::currentUserId();
+        if (!$user_id){
+            if ($exception_if_not_found){
+                throw new \Exception('User not found');
+            }
+
+            return null;
+        }
+
+        return self::factory($user_id, $exception_if_not_found);
+    }
+
     public function getPrimaryGroupId()
     {
         return $this->primary_group_id;
