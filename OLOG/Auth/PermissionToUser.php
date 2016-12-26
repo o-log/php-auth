@@ -2,6 +2,8 @@
 
 namespace OLOG\Auth;
 
+use OLOG\Cache\CacheWrapper;
+
 class PermissionToUser implements
     \OLOG\Model\InterfaceFactory,
     \OLOG\Model\InterfaceLoad,
@@ -19,6 +21,18 @@ class PermissionToUser implements
     protected $user_id;
     protected $permission_id;
     protected $id;
+
+    public function afterDelete()
+    {
+        $this->removeFromFactoryCache();
+        CacheWrapper::delete(self::getCacheKey_getIdsArrForUserIdByCreatedAtDesc($this->getUserId()));
+    }
+
+    public function afterSave()
+    {
+        $this->removeFromFactoryCache();
+        CacheWrapper::delete(self::getCacheKey_getIdsArrForUserIdByCreatedAtDesc($this->getUserId()));
+    }
 
     static public function getIdsArrForPermissionIdByCreatedAtDesc($value, $offset = 0, $page_size = 30){
         if (is_null($value)) {
@@ -45,20 +59,38 @@ class PermissionToUser implements
     }
 
 
+    static public function getCacheKey_getIdsArrForUserIdByCreatedAtDesc($user_id){
+        $user_id_str = $user_id;
+        if (is_null($user_id)){
+            $user_id_str = 'null';
+        }
+        return 'getIdsArrForUserIdByCreatedAtDesc_' . $user_id_str;
+    }
 
-    static public function getIdsArrForUserIdByCreatedAtDesc($value, $offset = 0, $page_size = 30){
-        if (is_null($value)) {
-            return \OLOG\DB\DBWrapper::readColumn(
+    static public function getIdsArrForUserIdByCreatedAtDesc($user_id, $offset = 0, $page_size = 30){
+
+        $cahe_key = self::getCacheKey_getIdsArrForUserIdByCreatedAtDesc($user_id);
+        $cached_data = CacheWrapper::get($cahe_key);
+        if(is_array($cached_data)){
+            return $cached_data;
+        }
+
+
+        if (is_null($user_id)) {
+            $ids_arr = \OLOG\DB\DBWrapper::readColumn(
                 self::DB_ID,
                 'select id from ' . self::DB_TABLE_NAME . ' where user_id is null order by created_at_ts desc limit ' . intval($page_size) . ' offset ' . intval($offset)
             );
         } else {
-            return \OLOG\DB\DBWrapper::readColumn(
+            $ids_arr = \OLOG\DB\DBWrapper::readColumn(
                 self::DB_ID,
                 'select id from ' . self::DB_TABLE_NAME . ' where user_id = ? order by created_at_ts desc limit ' . intval($page_size) . ' offset ' . intval($offset),
-                array($value)
+                array($user_id)
             );
         }
+
+        CacheWrapper::set($cahe_key, $ids_arr);
+        return $ids_arr;
     }
 
 
