@@ -41,7 +41,8 @@ class UsersListAction extends AuthAdminActionsBaseProxy implements
                 [
                     new CRUDFormRow('login', new CRUDFormWidgetInput('login')),
                     new CRUDFormRow('Комментарий', new CRUDFormWidgetTextarea('description'))
-                ]
+                ],
+	            (new UserEditAction('{this->id}'))->url()
             ),
             [
                 new \OLOG\CRUD\CRUDTableColumn(
