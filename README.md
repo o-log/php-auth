@@ -16,7 +16,7 @@
 
     DBConfig::setDBSettingsObj(
       AuthConstants::DB_NAME_PHPAUTH,
-      new DBSettings('localhost', 'db_imbalance', 'root', '1', 'vendor/o-log/php-auth/db_phpauth.sql')
+      new DBSettings('localhost', 'db_projectname', 'root', '1', 'vendor/o-log/php-auth/db_phpauth.sql')
     );
 
 5. Выполнить cli.php в корне сайта чтобы создать таблицы для пользователей и записи пермишенов
