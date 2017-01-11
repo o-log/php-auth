@@ -2,6 +2,10 @@
 
 1. Подключить модуль в composer.json
 
+    "require": {
+      "o-log/php-auth": "2.*"
+    }
+
 2. выполнить composer update
 
 3. Регистрируем роутинг для админки и страниц регистрации и авторизации: добавить в точку входа сайта строку
@@ -9,6 +13,11 @@
     \OLOG\Auth\RegisterRoutes::registerRoutes();
 
 4. Добавляем в конфиг сайта базу данных с идентификатором DB_NAME_PHPAUTH и указать для нее файл sql ...
+
+    DBConfig::setDBSettingsObj(
+      AuthConstants::DB_NAME_PHPAUTH,
+      new DBSettings('localhost', 'db_imbalance', 'root', '1', 'vendor/o-log/php-auth/db_phpauth.sql')
+    );
 
 5. Выполнить cli.php в корне сайта чтобы создать таблицы для пользователей и записи пермишенов
 
