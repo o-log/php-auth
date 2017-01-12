@@ -91,7 +91,7 @@ class GroupEditAction extends AuthAdminActionsBaseProxy implements
             $group_obj,
             [
                 new CRUDFormRow(
-                    'Title',
+                    'Название',
                     new CRUDFormWidgetInput(Group::_TITLE)
                 )
             ]
@@ -129,11 +129,11 @@ class GroupEditAction extends AuthAdminActionsBaseProxy implements
             $group_obj,
             [
                 new CRUDFormRow(
-                    'Owner user',
+                    'Пользователь',
                     new CRUDFormWidgetInput(User::_OWNER_USER_ID, true)
                 ),
                 new CRUDFormRow(
-                    'Owner group',
+                    'Группа',
                     new CRUDFormWidgetInput(User::_OWNER_GROUP_ID, true)
                 )
             ]
