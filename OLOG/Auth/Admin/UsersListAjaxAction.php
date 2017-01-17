@@ -43,7 +43,7 @@ class UsersListAjaxAction implements InterfaceAction
             ],
             'login',
             'gy876tweu',
-            CRUDTable::FILTERS_POSITION_INLINE
+            \OLOG\CRUD\CRUDTable::FILTERS_POSITION_INLINE
         );
 
         echo $html;
