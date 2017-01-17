@@ -21,6 +21,8 @@ class UsersListAjaxAction implements InterfaceAction
         );
 
         $html = \OLOG\CRUD\CRUDTable::html(
+
+        $html = \OLOG\CRUD\CRUDTable::html(
             \OLOG\Auth\User::class,
             '',
             [
@@ -38,9 +40,12 @@ class UsersListAjaxAction implements InterfaceAction
                 )
             ],
             [
-                new CRUDTableFilterLike('login', 'login', ''),
+                new CRUDTableFilterLike('wert76wer76t', 'login', 'login', ''),
                 new CRUDTableFilterOwnerInvisible()
-            ]
+            ],
+            'login',
+            'gy876tweu',
+            CRUDTable::FILTERS_POSITION_INLINE
         );
 
         echo $html;
