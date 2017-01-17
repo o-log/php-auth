@@ -21,8 +21,6 @@ class UsersListAjaxAction implements InterfaceAction
         );
 
         $html = \OLOG\CRUD\CRUDTable::html(
-
-        $html = \OLOG\CRUD\CRUDTable::html(
             \OLOG\Auth\User::class,
             '',
             [
