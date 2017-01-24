@@ -26,6 +26,9 @@ class Auth
         return $user_id;
     }
 
+    /**
+     * @return User|null
+     */
     static public function currentUserObj()
     {
         $current_user_id = self::currentUserId();
