@@ -10,7 +10,7 @@ class AuthConfig
     static protected $extra_cookies_arr = [];
     static protected $admin_actions_base_classname;
     static protected $user_aftersave_callback_class_name = '';
-    static protected $after_logout_callback_class_name = '';
+    static protected $after_logout_callback_class_name;
     static protected $session_cookie_is_secure = false;
     static protected $session_cookie_is_http_only = true;
 
@@ -47,7 +47,7 @@ class AuthConfig
     }
 
     /**
-     * @return string
+     * @return InterfaceAfterLogoutCallback
      */
     public static function getAfterLogoutCallbackClassName()
     {
@@ -55,7 +55,7 @@ class AuthConfig
     }
 
     /**
-     * @param string $after_logout_callback_class_name
+     * @param InterfaceAfterLogoutCallback $after_logout_callback_class_name
      */
     public static function setAfterLogoutCallbackClassName($after_logout_callback_class_name)
     {
