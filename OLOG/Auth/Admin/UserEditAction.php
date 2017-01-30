@@ -137,7 +137,7 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
                             ),
                             new CRUDTableColumn(
                                 '',
-                                new CRUDTableWidgetTextWithLink('Добавить пользователю', (new PermissionAddToUserAction($user_id, '{this->id}'))->url(), 'btn btn-default btn-xs'))
+                                new CRUDTableWidgetTextWithLink('+', (new PermissionAddToUserAction($user_id, '{this->id}'))->url(), 'btn btn-default btn-xs'))
                         ],
                         [
                             new CRUDTableFilterNotInInvisible('id', PermissionToUser::getPermissionIdsArrForUserId($user_id)),

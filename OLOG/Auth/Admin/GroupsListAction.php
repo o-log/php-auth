@@ -49,16 +49,16 @@ class GroupsListAction extends AuthAdminActionsBaseProxy implements
             CRUDForm::html(
                 new Group(),
                 [
-                    new CRUDFormRow('title', new CRUDFormWidgetInput(Group::_TITLE))
+                    new CRUDFormRow('Название', new CRUDFormWidgetInput(Group::_TITLE))
                 ]
             ),
             [
                 new \OLOG\CRUD\CRUDTableColumn(
-                    '',
+                    'Название',
                     new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{this->' . Group::_TITLE. '}', (new GroupEditAction('{this->id}'))->url())
                 ),
                 new \OLOG\CRUD\CRUDTableColumn(
-                    '',
+                    'Создана',
                     new \OLOG\CRUD\CRUDTableWidgetTimestamp('{this->created_at_ts}')
                 ),
                 new \OLOG\CRUD\CRUDTableColumn(
