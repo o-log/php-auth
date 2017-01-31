@@ -99,6 +99,8 @@ class Auth
             self::clearUserSession($user_session_id);
         }
 
+        ExtraCookiesLib::unsetExtraCookies();
+
         if( AuthConfig::getAfterLogoutCallbackClassName()){
             \OLOG\CheckClassInterfaces::exceptionIfClassNotImplementsInterface(AuthConfig::getAfterLogoutCallbackClassName(), InterfaceAfterLogoutCallback::class);
             $events_class = AuthConfig::getAfterLogoutCallbackClassName();
@@ -138,6 +140,7 @@ class Auth
     {
         self::storeUserSessionId($user_id, $user_session_id);
         self::setAuthCookieValueBySessionId($user_session_id);
+        ExtraCookiesLib::setExtraCookies();
     }
 
     public static function updateUserSessionInMemcache($user_id, $user_session_id)

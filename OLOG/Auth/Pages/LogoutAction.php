@@ -3,9 +3,6 @@
 namespace OLOG\Auth\Pages;
 
 use OLOG\Auth\Auth;
-use OLOG\Auth\AuthConfig;
-use OLOG\Auth\ExtraCookie;
-use OLOG\Auth\ExtraCookiesLib;
 use OLOG\Sanitize;
 
 class LogoutAction
@@ -19,7 +16,7 @@ class LogoutAction
     {
         Auth::logout();
 
-        ExtraCookiesLib::unsetExtraCookies();
+        //ExtraCookiesLib::unsetExtraCookies();
 
         $redirect = '/';
         if (isset($_GET['destination'])) {
