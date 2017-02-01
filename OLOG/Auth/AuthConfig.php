@@ -9,7 +9,6 @@ class AuthConfig
     static protected $full_access_cookie_name = '';
     static protected $extra_cookies_arr = [];
     static protected $admin_actions_base_classname;
-    static protected $user_aftersave_callback_class_name = '';
     static protected $after_logout_callback_class_name;
     static protected $session_cookie_is_secure = false;
     static protected $session_cookie_is_http_only = true;
@@ -60,22 +59,6 @@ class AuthConfig
     public static function setAfterLogoutCallbackClassName($after_logout_callback_class_name)
     {
         self::$after_logout_callback_class_name = $after_logout_callback_class_name;
-    }
-
-    /**
-     * @return null
-     */
-    public static function getUserAfterSaveCallbackClassName()
-    {
-        return self::$user_aftersave_callback_class_name;
-    }
-
-    /**
-     * @param null $user_aftersave_callback_class_name
-     */
-    public static function setUserAfterSaveCallbackClassName($user_aftersave_callback_class_name)
-    {
-        self::$user_aftersave_callback_class_name = $user_aftersave_callback_class_name;
     }
 
     /**
