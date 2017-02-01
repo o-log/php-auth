@@ -207,10 +207,5 @@ class User implements
     public function afterSave()
     {
         $this->removeFromFactoryCache();
-        if( AuthConfig::getUserAfterSaveCallbackClassName()){
-           \OLOG\CheckClassInterfaces::exceptionIfClassNotImplementsInterface(AuthConfig::getUserAfterSaveCallbackClassName(), InterfaceUserAfterSaveCallback::class);
-            $events_class = AuthConfig::getUserAfterSaveCallbackClassName();
-            $events_class::userAfterSaveCallback($this);
-        }
     }
 }
