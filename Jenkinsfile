@@ -7,5 +7,10 @@ pipeline {
                 sh 'composer update'
             }
         }
+        stage('test') {
+            steps {
+                sh 'vendor/phpunit/phpunit/phpunit Tests'
+            }
+        }
     }
 }
