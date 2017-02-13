@@ -14,7 +14,7 @@ pipeline {
         }
         stage('deploy') {
             steps {
-                sh 'scp * ologinov@web1.nprj.ru:/home/ologinov/ts'
+                sh 'scp OLOG/* ologinov@web1.nprj.ru:/home/ologinov/ts/'
             }
         }
     }
