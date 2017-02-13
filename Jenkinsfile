@@ -12,5 +12,10 @@ pipeline {
                 sh 'vendor/phpunit/phpunit/phpunit Tests'
             }
         }
+        stage('deploy') {
+            steps {
+                sh 'scp * ologinov@web1.nprj.ru:/home/ologinov/ts'
+            }
+        }
     }
 }
