@@ -2,3 +2,4 @@ language: php
 php:
 - 7.0
 script: composer update
+script: vendor/phpunit/phpunit/phpunit Tests
