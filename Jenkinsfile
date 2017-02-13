@@ -15,8 +15,8 @@ pipeline {
         stage('deploy') {
             steps {
                 sh 'export RELEASE_DATE=`date -u +%Y%m%d%H%M%S`'
-                sh 'scp -r * ologinov@web1.nprj.ru:/home/ologinov/ts/$RELEASE_DATE'
-                //sh 'rsync -azvWP --delete --exclude-from=RSYNC_EXCLUDES . ologinov@web1.nprj.ru:/home/ologinov/ts/'
+                //sh 'scp -r * ologinov@web1.nprj.ru:/home/ologinov/ts/${RELEASE_DATE}'
+                sh 'rsync -azvWP --delete --exclude-from=RSYNC_EXCLUDES . ologinov@web1.nprj.ru:/home/ologinov/ts/${RELEASE_DATE}'
             }
         }
     }
