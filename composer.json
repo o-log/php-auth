@@ -8,7 +8,8 @@
         "o-log/php-router": "1.*",
         "o-log/php-model": "6.*",
         "o-log/php-crud": "4.*",
-        "o-log/php-layouts": "1.*"
+        "o-log/php-layouts": "1.*",
+        "o-log/php-logger": "1.*"
       },
       "autoload" : {
         "psr-0" : {
