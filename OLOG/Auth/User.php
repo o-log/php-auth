@@ -3,6 +3,8 @@
 namespace OLOG\Auth;
 
 use OLOG\Assert;
+use OLOG\FullObjectId;
+use OLOG\Logger\Entry;
 
 class User implements
     \OLOG\Model\InterfaceFactory,
@@ -207,5 +209,36 @@ class User implements
     public function afterSave()
     {
         $this->removeFromFactoryCache();
+    }
+
+    public function getLoggerPresentation(){
+
+        $presenter_obj = (object)get_object_vars($this);
+
+        print_r($presenter_obj);
+
+
+        //группы
+
+
+
+        //permissions
+
+        return $presenter_obj;
+    }
+
+    public function writeToLog($method_name, $is_deleted = false)
+    {
+        $this->removeFromFactoryCache();
+        if ($is_deleted) {
+            $object_for_log = (object)['id' => $this->getId()];
+        } else {
+            $object_for_log = $this->getLoggerPresentation();
+        }
+        Entry::logObjectAndId(
+            $object_for_log,
+            FullObjectId::getFullObjectId($this),
+            $method_name,
+            FullObjectId::getFullObjectId(Auth::currentUserObj()));
     }
 }
