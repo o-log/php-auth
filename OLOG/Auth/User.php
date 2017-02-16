@@ -209,20 +209,37 @@ class User implements
     public function afterSave()
     {
         $this->removeFromFactoryCache();
+        $this->writeToLog(__CLASS__ . '::' . __FUNCTION__);
+    }
+
+    public function afterDelete()
+    {
+        $this->writeToLog(__CLASS__ . '::' . __FUNCTION__, true);
     }
 
     public function getLoggerPresentation(){
 
         $presenter_obj = (object)get_object_vars($this);
 
-        print_r($presenter_obj);
-
-
         //группы
+        $usertogroups_ids_arr = UserToGroup::getIdsArrForUserIdByCreatedAtDesc($this->getId());
+        $presenter_obj->_groups = [];
+        foreach ($usertogroups_ids_arr as $utg_id ){
+            $group_id = UserToGroup::factory($utg_id)->getGroupId();
+            $presenter_obj->_groups[$group_id] = Group::factory($group_id)->getTitle();
 
-
+        }
 
         //permissions
+        $presenter_obj->_premissions = [];
+        $permissions_to_user_ids_arr = PermissionToUser::getIdsArrForUserIdByCreatedAtDesc($this->getId());
+        foreach ($permissions_to_user_ids_arr as $ptu_id){
+            $permissions_id = PermissionToUser::factory($ptu_id)->getPermissionId();
+            $presenter_obj->_premissions[$permissions_id] = Permission::factory($permissions_id)->getTitle();
+        }
+
+        print_r( $presenter_obj );
+
 
         return $presenter_obj;
     }
