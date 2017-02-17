@@ -3,9 +3,9 @@
 namespace OLOG\Auth;
 
 
-trait WriteUserLogTrait
+class WriteUserLog
 {
-    protected function writeUserLog($function_name, $user_id){
+    static public function writeUserLog($function_name, $user_id){
         $user_obj = User::factory($user_id);
         $user_obj->writeToLog($function_name);
     }

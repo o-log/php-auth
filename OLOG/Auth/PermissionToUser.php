@@ -13,7 +13,6 @@ class PermissionToUser implements
     use \OLOG\Model\FactoryTrait;
     use \OLOG\Model\ActiveRecordTrait;
     use \OLOG\Model\ProtectPropertiesTrait;
-    use WriteUserLogTrait;
 
     const DB_ID = 'db_phpauth';
     const DB_TABLE_NAME = 'olog_auth_permissiontouser';
@@ -27,14 +26,14 @@ class PermissionToUser implements
     {
         $this->removeFromFactoryCache();
         CacheWrapper::delete(self::getCacheKey_getIdsArrForUserIdByCreatedAtDesc($this->getUserId()));
-        $this->writeUserLog(__CLASS__ . '::' . __FUNCTION__, $this->getUserId());
+        WriteUserLog::writeUserLog(__CLASS__ . '::' . __FUNCTION__, $this->getUserId());
     }
 
     public function afterSave()
     {
         $this->removeFromFactoryCache();
         CacheWrapper::delete(self::getCacheKey_getIdsArrForUserIdByCreatedAtDesc($this->getUserId()));
-        $this->writeUserLog(__CLASS__ . '::' . __FUNCTION__, $this->getUserId());
+        WriteUserLog::writeUserLog(__CLASS__ . '::' . __FUNCTION__, $this->getUserId());
     }
 
     static public function getIdsArrForPermissionIdByCreatedAtDesc($value, $offset = 0, $page_size = 30){
