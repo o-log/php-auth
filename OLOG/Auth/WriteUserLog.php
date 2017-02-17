@@ -10,5 +10,4 @@ class WriteUserLog
         $user_obj->writeToLog($function_name);
     }
 
-
 }
