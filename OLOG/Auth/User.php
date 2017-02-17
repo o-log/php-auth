@@ -238,9 +238,6 @@ class User implements
             $presenter_obj->_premissions[$permissions_id] = Permission::factory($permissions_id)->getTitle();
         }
 
-        print_r( $presenter_obj );
-
-
         return $presenter_obj;
     }
 
