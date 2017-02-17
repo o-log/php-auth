@@ -22,16 +22,23 @@ class PermissionToUser implements
     protected $permission_id;
     protected $id;
 
+    protected function writeUserLog($function_name){
+        $user_obj = User::factory($this->getUserId());
+        $user_obj->writeToLog($function_name);
+    }
+
     public function afterDelete()
     {
         $this->removeFromFactoryCache();
         CacheWrapper::delete(self::getCacheKey_getIdsArrForUserIdByCreatedAtDesc($this->getUserId()));
+        $this->writeUserLog(__CLASS__ . '::' . __FUNCTION__);
     }
 
     public function afterSave()
     {
         $this->removeFromFactoryCache();
         CacheWrapper::delete(self::getCacheKey_getIdsArrForUserIdByCreatedAtDesc($this->getUserId()));
+        $this->writeUserLog(__CLASS__ . '::' . __FUNCTION__);
     }
 
     static public function getIdsArrForPermissionIdByCreatedAtDesc($value, $offset = 0, $page_size = 30){
