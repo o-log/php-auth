@@ -33,7 +33,7 @@ class AuthDemoConfig
 
         DBConfig::setDBSettingsObj(
             AuthConstants::DB_NAME_PHPAUTH,
-            new DBSettings('', '', '', '', 'db_phpauth', \OLOG\Auth\AuthConfig::DBCONNECTOR_ID_AUTH)
+            new DBSettings('', '', '', '', 'db_phpauth.sql', \OLOG\Auth\AuthConfig::DBCONNECTOR_ID_AUTH)
         );
 
         CacheConfig::addServerSettingsObj(
