@@ -117,6 +117,7 @@ class Group implements
 
     public function writeToLog($method_name)
     {
+        // Пользовтелей в группе может быть много, поэутому принадлежность к группе логируем на уровне пользователя, не группы
         Entry::logObjectAndId(
             $this,
             FullObjectId::getFullObjectId($this),
