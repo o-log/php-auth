@@ -2,6 +2,9 @@
 
 namespace OLOG\Auth;
 
+use OLOG\FullObjectId;
+use OLOG\Logger\Entry;
+
 class Group implements
     \OLOG\Model\InterfaceFactory,
     \OLOG\Model\InterfaceLoad,
@@ -98,5 +101,26 @@ class Group implements
     public function setCreatedAtTs($timestamp)
     {
         $this->created_at_ts = $timestamp;
+    }
+
+    public function afterSave()
+    {
+        $this->removeFromFactoryCache();
+        $this->writeToLog(__CLASS__ . '::' . __FUNCTION__);
+    }
+
+    public function afterDelete()
+    {
+        $this->removeFromFactoryCache();
+        $this->writeToLog(__CLASS__ . '::' . __FUNCTION__);
+    }
+
+    public function writeToLog($method_name)
+    {
+        Entry::logObjectAndId(
+            $this,
+            FullObjectId::getFullObjectId($this),
+            $method_name,
+            FullObjectId::getFullObjectId(Auth::currentUserObj()));
     }
 }

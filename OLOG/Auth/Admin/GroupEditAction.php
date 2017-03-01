@@ -19,10 +19,12 @@ use OLOG\CRUD\CRUDTableColumn;
 use OLOG\CRUD\CRUDTableFilterEqualInvisible;
 use OLOG\CRUD\CRUDTableWidgetDelete;
 use OLOG\Exits;
+use OLOG\FullObjectId;
 use OLOG\InterfaceAction;
 use OLOG\Layouts\AdminLayoutSelector;
 use OLOG\Layouts\InterfacePageTitle;
 use OLOG\Layouts\InterfaceTopActionObj;
+use OLOG\Logger\Admin\ObjectEntriesListAction;
 
 class GroupEditAction extends AuthAdminActionsBaseProxy implements
     InterfaceAction,
@@ -85,7 +87,8 @@ class GroupEditAction extends AuthAdminActionsBaseProxy implements
             !OwnerCheck::currentUserOwnsObj($group_obj)
         );
 
-        $html = '';
+        $html = self::tabsHtml($this->group_id);
+        $html .= '<div>&nbsp;</div>';
 
         $html .= CRUDForm::html(
             $group_obj,
@@ -179,5 +182,13 @@ class GroupEditAction extends AuthAdminActionsBaseProxy implements
         );
 
         return $html;
+    }
+
+    static public function tabsHtml($group_ip)
+    {
+        $tabs_arr = array();
+        $tabs_arr[] = \OLOG\BT\BT::tabHtml('Параметры', GroupEditAction::urlMask(), (new GroupEditAction($group_ip))->url());
+        $tabs_arr[] = \OLOG\BT\BT::tabHtml('Журнал', '', (new ObjectEntriesListAction(FullObjectId::getFullObjectId(Group::factory($group_ip))))->url(), '_blank');
+        return  \OLOG\BT\BT::tabsHtml($tabs_arr);
     }
 }
