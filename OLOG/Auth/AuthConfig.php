@@ -13,6 +13,8 @@ class AuthConfig
     static protected $session_cookie_is_secure = false;
     static protected $session_cookie_is_http_only = true;
 
+    const DBCONNECTOR_ID_AUTH = 'dbconnector_id_auth';
+
     /**
      * @return boolean
      */

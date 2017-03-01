@@ -10,6 +10,8 @@ use OLOG\Cache\MemcacheServerSettings;
 use OLOG\DB\DBConfig;
 use OLOG\DB\DBSettings;
 use OLOG\Layouts\LayoutsConfig;
+use OLOG\Logger\LoggerConfig;
+use OLOG\Logger\LoggerConstants;
 use PhpAuthDemo\AdminDemoActionsBase;
 use PhpAuthDemo\UserEvents;
 
@@ -19,9 +21,19 @@ class AuthDemoConfig
     {
         date_default_timezone_set('Europe/Moscow');
 
+        \OLOG\DB\DBConfig::setDBConnectorObj(
+            \OLOG\Auth\AuthConfig::DBCONNECTOR_ID_AUTH,
+            new \OLOG\DB\DBConnector('localhost', 'db_phpauthdemo', 'root', '1')
+        );
+
+        DBConfig::setDBSettingsObj(
+            LoggerConstants::DB_NAME_PHPLOGGER,
+            new DBSettings('', '', '', '', 'vendor/o-log/php-logger/' . LoggerConstants::DB_NAME_PHPLOGGER . '.sql', \OLOG\Auth\AuthConfig::DBCONNECTOR_ID_AUTH)
+        );
+
         DBConfig::setDBSettingsObj(
             AuthConstants::DB_NAME_PHPAUTH,
-            new DBSettings('localhost', 'db_phpauthdemo', 'root', '1')
+            new DBSettings('', '', '', '', 'db_phpauth', \OLOG\Auth\AuthConfig::DBCONNECTOR_ID_AUTH)
         );
 
         CacheConfig::addServerSettingsObj(
@@ -36,6 +48,7 @@ class AuthDemoConfig
         );
 
         AuthConfig::setAdminActionsBaseClassname(AdminDemoActionsBase::class);
+        LoggerConfig::setAdminActionsBaseClassname(AdminDemoActionsBase::class);
         LayoutsConfig::setAdminLayoutClassName(LayoutBootstrap::class);
 
        // AuthConfig::setUserEventClass(UserEvents::class);

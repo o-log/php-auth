@@ -1,6 +1,7 @@
     {
       "name": "o-log/php-auth",
       "description": "User authentication and permission management.",
+      "version": "2.67",
       "require-dev": {
         "phpunit/phpunit": "5.5.*"
       },
@@ -8,7 +9,8 @@
         "o-log/php-router": "1.*",
         "o-log/php-model": "6.*",
         "o-log/php-crud": "4.*",
-        "o-log/php-layouts": "1.*"
+        "o-log/php-layouts": "1.*",
+        "o-log/php-logger": "1.*"
       },
       "autoload" : {
         "psr-0" : {
