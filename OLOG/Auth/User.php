@@ -222,7 +222,7 @@ class User implements
     public function writeToLog($method_name)
     {
         Entry::logObjectAndId(
-            $this,
+            $this->getLoggerPresentation(),
             FullObjectId::getFullObjectId($this),
             $method_name,
             FullObjectId::getFullObjectId(Auth::currentUserObj()));
