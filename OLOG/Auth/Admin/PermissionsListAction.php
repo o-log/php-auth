@@ -26,7 +26,7 @@ class PermissionsListAction extends AuthAdminActionsBaseProxy implements
     public function action()
     {
         Exits::exit403If(
-            !Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_OPERATORS])
+            !Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS_PERMISSIONS])
         );
 
         $html = \OLOG\CRUD\CRUDTable::html(
