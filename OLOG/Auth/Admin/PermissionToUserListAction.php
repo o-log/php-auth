@@ -63,7 +63,7 @@ class PermissionToUserListAction extends AuthAdminActionsBaseProxy implements
                 )
             ],
             [
-                new CRUDTableFilterEqualInvisible('id', $this->permission_id)
+                new CRUDTableFilterEqualInvisible('permission_id', $this->permission_id)
             ]
         );
 
