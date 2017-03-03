@@ -13,15 +13,18 @@ class PermissionsListAction extends AuthAdminActionsBaseProxy implements
     InterfaceAction,
     InterfacePageTitle
 {
-    public function pageTitle(){
+    public function pageTitle()
+    {
         return 'Разрешения';
     }
 
-    public function url(){
+    public function url()
+    {
         return '/admin/auth/permissions';
     }
 
-    public function action(){
+    public function action()
+    {
         Exits::exit403If(
             !Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_OPERATORS])
         );
@@ -34,9 +37,11 @@ class PermissionsListAction extends AuthAdminActionsBaseProxy implements
                     '', new \OLOG\CRUD\CRUDTableWidgetText('{this->id}')
                 ),
                 new \OLOG\CRUD\CRUDTableColumn(
-                    '', new \OLOG\CRUD\CRUDTableWidgetText('{this->title}')
-                )
-            ]
+                    '', new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{this->title}', (new \OLOG\Auth\Admin\PermissionToUserListAction('{this->id}'))->url())
+                ),
+            ],
+            [],
+            'title'
         );
 
         AdminLayoutSelector::render($html, $this);
