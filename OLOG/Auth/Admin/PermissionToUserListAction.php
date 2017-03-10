@@ -38,7 +38,7 @@ class PermissionToUserListAction extends AuthAdminActionsBaseProxy implements
         return '/admin/auth/permission_to_user/' . $this->permission_id;
     }
 
-    public function urlMask()
+    public static function urlMask()
     {
         return '/admin/auth/permission_to_user/(\d+)';
     }
