@@ -9,7 +9,7 @@ require_once '../vendor/autoload.php';
 //
 
 \OLOG\Auth\RegisterRoutes::registerRoutes();
-\OLOG\Logger\RegisterRoutes::registerRoutes();
+\OLOG\Auth\Logger\RegisterRoutes::registerRoutes();
 
 \OLOG\Router::processAction(\PhpAuthDemo\Pages\MainPageAction::class, 0);
 
