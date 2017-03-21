@@ -17,7 +17,7 @@ class AuthAdminMenu implements InterfaceMenu
             $menu_arr = [
                 new MenuItem('Пользователи', '', [
                     new MenuItem((new UsersListAction())->pageTitle(), (new UsersListAction())->url(), [], 'glyphicon glyphicon-user'),
-                    new MenuItem((new OperatorsListAction())->pageTitle(), (new OperatorsListAction())->url(), [], 'glyphicon glyphicon-eye-open'),
+                    //new MenuItem((new OperatorsListAction())->pageTitle(), (new OperatorsListAction())->url(), [], 'glyphicon glyphicon-eye-open'),
                     new MenuItem((new PermissionsListAction())->pageTitle(), (new PermissionsListAction())->url(), [], 'glyphicon glyphicon-check'),
                     new MenuItem((new GroupsListAction())->pageTitle(), (new GroupsListAction())->url(), [], 'glyphicon glyphicon-check'),
                 ], 'glyphicon glyphicon-log-in')
