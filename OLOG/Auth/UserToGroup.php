@@ -141,4 +141,18 @@ class UserToGroup implements
     {
         $this->created_at_ts = $timestamp;
     }
+
+    public function afterDelete()
+    {
+        $this->removeFromFactoryCache();
+        $user_obj = User::factory($this->getUserId());
+        $user_obj->writeToLog(__CLASS__ . '::' . __FUNCTION__);
+    }
+
+    public function afterSave()
+    {
+        $this->removeFromFactoryCache();
+        $user_obj = User::factory($this->getUserId());
+        $user_obj->writeToLog(__CLASS__ . '::' . __FUNCTION__);
+    }
 }

@@ -2,7 +2,8 @@
 
 namespace OLOG\Auth;
 
-use OLOG\Assert;
+use OLOG\FullObjectId;
+use OLOG\Logger\Entry;
 
 class User implements
     \OLOG\Model\InterfaceFactory,
@@ -35,6 +36,8 @@ class User implements
 
     /**
      * @param $exception_if_not_found
+     * @return $this|null
+     * @throws \Exception
      */
     static public function factoryForCurrentAuthSession($exception_if_not_found) {
         $user_id = Auth::currentUserId();
@@ -207,5 +210,38 @@ class User implements
     public function afterSave()
     {
         $this->removeFromFactoryCache();
+        $this->writeToLog(__CLASS__ . '::' . __FUNCTION__);
+    }
+
+    public function afterDelete()
+    {
+        $this->removeFromFactoryCache();
+        $this->writeToLog(__CLASS__ . '::' . __FUNCTION__);
+    }
+
+    public function writeToLog($method_name)
+    {
+        Entry::logObjectAndId(
+            $this->getLoggerPresentation(),
+            FullObjectId::getFullObjectId($this),
+            $method_name,
+            FullObjectId::getFullObjectId(Auth::currentUserObj()));
+    }
+
+    public function getLoggerPresentation()
+    {
+        $presenter_obj = (object)get_object_vars($this);
+
+        $user_to_group_ids_arr = UserToGroup::getIdsArrForUserIdByCreatedAtDesc($this->getId(), 0, 1000);
+        foreach ($user_to_group_ids_arr as $user_to_group_id) {
+            $presenter_obj->_user_to_group_arr[] = UserToGroup::factory($user_to_group_id);
+        }
+
+        $permission_to_user_ids_arr = PermissionToUser::getIdsArrForUserIdByCreatedAtDesc($this->getId(), 0, 1000);
+        foreach ($permission_to_user_ids_arr as $permission_to_user_id) {
+            $presenter_obj->_permission_to_user_arr[] = PermissionToUser::factory($permission_to_user_id);
+        }
+
+        return $presenter_obj;
     }
 }
