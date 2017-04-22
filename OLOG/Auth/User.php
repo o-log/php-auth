@@ -3,6 +3,8 @@
 namespace OLOG\Auth;
 
 use OLOG\Assert;
+use OLOG\FullObjectId;
+use OLOG\Logger\Entry;
 
 class User implements
     \OLOG\Model\InterfaceFactory,
@@ -207,5 +209,50 @@ class User implements
     public function afterSave()
     {
         $this->removeFromFactoryCache();
+        $this->writeToLog(__CLASS__ . '::' . __FUNCTION__);
+    }
+
+    public function afterDelete()
+    {
+        $this->writeToLog(__CLASS__ . '::' . __FUNCTION__, true);
+    }
+
+    public function getLoggerPresentation(){
+
+        $presenter_obj = (object)get_object_vars($this);
+
+        //группы
+        $usertogroups_ids_arr = UserToGroup::getIdsArrForUserIdByCreatedAtDesc($this->getId());
+        $presenter_obj->_groups = [];
+        foreach ($usertogroups_ids_arr as $utg_id ){
+            $group_id = UserToGroup::factory($utg_id)->getGroupId();
+            $presenter_obj->_groups[$group_id] = Group::factory($group_id)->getTitle();
+
+        }
+
+        //permissions
+        $presenter_obj->_premissions = [];
+        $permissions_to_user_ids_arr = PermissionToUser::getIdsArrForUserIdByCreatedAtDesc($this->getId());
+        foreach ($permissions_to_user_ids_arr as $ptu_id){
+            $permissions_id = PermissionToUser::factory($ptu_id)->getPermissionId();
+            $presenter_obj->_premissions[$permissions_id] = Permission::factory($permissions_id)->getTitle();
+        }
+
+        return $presenter_obj;
+    }
+
+    public function writeToLog($method_name, $is_deleted = false)
+    {
+        $this->removeFromFactoryCache();
+        if ($is_deleted) {
+            $object_for_log = (object)['id' => $this->getId()];
+        } else {
+            $object_for_log = $this->getLoggerPresentation();
+        }
+        Entry::logObjectAndId(
+            $object_for_log,
+            FullObjectId::getFullObjectId($this),
+            $method_name,
+            FullObjectId::getFullObjectId(Auth::currentUserObj()));
     }
 }

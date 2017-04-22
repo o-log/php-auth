@@ -26,12 +26,14 @@ class PermissionToUser implements
     {
         $this->removeFromFactoryCache();
         CacheWrapper::delete(self::getCacheKey_getIdsArrForUserIdByCreatedAtDesc($this->getUserId()));
+        WriteUserLog::writeUserLog(__CLASS__ . '::' . __FUNCTION__, $this->getUserId());
     }
 
     public function afterSave()
     {
         $this->removeFromFactoryCache();
         CacheWrapper::delete(self::getCacheKey_getIdsArrForUserIdByCreatedAtDesc($this->getUserId()));
+        WriteUserLog::writeUserLog(__CLASS__ . '::' . __FUNCTION__, $this->getUserId());
     }
 
     static public function getIdsArrForPermissionIdByCreatedAtDesc($value, $offset = 0, $page_size = 30){

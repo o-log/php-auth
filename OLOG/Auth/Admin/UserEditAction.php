@@ -26,11 +26,13 @@ use OLOG\CRUD\CRUDTableFilterNotInInvisible;
 use OLOG\CRUD\CRUDTableWidgetDelete;
 use OLOG\CRUD\CRUDTableWidgetTextWithLink;
 use OLOG\Exits;
+use OLOG\FullObjectId;
 use OLOG\HTML;
 use OLOG\InterfaceAction;
 use OLOG\Layouts\AdminLayoutSelector;
 use OLOG\Layouts\InterfacePageTitle;
 use OLOG\Layouts\InterfaceTopActionObj;
+use OLOG\Logger\Admin\ObjectEntriesListAction;
 use OLOG\Operations;
 use OLOG\POSTAccess;
 use OLOG\Url;
@@ -93,6 +95,7 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
         });
 
         $html = '';
+        $html .= $this->getTabs($user_id);
 
         $html .= '<div class="row"><div class="col-md-6">';
 
@@ -338,5 +341,14 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
         );
 
         return $html;
+    }
+
+    public function getTabs($user_id)
+    {
+        $return = [
+            \OLOG\BT\BT::tabHtml('Параметры', self::urlMask(), $this->url()),
+            \OLOG\BT\BT::tabHtml('Журнал', '', (new ObjectEntriesListAction(FullObjectId::getFullObjectId(User::factory($user_id))))->url(), '_blank')
+        ];
+        return \OLOG\BT\BT::tabsHtml($return);
     }
 }

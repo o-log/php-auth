@@ -12,6 +12,7 @@ class UserToGroup implements
     use \OLOG\Model\ActiveRecordTrait;
     use \OLOG\Model\ProtectPropertiesTrait;
 
+
     const DB_ID = 'db_phpauth';
     const DB_TABLE_NAME = 'olog_auth_usertogroup';
 
@@ -23,6 +24,15 @@ class UserToGroup implements
     protected $group_id;
     const _ID = 'id';
     protected $id;
+
+    public function afterSave()
+    {
+        WriteUserLog::writeUserLog(__CLASS__ . '::' . __FUNCTION__, $this->getUserId());
+    }
+    public function afterDelete()
+    {
+        WriteUserLog::writeUserLog(__CLASS__ . '::' . __FUNCTION__, $this->getUserId());
+    }
 
     static public function factoryForUserIdAndGroupId($user_id, $group_id, $exception_if_not_loaded = true)
     {
