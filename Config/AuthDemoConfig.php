@@ -6,6 +6,8 @@ use OLOG\Auth\AuthConfig;
 use OLOG\Auth\AuthConstants;
 use OLOG\BT\LayoutBootstrap;
 use OLOG\Cache\CacheConfig;
+use OLOG\Cache\CacheRedis;
+use OLOG\Cache\CacheServerSettings;
 use OLOG\Cache\MemcacheServerSettings;
 use OLOG\DB\DBConfig;
 use OLOG\DB\DBSettings;
@@ -24,8 +26,12 @@ class AuthDemoConfig
             new DBSettings('localhost', 'db_phpauthdemo', 'root', '1')
         );
 
+        CacheConfig::setEngineClassname(
+            CacheRedis::class
+        );
+
         CacheConfig::addServerSettingsObj(
-            new MemcacheServerSettings('localhost', 11211)
+            new CacheServerSettings('localhost', 6379)
         );
 
         AuthConfig::setExtraCookiesArr(
@@ -38,25 +44,8 @@ class AuthDemoConfig
         AuthConfig::setAdminActionsBaseClassname(AdminDemoActionsBase::class);
         LayoutsConfig::setAdminLayoutClassName(LayoutBootstrap::class);
 
-       // AuthConfig::setUserEventClass(UserEvents::class);
+        //AuthConfig::setUserEventClass(UserEvents::class);
 
 		//AuthConfig::setFullAccessCookieName('php_auth');
-
-        /*
-        $conf['return_false_if_no_route'] = true; // for local php server
-
-        $conf['php-bt'] = [
-            'menu_classes_arr' => [
-                \OLOG\Auth\Admin\AuthAdminMenu::class
-            ],
-            'application_title' => 'Auth demo'
-        ];
-
-        $conf['php_auth'] = [
-            'full_access_cookie_name' => 'jkhbsdfhjvkdfvjgvasdc'
-        ];
-
-        return $conf;
-        */
     }
 }
