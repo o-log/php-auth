@@ -201,12 +201,8 @@ class Auth
      */
     static public function currentUserHasAnyOfPermissions($requested_permissions_arr)
     {
-        $auth_cookie_name = AuthConfig::getFullAccessCookieName();
-
-        if ($auth_cookie_name) {
-            if (isset($_COOKIE[$auth_cookie_name])) {
-                return true;
-            }
+        if (self::fullAccessCookiePresentInRequest()){
+            return true;
         }
 
         $current_user_id = self::currentUserId();
@@ -216,5 +212,17 @@ class Auth
 
         $current_user_obj = User::factory($current_user_id);
         return $current_user_obj->hasAnyOfPermissions($requested_permissions_arr);
+    }
+
+    static public function fullAccessCookiePresentInRequest(){
+        $auth_cookie_name = AuthConfig::getFullAccessCookieName();
+
+        if ($auth_cookie_name) {
+            if (isset($_COOKIE[$auth_cookie_name])) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

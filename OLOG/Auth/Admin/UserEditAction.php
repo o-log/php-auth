@@ -156,6 +156,24 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
         AdminLayoutSelector::render($html, $this);
     }
 
+    static public function hasAccessToAdminParamsForm(){
+        if (Auth::fullAccessCookiePresentInRequest()){
+            return true;
+        }
+
+        /** @var User $current_user_obj */
+        $current_user_obj = Auth::currentUserObj();
+        if (!$current_user_obj) {
+            return false;
+        }
+
+        if (!$current_user_obj->getHasFullAccess()) {
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * Владельца и полный доступ пока показывает только пользователям с полным доступом.
      * @param $user_id
@@ -163,14 +181,8 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
      */
     static public function adminParamsForm($user_id)
     {
-        /** @var User $current_user_obj */
-        $current_user_obj = Auth::currentUserObj();
-        if (!$current_user_obj) {
-            return '';
-        }
-
-        if (!$current_user_obj->getHasFullAccess()) {
-            return '';
+        if (!self::hasAccessToAdminParamsForm()){
+            return false;
         }
 
         $html = '';
