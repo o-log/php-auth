@@ -210,8 +210,12 @@ class Auth
             return false;
         }
 
-        $current_user_obj = User::factory($current_user_id);
-        return $current_user_obj->hasAnyOfPermissions($requested_permissions_arr);
+        $current_user_obj = User::factory($current_user_id, false); // user can be deleted, etc.
+        if ($current_user_obj) {
+            return $current_user_obj->hasAnyOfPermissions($requested_permissions_arr);
+        }
+
+        return false;
     }
 
     static public function fullAccessCookiePresentInRequest(){
