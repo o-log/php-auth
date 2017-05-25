@@ -70,17 +70,14 @@ class LoginAction
 
         //ExtraCookiesLib::setExtraCookies();
 
-        $redirect = '/';
-        $success_redirect_url = POSTAccess::getOptionalPostValue('success_redirect_url', '');
-        if ($success_redirect_url != '') {
-            $redirect = $success_redirect_url;
+        $redirect = POSTAccess::getOptionalPostValue('success_redirect_url', '');
+
+        if ($redirect == ''){
+            $redirect = AuthConfig::getDefaultRedirectUrlAfterSuccessfulLogin();
         }
 
         if ($redirect == ''){
-            $redirect_from_config = AuthConfig::getDefaultRedirectUrlAfterSuccessfulLogin();
-            if ($redirect_from_config != ''){
-                $redirect = $redirect_from_config;
-            }
+            $redirect = '/';
         }
 
         \OLOG\Redirects::redirect($redirect);

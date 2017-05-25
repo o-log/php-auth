@@ -44,6 +44,8 @@ class AuthDemoConfig
         AuthConfig::setAdminActionsBaseClassname(AdminDemoActionsBase::class);
         LayoutsConfig::setAdminLayoutClassName(LayoutBootstrap::class);
 
+        //AuthConfig::setDefaultRedirectUrlAfterSuccessfulLogin('/admin/auth/users');
+
         //AuthConfig::setUserEventClass(UserEvents::class);
 
 		//AuthConfig::setFullAccessCookieName('php_auth');
