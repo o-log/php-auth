@@ -3,6 +3,7 @@
 namespace OLOG\Auth\Pages;
 
 use OLOG\Auth\Auth;
+use OLOG\Auth\AuthConfig;
 use OLOG\Auth\User;
 use OLOG\BT\LayoutBootstrap;
 use OLOG\POSTAccess;
@@ -73,6 +74,13 @@ class LoginAction
         $success_redirect_url = POSTAccess::getOptionalPostValue('success_redirect_url', '');
         if ($success_redirect_url != '') {
             $redirect = $success_redirect_url;
+        }
+
+        if ($redirect == ''){
+            $redirect_from_config = AuthConfig::getDefaultRedirectUrlAfterSuccessfulLogin();
+            if ($redirect_from_config != ''){
+                $redirect = $redirect_from_config;
+            }
         }
 
         \OLOG\Redirects::redirect($redirect);

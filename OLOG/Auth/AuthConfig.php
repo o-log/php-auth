@@ -12,6 +12,23 @@ class AuthConfig
     static protected $after_logout_callback_class_name;
     static protected $session_cookie_is_secure = false;
     static protected $session_cookie_is_http_only = true;
+    static protected $default_redirect_url_after_successful_login = '';
+
+    /**
+     * @return string
+     */
+    public static function getDefaultRedirectUrlAfterSuccessfulLogin()
+    {
+        return self::$default_redirect_url_after_successful_login;
+    }
+
+    /**
+     * @param string $default_redirect_url_after_successful_login
+     */
+    public static function setDefaultRedirectUrlAfterSuccessfulLogin($default_redirect_url_after_successful_login)
+    {
+        self::$default_redirect_url_after_successful_login = $default_redirect_url_after_successful_login;
+    }
 
     /**
      * @return boolean
