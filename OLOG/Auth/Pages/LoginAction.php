@@ -13,7 +13,7 @@ class LoginAction
 {
     static public function getUrl()
     {
-        return '/auth/login';
+        return AuthConfig::getLoginUrl();
     }
 
     public function action()

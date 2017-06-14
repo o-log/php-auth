@@ -3,13 +3,14 @@
 namespace OLOG\Auth\Pages;
 
 use OLOG\Auth\Auth;
+use OLOG\Auth\AuthConfig;
 use OLOG\Sanitize;
 
 class LogoutAction
 {
     static public function getUrl()
     {
-        return '/auth/logout';
+        return AuthConfig::getLogoutUrl();
     }
 
     public function action()
