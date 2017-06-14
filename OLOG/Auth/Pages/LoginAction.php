@@ -12,12 +12,7 @@ class LoginAction
 {
     static public function getUrl()
     {
-        $default_url = AuthConfig::getDefaultLoginUrl();
-        if (!empty($default_url)) {
-            return $default_url;
-        }
-
-        return '/auth/login';
+        return AuthConfig::getLoginUrl();
     }
 
     public function action()

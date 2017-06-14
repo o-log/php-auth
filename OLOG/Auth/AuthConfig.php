@@ -13,41 +13,40 @@ class AuthConfig
     protected static $session_cookie_is_secure = false;
     protected static $session_cookie_is_http_only = true;
     protected static $default_redirect_url_after_successful_login = '';
-    protected static $default_login_url = '';
-    protected static $default_logout_url = '';
+    protected static $login_url = '/auth/login';
+    protected static $logout_url = '/auth/logout';
 
     /**
      * @return string
      */
-    public static function getDefaultLoginUrl()
+    public static function getLoginUrl()
     {
-        return self::$default_login_url;
+        return self::$login_url;
     }
 
     /**
-     * @param string $default_login_url
+     * @param string $login_url
      */
-    public static function setDefaultLoginUrl($default_login_url)
+    public static function setLoginUrl($login_url)
     {
-        self::$default_login_url = $default_login_url;
+        self::$login_url = $login_url;
     }
 
     /**
      * @return string
      */
-    public static function getDefaultLogoutUrl()
+    public static function getLogoutUrl()
     {
-        return self::$default_logout_url;
+        return self::$logout_url;
     }
 
     /**
-     * @param string $default_logout_url
+     * @param string $logout_url
      */
-    public static function setDefaultLogoutUrl($default_logout_url)
+    public static function setLogoutUrl($logout_url)
     {
-        self::$default_logout_url = $default_logout_url;
+        self::$logout_url = $logout_url;
     }
-
 
     /**
      * @return string
