@@ -7,6 +7,7 @@ use OLOG\Auth\AuthConfig;
 use OLOG\Auth\User;
 use OLOG\BT\LayoutBootstrap;
 use OLOG\POSTAccess;
+use OLOG\Sanitize;
 
 class LoginAction
 {
@@ -80,6 +81,6 @@ class LoginAction
             $redirect = '/';
         }
 
-        \OLOG\Redirects::redirect($redirect);
+        \OLOG\Redirects::redirect(Sanitize::sanitizeUrl($redirect));
     }
 }
