@@ -4,15 +4,50 @@ namespace OLOG\Auth;
 
 class AuthConfig
 {
-    static protected $ssid_cookie_name = 'php-auth-session-id';
-    static protected $session_id_cookie_domain = null; // default value must be null for proper setcookie
-    static protected $full_access_cookie_name = '';
-    static protected $extra_cookies_arr = [];
-    static protected $admin_actions_base_classname;
-    static protected $after_logout_callback_class_name;
-    static protected $session_cookie_is_secure = false;
-    static protected $session_cookie_is_http_only = true;
-    static protected $default_redirect_url_after_successful_login = '';
+    protected static $ssid_cookie_name = 'php-auth-session-id';
+    protected static $session_id_cookie_domain = null; // default value must be null for proper setcookie
+    protected static $full_access_cookie_name = '';
+    protected static $extra_cookies_arr = [];
+    protected static $admin_actions_base_classname;
+    protected static $after_logout_callback_class_name;
+    protected static $session_cookie_is_secure = false;
+    protected static $session_cookie_is_http_only = true;
+    protected static $default_redirect_url_after_successful_login = '';
+    protected static $default_login_url = '';
+    protected static $default_logout_url = '';
+
+    /**
+     * @return string
+     */
+    public static function getDefaultLoginUrl()
+    {
+        return self::$default_login_url;
+    }
+
+    /**
+     * @param string $default_login_url
+     */
+    public static function setDefaultLoginUrl($default_login_url)
+    {
+        self::$default_login_url = $default_login_url;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getDefaultLogoutUrl()
+    {
+        return self::$default_logout_url;
+    }
+
+    /**
+     * @param string $default_logout_url
+     */
+    public static function setDefaultLogoutUrl($default_logout_url)
+    {
+        self::$default_logout_url = $default_logout_url;
+    }
+
 
     /**
      * @return string
