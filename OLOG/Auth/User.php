@@ -31,7 +31,17 @@ class User implements
     protected $has_full_access = 0;
     const _PRIMARY_GROUP_ID = 'primary_group_id';
     protected $primary_group_id;
+    const _EMAIL_REQUESTED = 'email_requested';
+    protected $email_requested = 0;
     protected $id;
+
+    public function getEmailRequested(){
+        return $this->email_requested;
+    }
+
+    public function setEmailRequested($value){
+        $this->email_requested = $value;
+    }
 
     /**
      * @param $exception_if_not_found
