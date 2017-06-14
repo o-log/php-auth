@@ -44,7 +44,10 @@ class AuthDemoConfig
         AuthConfig::setAdminActionsBaseClassname(AdminDemoActionsBase::class);
         LayoutsConfig::setAdminLayoutClassName(LayoutBootstrap::class);
 
-        //AuthConfig::setDefaultRedirectUrlAfterSuccessfulLogin('/admin/auth/users');
+        AuthConfig::setDefaultRedirectUrlAfterSuccessfulLogin('/admin/auth/users');
+
+        AuthConfig::setLoginUrl('/login');
+        AuthConfig::setLogoutUrl('/logout');
 
         //AuthConfig::setUserEventClass(UserEvents::class);
 
