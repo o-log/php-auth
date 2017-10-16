@@ -2,16 +2,16 @@
 
 namespace OLOG\Auth\Admin;
 
+use OLOG\ActionInterface;
 use OLOG\Auth\Operator;
 use OLOG\Auth\Permissions;
 use OLOG\Exits;
-use OLOG\InterfaceAction;
 use OLOG\Layouts\AdminLayoutSelector;
-use OLOG\Layouts\InterfacePageTitle;
+use OLOG\Layouts\PageTitleInterface;
 
 class PermissionsListAction extends AuthAdminActionsBaseProxy implements
-    InterfaceAction,
-    InterfacePageTitle
+    ActionInterface,
+    PageTitleInterface
 {
     public function pageTitle()
     {

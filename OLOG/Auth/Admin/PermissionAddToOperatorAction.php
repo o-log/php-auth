@@ -5,9 +5,9 @@ use OLOG\Auth\Operator;
 use OLOG\Auth\OperatorPermission;
 use OLOG\Auth\Permissions;
 use OLOG\Exits;
-use OLOG\InterfaceAction;
+use OLOG\MaskActionInterface;
 
-class PermissionAddToOperatorAction implements InterfaceAction
+class PermissionAddToOperatorAction implements MaskActionInterface
 {
     protected $operator_id;
 
@@ -22,7 +22,7 @@ class PermissionAddToOperatorAction implements InterfaceAction
         return '/admin/permission_add_to_operator/' . $this->operator_id . '/permission/' . $this->permission_id;
     }
 
-    static public function urlMask() {
+    static public function mask() {
         return '/admin/permission_add_to_operator/(\d+)/permission/(\d+)';
     }
 

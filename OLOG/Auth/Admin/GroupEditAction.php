@@ -2,6 +2,7 @@
 
 namespace OLOG\Auth\Admin;
 
+use OLOG\ActionInterface;
 use OLOG\Auth\Auth;
 use OLOG\Auth\Group;
 use OLOG\Auth\Operator;
@@ -19,15 +20,15 @@ use OLOG\CRUD\CRUDTableColumn;
 use OLOG\CRUD\CRUDTableFilterEqualInvisible;
 use OLOG\CRUD\CRUDTableWidgetDelete;
 use OLOG\Exits;
-use OLOG\InterfaceAction;
 use OLOG\Layouts\AdminLayoutSelector;
-use OLOG\Layouts\InterfacePageTitle;
-use OLOG\Layouts\InterfaceTopActionObj;
+use OLOG\Layouts\PageTitleInterface;
+use OLOG\Layouts\TopActionObjInterface;
+use OLOG\MaskActionInterface;
 
 class GroupEditAction extends AuthAdminActionsBaseProxy implements
-    InterfaceAction,
-    InterfaceTopActionObj,
-    InterfacePageTitle
+    MaskActionInterface,
+    TopActionObjInterface,
+    PageTitleInterface
 {
     private $group_id;
 
@@ -63,7 +64,7 @@ class GroupEditAction extends AuthAdminActionsBaseProxy implements
     }
 
 
-    static public function urlMask()
+    static public function mask()
     {
         return '/admin/auth/group/(\d+)';
     }

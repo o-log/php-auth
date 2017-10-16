@@ -2,6 +2,9 @@
 
 namespace OLOG\Auth;
 
+use OLOG\Cache\Cache;
+use OLOG\Cache\CacheConfig;
+
 class Auth
 {
     const SESSION_LIFETIME_SECONDS = 60 * 60 * 24 * 14;
@@ -80,13 +83,13 @@ class Auth
      */
     private static function getSessionUserIdBySessionId($user_session_id)
     {
-        $user_id = \OLOG\Cache\CacheWrapper::get(self::sessionCacheKey($user_session_id));
+        $user_id = Cache::get(AuthConfig::$sessions_bucket, self::sessionCacheKey($user_session_id));
         if (!$user_id) {
             //error_log('Auth: no user retrieved for session ' . $user_session_id);
             return null;
         }
         //обновляем куки и сессию в мемекеше, от момента последнегно запроса к сайту
-        self::updateUserSessionInMemcache($user_id, $user_session_id);
+        self::updateUserSessionInCache($user_id, $user_session_id);
         //ExtraCookiesLib::setExtraCookies();
 
         return $user_id;
@@ -102,7 +105,7 @@ class Auth
         ExtraCookiesLib::unsetExtraCookies();
 
         if( AuthConfig::getAfterLogoutCallbackClassName()){
-            \OLOG\CheckClassInterfaces::exceptionIfClassNotImplementsInterface(AuthConfig::getAfterLogoutCallbackClassName(), InterfaceAfterLogoutCallback::class);
+            assert(is_a(AuthConfig::getAfterLogoutCallbackClassName(), InterfaceAfterLogoutCallback::class, true));
             $events_class = AuthConfig::getAfterLogoutCallbackClassName();
             $events_class::afterLogoutCallback();
         }
@@ -123,7 +126,7 @@ class Auth
 
     public static function removeUserFromAuthCache($user_session_id)
     {
-        \OLOG\Cache\CacheWrapper::delete(self::sessionCacheKey($user_session_id));
+        Cache::delete(AuthConfig::$sessions_bucket, self::sessionCacheKey($user_session_id));
     }
 
     public static function startUserSession($user_id)
@@ -143,15 +146,14 @@ class Auth
         ExtraCookiesLib::setExtraCookies();
     }
 
-    public static function updateUserSessionInMemcache($user_id, $user_session_id)
+    public static function updateUserSessionInCache($user_id, $user_session_id)
     {
         self::storeUserSessionId($user_id, $user_session_id);
     }
 
     public static function storeUserSessionId($user_id, $user_session_id)
     {
-        $stored = \OLOG\Cache\CacheWrapper::set(self::sessionCacheKey($user_session_id), $user_id, self::SESSION_LIFETIME_SECONDS);
-        return $stored;
+        Cache::set(AuthConfig::$sessions_bucket, self::sessionCacheKey($user_session_id), $user_id, self::SESSION_LIFETIME_SECONDS);
     }
 
     public static function setAuthCookieValueBySessionId($user_session_id)
@@ -176,8 +178,8 @@ class Auth
      */
     public static function getUserIdByCredentials($login, $password_from_form)
     {
-        $data = \OLOG\DB\DBWrapper::readObject(
-            \OLOG\Auth\AuthConstants::DB_NAME_PHPAUTH,
+        $data = \OLOG\DB\DB::readObject(
+            \OLOG\Auth\AuthConfig::SPACE_PHPAUTH,
             'SELECT id, password_hash FROM ' . User::DB_TABLE_NAME . ' WHERE login = ?',
             array($login)
         );

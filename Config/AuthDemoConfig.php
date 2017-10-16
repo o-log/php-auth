@@ -3,41 +3,44 @@
 namespace Config;
 
 use OLOG\Auth\AuthConfig;
-use OLOG\Auth\AuthConstants;
 use OLOG\BT\LayoutBootstrap;
+use OLOG\Cache\BucketMemcache;
 use OLOG\Cache\CacheConfig;
-use OLOG\Cache\CacheRedis;
-use OLOG\Cache\CacheServerSettings;
-use OLOG\Cache\MemcacheServerSettings;
+use OLOG\Cache\MemcacheServer;
+use OLOG\DB\ConnectorMySQL;
 use OLOG\DB\DBConfig;
-use OLOG\DB\DBSettings;
+use OLOG\DB\Space;
 use OLOG\Layouts\LayoutsConfig;
 use PhpAuthDemo\AdminDemoActionsBase;
-use PhpAuthDemo\UserEvents;
 
 class AuthDemoConfig
 {
-   public static function init()
+    const CONNECTOR_AUTH = 'CONNECTOR_AUTH';
+
+    public static function init()
     {
         date_default_timezone_set('Europe/Moscow');
+        ini_set('assert.exception', true);
 
-        DBConfig::setDBSettingsObj(
-            AuthConstants::DB_NAME_PHPAUTH,
-            new DBSettings('localhost', 'db_phpauthdemo', 'root', '1')
+        DBConfig::setConnector(
+            self::CONNECTOR_AUTH,
+            new ConnectorMySQL('127.0.0.1', 'db_phpauthdemo', 'root', '1234')
         );
 
-        CacheConfig::setEngineClassname(
-            CacheRedis::class
+        DBConfig::setSpace(
+            AuthConfig::SPACE_PHPAUTH,
+            new Space(self::CONNECTOR_AUTH, 'db_phpauth.sql')
         );
 
-        CacheConfig::addServerSettingsObj(
-            new CacheServerSettings('localhost', 6379)
+        CacheConfig::setBucket(
+            '',
+            new BucketMemcache([new MemcacheServer('127.0.0.1', 11211)])
         );
 
         AuthConfig::setExtraCookiesArr(
-          [
-              'ignore_nginx_cache' => 1
-          ]
+            [
+                'ignore_nginx_cache' => 1
+            ]
 
         );
 
@@ -51,6 +54,6 @@ class AuthDemoConfig
 
         //AuthConfig::setUserEventClass(UserEvents::class);
 
-		//AuthConfig::setFullAccessCookieName('php_auth');
+        //AuthConfig::setFullAccessCookieName('php_auth');
     }
 }

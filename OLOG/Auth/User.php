@@ -2,20 +2,16 @@
 
 namespace OLOG\Auth;
 
-use OLOG\Assert;
+use OLOG\Model\ActiveRecordInterface;
 
 class User implements
-    \OLOG\Model\InterfaceFactory,
-    \OLOG\Model\InterfaceLoad,
-    \OLOG\Model\InterfaceSave,
-    \OLOG\Model\InterfaceDelete,
+    ActiveRecordInterface,
     InterfaceOwner
 {
-    use \OLOG\Model\FactoryTrait;
     use \OLOG\Model\ActiveRecordTrait;
     use \OLOG\Model\ProtectPropertiesTrait;
 
-    const DB_ID = 'db_phpauth';
+    const DB_ID = 'space_phpauth';
     const DB_TABLE_NAME = 'olog_auth_user';
 
     protected $created_at_ts; // initialized by constructor
@@ -142,7 +138,7 @@ class User implements
 
     static public function getAllIdsArrByCreatedAtDesc()
     {
-        $ids_arr = \OLOG\DB\DBWrapper::readColumn(
+        $ids_arr = \OLOG\DB\DB::readColumn(
             self::DB_ID,
             'select id from ' . self::DB_TABLE_NAME . ' order by created_at_ts desc'
         );

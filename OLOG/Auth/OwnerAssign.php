@@ -2,9 +2,8 @@
 
 namespace OLOG\Auth;
 
-use OLOG\Assert;
-use OLOG\FullObjectId;
-use OLOG\Model\InterfaceLoad;
+use OLOG\Model\FullObjectId;
+use OLOG\Model\ActiveRecordInterface;
 
 class OwnerAssign
 {
@@ -13,8 +12,8 @@ class OwnerAssign
      * Does not saves object - designed to be called from constructor.
      */
     static public function assignCurrentUserAsOwnerToObj($obj){
-        Assert::assert($obj instanceof InterfaceOwner);
-        Assert::assert($obj instanceof InterfaceLoad);
+        assert($obj instanceof InterfaceOwner);
+        assert($obj instanceof ActiveRecordInterface);
 
         static $__inprogress = [];
         $inprogress_key = FullObjectId::getFullObjectId($obj);

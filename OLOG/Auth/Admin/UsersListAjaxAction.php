@@ -2,14 +2,14 @@
 
 namespace OLOG\Auth\Admin;
 
+use OLOG\ActionInterface;
 use OLOG\Auth\CRUDTableFilterOwnerInvisible;
 use OLOG\Auth\Operator;
 use OLOG\Auth\Permissions;
 use OLOG\CRUD\CRUDTableFilterLike;
 use OLOG\Exits;
-use OLOG\InterfaceAction;
 
-class UsersListAjaxAction implements InterfaceAction
+class UsersListAjaxAction implements ActionInterface
 {
     public function url(){
         return '/admin/auth/users_ajax';
@@ -38,7 +38,7 @@ class UsersListAjaxAction implements InterfaceAction
                 )
             ],
             [
-                new CRUDTableFilterLike('wert76wer76t', 'login', 'login', ''),
+                new CRUDTableFilterLike('wert76wer76t', 'login', 'login'),
                 new CRUDTableFilterOwnerInvisible()
             ],
             'login',

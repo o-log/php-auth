@@ -2,13 +2,14 @@
 
 namespace OLOG\Auth\Pages;
 
+use OLOG\ActionInterface;
 use OLOG\Auth\Auth;
 use OLOG\Auth\AuthConfig;
-use OLOG\Sanitize;
+use OLOG\HTML;
 
-class LogoutAction
+class LogoutAction implements ActionInterface
 {
-    static public function getUrl()
+    public function url()
     {
         return AuthConfig::getLogoutUrl();
     }
@@ -17,11 +18,9 @@ class LogoutAction
     {
         Auth::logout();
 
-        //ExtraCookiesLib::unsetExtraCookies();
-
         $redirect = '/';
         if (isset($_GET['destination'])) {
-            $redirect = Sanitize::sanitizeUrl($_GET['destination']);
+            $redirect = HTML::url($_GET['destination']);
         }
 
         \OLOG\Redirects::redirect($redirect);

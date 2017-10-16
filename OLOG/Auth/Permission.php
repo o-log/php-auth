@@ -2,17 +2,15 @@
 
 namespace OLOG\Auth;
 
+use OLOG\Model\ActiveRecordInterface;
+
 class Permission implements
-    \OLOG\Model\InterfaceFactory,
-    \OLOG\Model\InterfaceLoad,
-    \OLOG\Model\InterfaceSave,
-    \OLOG\Model\InterfaceDelete
+    ActiveRecordInterface
 {
-    use \OLOG\Model\FactoryTrait;
     use \OLOG\Model\ActiveRecordTrait;
     use \OLOG\Model\ProtectPropertiesTrait;
 
-    const DB_ID = 'db_phpauth';
+    const DB_ID = 'space_phpauth';
     const DB_TABLE_NAME = 'olog_auth_permission';
 
     protected $created_at_ts; // initialized by constructor
@@ -29,7 +27,7 @@ class Permission implements
 
 
     static public function getAllIdsArrByCreatedAtDesc(){
-        $ids_arr = \OLOG\DB\DBWrapper::readColumn(
+        $ids_arr = \OLOG\DB\DB::readColumn(
             self::DB_ID,
             'select id from ' . self::DB_TABLE_NAME . ' order by created_at_ts desc'
         );

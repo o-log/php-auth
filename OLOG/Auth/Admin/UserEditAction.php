@@ -2,6 +2,7 @@
 
 namespace OLOG\Auth\Admin;
 
+use OLOG\ActionInterface;
 use OLOG\Auth\Auth;
 use OLOG\Auth\Group;
 use OLOG\Auth\Operator;
@@ -26,19 +27,19 @@ use OLOG\CRUD\CRUDTableFilterNotInInvisible;
 use OLOG\CRUD\CRUDTableWidgetDelete;
 use OLOG\CRUD\CRUDTableWidgetTextWithLink;
 use OLOG\Exits;
+use OLOG\Form;
 use OLOG\HTML;
-use OLOG\InterfaceAction;
 use OLOG\Layouts\AdminLayoutSelector;
-use OLOG\Layouts\InterfacePageTitle;
-use OLOG\Layouts\InterfaceTopActionObj;
-use OLOG\Operations;
-use OLOG\POSTAccess;
+use OLOG\Layouts\PageTitleInterface;
+use OLOG\Layouts\TopActionObjInterface;
+use OLOG\MaskActionInterface;
+use OLOG\POST;
 use OLOG\Url;
 
 class UserEditAction extends AuthAdminActionsBaseProxy implements
-    InterfaceAction,
-    InterfacePageTitle,
-    InterfaceTopActionObj
+    MaskActionInterface,
+    PageTitleInterface,
+    TopActionObjInterface
 {
     const OPERATION_SET_PASSWORD = 'OPERATION_SET_PASSWORD';
     const FIELD_NAME_PASSWORD = 'password';
@@ -65,7 +66,7 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
         return '/admin/auth/user/' . $this->user_id;
     }
 
-    static public function urlMask()
+    static public function mask()
     {
         return '/admin/auth/user/(\d+)';
     }
@@ -83,8 +84,8 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
             !OwnerCheck::currentUserOwnsObj($user_obj)
         );
 
-        Operations::matchOperation(self::OPERATION_SET_PASSWORD, function () use ($user_id) {
-            $new_password = POSTAccess::getOptionalPostValue(self::FIELD_NAME_PASSWORD);
+        Form::match(self::OPERATION_SET_PASSWORD, function () use ($user_id) {
+            $new_password = POST::optional(self::FIELD_NAME_PASSWORD);
             $new_password_hash = password_hash($new_password, PASSWORD_BCRYPT);
 
             $user_obj = User::factory($user_id);
@@ -244,8 +245,8 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
         $html = '';
 
         $html .= '<h2>Изменение пароля</h2>';
-        $html .= '<form class="form-horizontal" role="form" method="post" action="' . Url::getCurrentUrl() . '">';
-        $html .= Operations::operationCodeHiddenField(self::OPERATION_SET_PASSWORD);
+        $html .= '<form class="form-horizontal" role="form" method="post" action="' . Url::path() . '">';
+        $html .= Form::op(self::OPERATION_SET_PASSWORD);
 
         $html .= '<div class="form-group ">
 <label class="col-sm-4 text-right control-label">Новый пароль</label>

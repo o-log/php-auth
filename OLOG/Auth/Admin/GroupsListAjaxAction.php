@@ -4,13 +4,13 @@
 namespace OLOG\Auth\Admin;
 
 
+use OLOG\ActionInterface;
 use OLOG\Auth\CRUDTableFilterOwnerInvisible;
 use OLOG\Auth\Operator;
 use OLOG\Auth\Permissions;
 use OLOG\Exits;
-use OLOG\InterfaceAction;
 
-class GroupsListAjaxAction implements InterfaceAction
+class GroupsListAjaxAction implements ActionInterface
 {
     public function url(){
         return '/admin/auth/groups_ajax';

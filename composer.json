@@ -1,20 +1,20 @@
-    {
-      "name": "o-log/php-auth",
-      "description": "User authentication and permission management.",
-      "require-dev": {
-        "phpunit/phpunit": "5.5.*"
-      },
-      "require": {
-        "o-log/php-router": "1.*",
-        "o-log/php-model": "7.*",
-        "o-log/php-crud": "5.*",
-        "o-log/php-layouts": "1.*"
-      },
-      "autoload" : {
-        "psr-0" : {
-          "Config" : "",
-          "OLOG" : "",
-          "PhpAuthDemo" : ""
-        }
-      }
+{
+  "name": "o-log/php-auth",
+  "description": "User authentication and permission management.",
+  "require-dev": {
+    "phpunit/phpunit": "5.5.*"
+  },
+  "require": {
+    "o-log/php-router": "2.*",
+    "o-log/php-model": "8.*",
+    "o-log/php-crud": "6.*",
+    "o-log/php-layouts": "2.*"
+  },
+  "autoload": {
+    "psr-0": {
+      "Config": "",
+      "OLOG": "",
+      "PhpAuthDemo": ""
     }
+  }
+}

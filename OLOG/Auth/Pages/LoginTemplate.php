@@ -2,8 +2,8 @@
 
 namespace OLOG\Auth\Pages;
 
-use OLOG\GETAccess;
-use OLOG\Sanitize;
+use OLOG\GET;
+use OLOG\HTML;
 
 class LoginTemplate
 {
@@ -59,7 +59,7 @@ class LoginTemplate
             }
         </style>
 
-        <form class="form-signin" method="post" action="<?php LoginAction::getUrl() ?>">
+        <form class="form-signin" method="post" action="<?php (new LoginAction())->url() ?>">
             <h2 class="form-signin-heading">Please sign in</h2>
             <?php if ($message){ ?>
                 <div class="alert alert-<?= $message_type ?> width-370" role="alert"><?php echo $message; ?></div>
@@ -67,10 +67,10 @@ class LoginTemplate
             }
 
             if ($show_form){
-                $success_redirect_url = GETAccess::getOptionalGetValue('success_redirect_url', '');
+                $success_redirect_url = GET::optional('success_redirect_url', '');
 
                 if ($success_redirect_url != ''){
-                    echo '<input type="hidden" name="success_redirect_url" value="' . Sanitize::sanitizeAttrValue($success_redirect_url). '"/>';
+                    echo '<input type="hidden" name="success_redirect_url" value="' . HTML::attr($success_redirect_url). '"/>';
                 }
 
                 ?>

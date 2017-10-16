@@ -2,16 +2,17 @@
 
 namespace OLOG\Auth\Pages;
 
+use OLOG\ActionInterface;
 use OLOG\Auth\Auth;
 use OLOG\Auth\AuthConfig;
 use OLOG\Auth\User;
 use OLOG\BT\LayoutBootstrap;
-use OLOG\POSTAccess;
-use OLOG\Sanitize;
+use OLOG\HTML;
+use OLOG\POST;
 
-class LoginAction
+class LoginAction implements ActionInterface
 {
-    static public function getUrl()
+    public function url()
     {
         return AuthConfig::getLoginUrl();
     }
@@ -40,8 +41,8 @@ class LoginAction
             }
         */
 
-        $login = POSTAccess::getOptionalPostValue('login');
-        $password = POSTAccess::getOptionalPostValue('password');
+        $login = POST::optional('login');
+        $password = POST::optional('password');
         $user_id = Auth::getUserIdByCredentials($login, $password);
 
         if (!$user_id || ($password == "")) {
@@ -71,7 +72,7 @@ class LoginAction
 
         //ExtraCookiesLib::setExtraCookies();
 
-        $redirect = POSTAccess::getOptionalPostValue('success_redirect_url', '');
+        $redirect = POST::optional('success_redirect_url', '');
 
         if ($redirect == ''){
             $redirect = AuthConfig::getDefaultRedirectUrlAfterSuccessfulLogin();
@@ -81,6 +82,6 @@ class LoginAction
             $redirect = '/';
         }
 
-        \OLOG\Redirects::redirect(Sanitize::sanitizeUrl($redirect));
+        \OLOG\Redirects::redirect(HTML::url($redirect));
     }
 }

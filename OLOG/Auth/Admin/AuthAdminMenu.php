@@ -4,10 +4,10 @@ namespace OLOG\Auth\Admin;
 
 use OLOG\Auth\Operator;
 use OLOG\Auth\Permissions;
-use OLOG\Layouts\InterfaceMenu;
+use OLOG\Layouts\MenuInterface;
 use OLOG\Layouts\MenuItem;
 
-class AuthAdminMenu implements InterfaceMenu
+class AuthAdminMenu implements MenuInterface
 {
     static public function menuArr()
     {

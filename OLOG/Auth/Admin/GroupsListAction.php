@@ -2,6 +2,7 @@
 
 namespace OLOG\Auth\Admin;
 
+use OLOG\ActionInterface;
 use OLOG\Auth\CRUDTableFilterOwnerInvisible;
 use OLOG\Auth\Group;
 use OLOG\Auth\Operator;
@@ -12,13 +13,12 @@ use OLOG\CRUD\CRUDFormWidgetInput;
 use OLOG\CRUD\CRUDTableFilterLike;
 use OLOG\CRUD\CRUDTableFilterLikeInline;
 use OLOG\Exits;
-use OLOG\InterfaceAction;
 use OLOG\Layouts\AdminLayoutSelector;
-use OLOG\Layouts\InterfacePageTitle;
+use OLOG\Layouts\PageTitleInterface;
 
 class GroupsListAction extends AuthAdminActionsBaseProxy implements
-    InterfaceAction,
-    InterfacePageTitle
+    ActionInterface,
+    PageTitleInterface
 {
     public function url(){
         return '/admin/auth/groups';

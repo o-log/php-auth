@@ -3,27 +3,41 @@
 namespace OLOG\Auth;
 
 use OLOG\Auth\Admin\AuthAdminAction;
+use OLOG\Auth\Admin\GroupEditAction;
+use OLOG\Auth\Admin\GroupsListAction;
+use OLOG\Auth\Admin\GroupsListAjaxAction;
+use OLOG\Auth\Admin\OperatorEditAction;
+use OLOG\Auth\Admin\OperatorsListAction;
+use OLOG\Auth\Admin\PermissionAddToOperatorAction;
+use OLOG\Auth\Admin\PermissionAddToUserAction;
+use OLOG\Auth\Admin\PermissionsListAction;
+use OLOG\Auth\Admin\PermissionToUserListAction;
+use OLOG\Auth\Admin\UserEditAction;
+use OLOG\Auth\Admin\UsersListAction;
+use OLOG\Auth\Admin\UsersListAjaxAction;
+use OLOG\Auth\Pages\LoginAction;
+use OLOG\Auth\Pages\LogoutAction;
 use OLOG\Router;
 
 class RegisterRoutes
 {
     static public function registerRoutes(){
-        Router::processAction(AuthAdminAction::class, 0);
-        Router::processAction(\OLOG\Auth\Admin\UsersListAction::class, 0);
-        Router::processAction(\OLOG\Auth\Admin\UserEditAction::class, 0);
-        Router::processAction(\OLOG\Auth\Admin\PermissionsListAction::class, 0);
-        Router::processAction(\OLOG\Auth\Admin\PermissionToUserListAction::class, 0);
-        Router::processAction(\OLOG\Auth\Admin\OperatorsListAction::class, 0);
-        Router::processAction(\OLOG\Auth\Admin\UsersListAjaxAction::class, 0);
-        Router::processAction(\OLOG\Auth\Admin\OperatorEditAction::class, 0);
-        Router::processAction(\OLOG\Auth\Admin\GroupsListAction::class, 0);
-        Router::processAction(\OLOG\Auth\Admin\GroupEditAction::class, 0);
-        Router::processAction(\OLOG\Auth\Admin\GroupsListAjaxAction::class, 0);
+        Router::action(AuthAdminAction::class, 0);
+        Router::action(UsersListAction::class, 0);
+        Router::action(UserEditAction::class, 0);
+        Router::action(PermissionsListAction::class, 0);
+        Router::action(PermissionToUserListAction::class, 0);
+        Router::action(OperatorsListAction::class, 0);
+        Router::action(UsersListAjaxAction::class, 0);
+        Router::action(OperatorEditAction::class, 0);
+        Router::action(GroupsListAction::class, 0);
+        Router::action(GroupEditAction::class, 0);
+        Router::action(GroupsListAjaxAction::class, 0);
 
-        Router::processAction(\OLOG\Auth\Admin\PermissionAddToUserAction::class, 0);
-        Router::processAction(\OLOG\Auth\Admin\PermissionAddToOperatorAction::class, 0);
+        Router::action(PermissionAddToUserAction::class, 0);
+        Router::action(PermissionAddToOperatorAction::class, 0);
 
-        Router::matchAction(\OLOG\Auth\Pages\LoginAction::class, 0);
-        Router::matchAction(\OLOG\Auth\Pages\LogoutAction::class, 0);
+        Router::action(LoginAction::class, 0);
+        Router::action(LogoutAction::class, 0);
     }
 }

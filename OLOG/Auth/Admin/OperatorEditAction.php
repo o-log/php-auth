@@ -20,15 +20,15 @@ use OLOG\CRUD\CRUDTableFilterEqualInvisible;
 use OLOG\CRUD\CRUDTableFilterNotInInvisible;
 use OLOG\CRUD\CRUDTableWidgetTextWithLink;
 use OLOG\Exits;
-use OLOG\InterfaceAction;
 use OLOG\Layouts\AdminLayoutSelector;
-use OLOG\Layouts\InterfacePageTitle;
-use OLOG\Layouts\InterfaceTopActionObj;
+use OLOG\Layouts\PageTitleInterface;
+use OLOG\Layouts\TopActionObjInterface;
+use OLOG\MaskActionInterface;
 
 class OperatorEditAction extends AuthAdminActionsBaseProxy implements
-    InterfaceAction,
-    InterfacePageTitle,
-    InterfaceTopActionObj
+    MaskActionInterface,
+    PageTitleInterface,
+    TopActionObjInterface
 {
     protected $operator_id;
 
@@ -50,7 +50,7 @@ class OperatorEditAction extends AuthAdminActionsBaseProxy implements
         return '/admin/auth/operator/' . $this->operator_id;
     }
 
-    static public function urlMask(){
+    static public function mask(){
         return '/admin/auth/operator/(\d+)';
     }
 

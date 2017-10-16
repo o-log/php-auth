@@ -2,17 +2,15 @@
 
 namespace OLOG\Auth;
 
+use OLOG\Model\ActiveRecordInterface;
+
 class OperatorPermission implements
-    \OLOG\Model\InterfaceFactory,
-    \OLOG\Model\InterfaceLoad,
-    \OLOG\Model\InterfaceSave,
-    \OLOG\Model\InterfaceDelete
+    ActiveRecordInterface
 {
-    use \OLOG\Model\FactoryTrait;
     use \OLOG\Model\ActiveRecordTrait;
     use \OLOG\Model\ProtectPropertiesTrait;
 
-    const DB_ID = 'db_phpauth';
+    const DB_ID = 'space_phpauth';
     const DB_TABLE_NAME = 'olog_auth_operatorpermission';
 
     protected $created_at_ts; // initialized by constructor
@@ -30,7 +28,7 @@ class OperatorPermission implements
 
 
     static public function getIdsArrForOperatorIdByCreatedAtDesc($value){
-        $ids_arr = \OLOG\DB\DBWrapper::readColumn(
+        $ids_arr = \OLOG\DB\DB::readColumn(
             self::DB_ID,
             'select id from ' . self::DB_TABLE_NAME . ' where operator_id = ? order by created_at_ts desc',
             array($value)
@@ -48,7 +46,7 @@ class OperatorPermission implements
 
 
     static public function getAllIdsArrByCreatedAtDesc(){
-        $ids_arr = \OLOG\DB\DBWrapper::readColumn(
+        $ids_arr = \OLOG\DB\DB::readColumn(
             self::DB_ID,
             'select id from ' . self::DB_TABLE_NAME . ' order by created_at_ts desc'
         );
@@ -96,7 +94,7 @@ class OperatorPermission implements
      * @return array
      */
     public static function getPermissionIdsArrForOperatorId($operator_id) {
-        return \OLOG\DB\DBWrapper::readColumn(
+        return \OLOG\DB\DB::readColumn(
             self::DB_ID,
             'select permission_id from ' . self::DB_TABLE_NAME . ' where operator_id = ?',
             array($operator_id)

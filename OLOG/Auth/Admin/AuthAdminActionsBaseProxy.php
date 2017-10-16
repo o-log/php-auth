@@ -3,21 +3,20 @@
 namespace OLOG\Auth\Admin;
 
 use OLOG\Auth\AuthConfig;
-use OLOG\CheckClassInterfaces;
-use OLOG\Layouts\InterfaceCurrentUserName;
-use OLOG\Layouts\InterfaceMenu;
-use OLOG\Layouts\InterfaceSiteTitle;
-use OLOG\Layouts\InterfaceTopActionObj;
+use OLOG\Layouts\CurrentUserNameInterface;
+use OLOG\Layouts\MenuInterface;
+use OLOG\Layouts\SiteTitleInterface;
+use OLOG\Layouts\TopActionObjInterface;
 
 class AuthAdminActionsBaseProxy implements
-    InterfaceMenu,
-    InterfaceTopActionObj,
-    InterfaceSiteTitle,
-    InterfaceCurrentUserName
+    MenuInterface,
+    TopActionObjInterface,
+    SiteTitleInterface,
+    CurrentUserNameInterface
 {
     static public function menuArr(){
         $admin_actions_base_classname = AuthConfig::getAdminActionsBaseClassname();
-        if (CheckClassInterfaces::classImplementsInterface($admin_actions_base_classname, InterfaceMenu::class)){
+        if (is_a($admin_actions_base_classname, MenuInterface::class, true)){
             return $admin_actions_base_classname::menuArr();
         }
 
@@ -26,7 +25,7 @@ class AuthAdminActionsBaseProxy implements
 
     public function topActionObj(){
         $admin_actions_base_classname = AuthConfig::getAdminActionsBaseClassname();
-        if (CheckClassInterfaces::classImplementsInterface($admin_actions_base_classname, InterfaceTopActionObj::class)){
+        if (is_a($admin_actions_base_classname, TopActionObjInterface::class, true)){
             return (new $admin_actions_base_classname())->topActionObj();
         }
 
@@ -35,7 +34,7 @@ class AuthAdminActionsBaseProxy implements
 
     public function siteTitle(){
         $admin_actions_base_classname = AuthConfig::getAdminActionsBaseClassname();
-        if (CheckClassInterfaces::classImplementsInterface($admin_actions_base_classname, InterfaceSiteTitle::class)){
+        if (is_a($admin_actions_base_classname, SiteTitleInterface::class, true)){
             return (new $admin_actions_base_classname())->siteTitle();
         }
 
@@ -44,7 +43,7 @@ class AuthAdminActionsBaseProxy implements
 
     public function currentUserName(){
         $admin_actions_base_classname = AuthConfig::getAdminActionsBaseClassname();
-        if (CheckClassInterfaces::classImplementsInterface($admin_actions_base_classname, InterfaceCurrentUserName::class)){
+        if (is_a($admin_actions_base_classname, CurrentUserNameInterface::class, true)){
             return (new $admin_actions_base_classname())->currentUserName();
         }
 

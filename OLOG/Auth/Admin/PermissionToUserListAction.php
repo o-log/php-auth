@@ -2,19 +2,20 @@
 
 namespace OLOG\Auth\Admin;
 
+use OLOG\ActionInterface;
 use OLOG\Auth\Operator;
 use OLOG\Auth\Permission;
 use OLOG\Auth\Permissions;
 use OLOG\Auth\User;
 use OLOG\CRUD\CRUDTableFilterEqualInvisible;
 use OLOG\Exits;
-use OLOG\InterfaceAction;
 use OLOG\Layouts\AdminLayoutSelector;
-use OLOG\Layouts\InterfacePageTitle;
+use OLOG\Layouts\PageTitleInterface;
+use OLOG\MaskActionInterface;
 
 class PermissionToUserListAction extends AuthAdminActionsBaseProxy implements
-    InterfaceAction,
-    InterfacePageTitle
+    MaskActionInterface,
+    PageTitleInterface
 {
     protected $permission_id;
 
@@ -38,7 +39,7 @@ class PermissionToUserListAction extends AuthAdminActionsBaseProxy implements
         return '/admin/auth/permission_to_user/' . $this->permission_id;
     }
 
-    public static function urlMask()
+    public static function mask()
     {
         return '/admin/auth/permission_to_user/(\d+)';
     }

@@ -4,13 +4,9 @@ require_once '../vendor/autoload.php';
 
 \Config\AuthDemoConfig::init();
 
-//
-// Роуты
-//
-
 \OLOG\Auth\RegisterRoutes::registerRoutes();
 
-\OLOG\Router::processAction(\PhpAuthDemo\Pages\MainPageAction::class, 0);
+\OLOG\Router::action(\PhpAuthDemo\Pages\MainPageAction::class, 0);
 
 //
 // Обработка после завершения роутинга

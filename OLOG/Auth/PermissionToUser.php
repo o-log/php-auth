@@ -2,19 +2,16 @@
 
 namespace OLOG\Auth;
 
-use OLOG\Cache\CacheWrapper;
+use OLOG\Cache\Cache;
+use OLOG\Model\ActiveRecordInterface;
 
 class PermissionToUser implements
-    \OLOG\Model\InterfaceFactory,
-    \OLOG\Model\InterfaceLoad,
-    \OLOG\Model\InterfaceSave,
-    \OLOG\Model\InterfaceDelete
+    ActiveRecordInterface
 {
-    use \OLOG\Model\FactoryTrait;
     use \OLOG\Model\ActiveRecordTrait;
     use \OLOG\Model\ProtectPropertiesTrait;
 
-    const DB_ID = 'db_phpauth';
+    const DB_ID = 'space_phpauth';
     const DB_TABLE_NAME = 'olog_auth_permissiontouser';
 
     protected $created_at_ts; // initialized by constructor
@@ -25,23 +22,25 @@ class PermissionToUser implements
     public function afterDelete()
     {
         $this->removeFromFactoryCache();
-        CacheWrapper::delete(self::getCacheKey_getIdsArrForUserIdByCreatedAtDesc($this->getUserId()));
+        // TODO: default bucket used
+        Cache::delete('', self::getCacheKey_getIdsArrForUserIdByCreatedAtDesc($this->getUserId()));
     }
 
     public function afterSave()
     {
         $this->removeFromFactoryCache();
-        CacheWrapper::delete(self::getCacheKey_getIdsArrForUserIdByCreatedAtDesc($this->getUserId()));
+        // TODO: default bucket used
+        Cache::delete('', self::getCacheKey_getIdsArrForUserIdByCreatedAtDesc($this->getUserId()));
     }
 
     static public function getIdsArrForPermissionIdByCreatedAtDesc($value, $offset = 0, $page_size = 30){
         if (is_null($value)) {
-            return \OLOG\DB\DBWrapper::readColumn(
+            return \OLOG\DB\DB::readColumn(
                 self::DB_ID,
                 'select id from ' . self::DB_TABLE_NAME . ' where permission_id is null order by created_at_ts desc limit ' . intval($page_size) . ' offset ' . intval($offset)
             );
         } else {
-            return \OLOG\DB\DBWrapper::readColumn(
+            return \OLOG\DB\DB::readColumn(
                 self::DB_ID,
                 'select id from ' . self::DB_TABLE_NAME . ' where permission_id = ? order by created_at_ts desc limit ' . intval($page_size) . ' offset ' . intval($offset),
                 array($value)
@@ -69,27 +68,31 @@ class PermissionToUser implements
 
     static public function getIdsArrForUserIdByCreatedAtDesc($user_id, $offset = 0, $page_size = 30){
 
-        $cahe_key = self::getCacheKey_getIdsArrForUserIdByCreatedAtDesc($user_id);
-        $cached_data = CacheWrapper::get($cahe_key);
+        $cache_key = self::getCacheKey_getIdsArrForUserIdByCreatedAtDesc($user_id);
+
+        // TODO: default bucket used
+        $cached_data = Cache::get('', $cache_key);
         if(is_array($cached_data)){
             return $cached_data;
         }
 
 
         if (is_null($user_id)) {
-            $ids_arr = \OLOG\DB\DBWrapper::readColumn(
+            $ids_arr = \OLOG\DB\DB::readColumn(
                 self::DB_ID,
                 'select id from ' . self::DB_TABLE_NAME . ' where user_id is null order by created_at_ts desc limit ' . intval($page_size) . ' offset ' . intval($offset)
             );
         } else {
-            $ids_arr = \OLOG\DB\DBWrapper::readColumn(
+            $ids_arr = \OLOG\DB\DB::readColumn(
                 self::DB_ID,
                 'select id from ' . self::DB_TABLE_NAME . ' where user_id = ? order by created_at_ts desc limit ' . intval($page_size) . ' offset ' . intval($offset),
                 array($user_id)
             );
         }
 
-        CacheWrapper::set($cahe_key, $ids_arr);
+        // TODO: default bucket used
+        // TODO: ttl can not be controlled
+        Cache::set('', $cache_key, $ids_arr, 60);
         return $ids_arr;
     }
 
@@ -105,7 +108,7 @@ class PermissionToUser implements
 
 
     static public function getAllIdsArrByCreatedAtDesc($offset = 0, $page_size = 30){
-        $ids_arr = \OLOG\DB\DBWrapper::readColumn(
+        $ids_arr = \OLOG\DB\DB::readColumn(
             self::DB_ID,
             'select id from ' . self::DB_TABLE_NAME . ' order by created_at_ts desc limit ' . intval($page_size) . ' offset ' . intval($offset)
         );
@@ -149,7 +152,7 @@ class PermissionToUser implements
     }
 
     static public function getPermissionIdsArrForUserId($value){
-        return \OLOG\DB\DBWrapper::readColumn(
+        return \OLOG\DB\DB::readColumn(
                 self::DB_ID,
                 'select permission_id from ' . self::DB_TABLE_NAME . ' where user_id = ?',
                 array($value)

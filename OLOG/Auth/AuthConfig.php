@@ -4,6 +4,10 @@ namespace OLOG\Auth;
 
 class AuthConfig
 {
+    const SPACE_PHPAUTH = 'space_phpauth';
+
+    static public $sessions_bucket = '';
+
     protected static $ssid_cookie_name = 'php-auth-session-id';
     protected static $session_id_cookie_domain = null; // default value must be null for proper setcookie
     protected static $full_access_cookie_name = '';

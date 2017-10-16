@@ -2,17 +2,15 @@
 
 namespace OLOG\Auth;
 
+use OLOG\Model\ActiveRecordInterface;
+
 class UserToGroup implements
-    \OLOG\Model\InterfaceFactory,
-    \OLOG\Model\InterfaceLoad,
-    \OLOG\Model\InterfaceSave,
-    \OLOG\Model\InterfaceDelete
+    ActiveRecordInterface
 {
-    use \OLOG\Model\FactoryTrait;
     use \OLOG\Model\ActiveRecordTrait;
     use \OLOG\Model\ProtectPropertiesTrait;
 
-    const DB_ID = 'db_phpauth';
+    const DB_ID = 'space_phpauth';
     const DB_TABLE_NAME = 'olog_auth_usertogroup';
 
     const _CREATED_AT_TS = 'created_at_ts';
@@ -41,7 +39,7 @@ class UserToGroup implements
     }
 
     static public function getIdsArrForUserIdAndGroupId($user_id, $group_id){
-        return \OLOG\DB\DBWrapper::readColumn(
+        return \OLOG\DB\DB::readColumn(
             self::DB_ID,
             'select id from ' . self::DB_TABLE_NAME . ' where ' . self::_USER_ID . ' = ? and ' . self::_GROUP_ID . ' = ?',
             [$user_id, $group_id]
@@ -50,12 +48,12 @@ class UserToGroup implements
 
     static public function getIdsArrForUserIdByCreatedAtDesc($value, $offset = 0, $page_size = 1000){
         if (is_null($value)) {
-            return \OLOG\DB\DBWrapper::readColumn(
+            return \OLOG\DB\DB::readColumn(
                 self::DB_ID,
                 'select id from ' . self::DB_TABLE_NAME . ' where ' . self::_USER_ID . ' is null order by created_at_ts desc limit ' . intval($page_size) . ' offset ' . intval($offset)
             );
         } else {
-            return \OLOG\DB\DBWrapper::readColumn(
+            return \OLOG\DB\DB::readColumn(
                 self::DB_ID,
                 'select id from ' . self::DB_TABLE_NAME . ' where ' . self::_USER_ID . ' = ? order by created_at_ts desc limit ' . intval($page_size) . ' offset ' . intval($offset),
                 array($value)
@@ -99,7 +97,7 @@ class UserToGroup implements
     }
 
     static public function getAllIdsArrByCreatedAtDesc($offset = 0, $page_size = 30){
-        $ids_arr = \OLOG\DB\DBWrapper::readColumn(
+        $ids_arr = \OLOG\DB\DB::readColumn(
             self::DB_ID,
             'select ' . self::_ID . ' from ' . self::DB_TABLE_NAME . ' order by ' . self::_CREATED_AT_TS . ' desc limit ' . intval($page_size) . ' offset ' . intval($offset)
         );
