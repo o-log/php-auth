@@ -2,7 +2,7 @@
 
 require_once '../vendor/autoload.php';
 
-\Config\AuthDemoConfig::init();
+\Config\Config::init();
 
 \OLOG\Auth\RegisterRoutes::registerRoutes();
 

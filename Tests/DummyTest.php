@@ -2,12 +2,12 @@
 
 namespace Tests;
 
-use Config\AuthDemoConfig;
+use Config\Config;
 
 class DummyTest extends \PHPUnit_Framework_TestCase
 {
     public function testDummy(){
-        AuthDemoConfig::init();
+        Config::init();
         $this->assertEquals(1, 1);
     }
 }

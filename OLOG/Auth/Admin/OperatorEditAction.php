@@ -125,7 +125,7 @@ class OperatorEditAction extends AuthAdminActionsBaseProxy implements
                             ),
                             new CRUDTableColumn(
                                 '',
-                                new CRUDTableWidgetTextWithLink('Добавить оператору', (new PermissionAddToOperatorAction($operator_id, '{this->id}'))->url(), 'btn btn-default btn-xs'))
+                                new CRUDTableWidgetTextWithLink('Добавить оператору', (new PermissionAddToOperatorAction($operator_id, '{this->id}'))->url(), 'btn btn-secondary btn-sm'))
                         ],
                         [
                             new CRUDTableFilterNotInInvisible('id', OperatorPermission::getPermissionIdsArrForOperatorId($operator_id)),

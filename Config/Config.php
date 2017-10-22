@@ -4,6 +4,7 @@ namespace Config;
 
 use OLOG\Auth\AuthConfig;
 use OLOG\BT\LayoutBootstrap;
+use OLOG\BT\LayoutBootstrap4;
 use OLOG\Cache\BucketMemcache;
 use OLOG\Cache\CacheConfig;
 use OLOG\Cache\MemcacheServer;
@@ -13,7 +14,7 @@ use OLOG\DB\Space;
 use OLOG\Layouts\LayoutsConfig;
 use PhpAuthDemo\AdminDemoActionsBase;
 
-class AuthDemoConfig
+class Config
 {
     const CONNECTOR_AUTH = 'CONNECTOR_AUTH';
 
@@ -45,7 +46,7 @@ class AuthDemoConfig
         );
 
         AuthConfig::setAdminActionsBaseClassname(AdminDemoActionsBase::class);
-        LayoutsConfig::setAdminLayoutClassName(LayoutBootstrap::class);
+        LayoutsConfig::setAdminLayoutClassName(LayoutBootstrap4::class);
 
         AuthConfig::setDefaultRedirectUrlAfterSuccessfulLogin('/admin/auth/users');
 

@@ -3,10 +3,14 @@
 namespace PhpAuthDemo;
 
 use OLOG\Auth\Admin\AuthAdminMenu;
+use OLOG\Auth\Admin\CurrentUserNameTrait;
+use OLOG\Layouts\CurrentUserNameInterface;
 use OLOG\Layouts\MenuInterface;
 
-class AdminDemoActionsBase implements MenuInterface
+class AdminDemoActionsBase implements MenuInterface, CurrentUserNameInterface
 {
+    use CurrentUserNameTrait;
+
     static public function menuArr()
     {
         $menu_arr = [];

@@ -16,6 +16,7 @@ use OLOG\BT\CollapsibleWidget;
 use OLOG\CRUD\CRUDForm;
 use OLOG\CRUD\CRUDFormInvisibleRow;
 use OLOG\CRUD\CRUDFormRow;
+use OLOG\CRUD\CRUDFormVerticalRow;
 use OLOG\CRUD\CRUDFormWidgetInput;
 use OLOG\CRUD\CRUDFormWidgetReference;
 use OLOG\CRUD\CRUDFormWidgetReferenceAjax;
@@ -105,7 +106,7 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
         $html .= '</div><div class="col-md-6">';
 
         if (Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS_PERMISSIONS])) {
-            $html .= '<h2>Разрешения</h2>';
+            $html .= '<h4 class="text-muted">Разрешения</h4>';
             $html .= HTML::div('', '', function () use ($user_id) {
                 $new_permissiontouser_obj = new PermissionToUser();
                 $new_permissiontouser_obj->setUserId($user_id);
@@ -127,7 +128,7 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
                     ''
                 );
 
-                echo CollapsibleWidget::buttonAndCollapse('Показать все неназначенные разрешения', function () use ($user_id) {
+                echo CollapsibleWidget::buttonAndCollapse('Неназначенные разрешения', function () use ($user_id) {
                     echo CRUDTable::html(
                         Permission::class,
                         '',
@@ -138,7 +139,7 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
                             ),
                             new CRUDTableColumn(
                                 '',
-                                new CRUDTableWidgetTextWithLink('+', (new PermissionAddToUserAction($user_id, '{this->id}'))->url(), 'btn btn-default btn-xs'))
+                                new CRUDTableWidgetTextWithLink('+', (new PermissionAddToUserAction($user_id, '{this->id}'))->url(), 'btn btn-secondary btn-sm'))
                         ],
                         [
                             new CRUDTableFilterNotInInvisible('id', PermissionToUser::getPermissionIdsArrForUserId($user_id)),
@@ -220,17 +221,17 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
     {
         $html = '';
 
-        $html .= '<h2>Параметры</h2>';
+        $html .= '<h4 class="text-muted">Параметры</h4>';
 
         $user_obj = User::factory($user_id);
         $html .= CRUDForm::html(
             $user_obj,
             [
-                new CRUDFormRow(
+                new CRUDFormVerticalRow(
                     'Login',
                     new CRUDFormWidgetInput('login')
                 ),
-                new CRUDFormRow(
+                new CRUDFormVerticalRow(
                     'Комментарий',
                     new CRUDFormWidgetTextarea('description')
                 )
@@ -244,7 +245,7 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
     {
         $html = '';
 
-        $html .= '<h2>Изменение пароля</h2>';
+        $html .= '<h4 class="mt-4 text-muted">Изменение пароля</h4>';
         $html .= '<form class="form-horizontal" role="form" method="post" action="' . Url::path() . '">';
         $html .= Form::op(self::OPERATION_SET_PASSWORD);
 
@@ -257,7 +258,7 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
 
         $html .= '<div class="row">
 <div class="col-sm-8 col-sm-offset-4">
-<button style="width: 100%" type="submit" class="btn btn-primary">Сохранить</button>
+<button style="width: 100%" type="submit" class="btn btn-secondary">Сохранить</button>
 </div>
 </div>';
 
@@ -322,7 +323,7 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
         }
         $html = '';
 
-        $html .= '<h2>В составе групп</h2>';
+        $html .= '<h4 class="mt-4 text-muted">В составе групп</h4>';
 
         $new_user_to_group_obj = new UserToGroup();
         $new_user_to_group_obj->setUserId($user_id);

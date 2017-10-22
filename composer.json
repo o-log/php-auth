@@ -1,20 +1,25 @@
 {
   "name": "o-log/php-auth",
   "description": "User authentication and permission management.",
+  "minimum-stability": "beta",
   "require-dev": {
     "phpunit/phpunit": "5.5.*"
   },
   "require": {
     "o-log/php-router": "2.*",
     "o-log/php-model": "8.*",
-    "o-log/php-crud": "6.*",
+    "o-log/php-crud": "7.*",
     "o-log/php-layouts": "2.*"
+  },
+  "autoload-dev": {
+    "psr-0": {
+      "Config": "",
+      "PhpAuthDemo": ""
+    }
   },
   "autoload": {
     "psr-0": {
-      "Config": "",
-      "OLOG": "",
-      "PhpAuthDemo": ""
+      "OLOG": ""
     }
   }
 }

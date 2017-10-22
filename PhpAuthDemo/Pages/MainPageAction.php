@@ -7,6 +7,7 @@ use OLOG\Auth\Auth;
 use OLOG\BT\BT;
 use OLOG\BT\LayoutBootstrap;
 use OLOG\HTML;
+use OLOG\Layouts\AdminLayoutSelector;
 use OLOG\Layouts\PageTitleInterface;
 
 class MainPageAction implements
@@ -29,6 +30,6 @@ class MainPageAction implements
             $html .= '<div>' . HTML::a((new \OLOG\Auth\Pages\LogoutAction())->url(), 'logout') . '</div>';
             $html .= '<div>' . HTML::a((new \OLOG\Auth\Admin\UsersListAction())->url(), 'Auth admin') . '</div>';
 
-            LayoutBootstrap::render($html, $this);
+            AdminLayoutSelector::render($html, $this);
         }
     }

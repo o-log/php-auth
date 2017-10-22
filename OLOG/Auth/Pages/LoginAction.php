@@ -8,6 +8,7 @@ use OLOG\Auth\AuthConfig;
 use OLOG\Auth\User;
 use OLOG\BT\LayoutBootstrap;
 use OLOG\HTML;
+use OLOG\Layouts\AdminLayoutSelector;
 use OLOG\POST;
 
 class LoginAction implements ActionInterface
@@ -22,13 +23,13 @@ class LoginAction implements ActionInterface
         $user_id = Auth::currentUserId();
         if ($user_id) {
             $html = LoginTemplate::getContent('Пользователь уже авторизован', false);
-            LayoutBootstrap::render($html);
+            AdminLayoutSelector::render($html);
             return;
         }
 
         if (!array_key_exists('login', $_POST) && !array_key_exists('password', $_POST)) {
             $content = LoginTemplate::getContent();
-            LayoutBootstrap::render($content);
+            AdminLayoutSelector::render($content);
             return;
         }
 
@@ -47,7 +48,7 @@ class LoginAction implements ActionInterface
 
         if (!$user_id || ($password == "")) {
             $content = LoginTemplate::getContent('Неправильный адрес или пароль');
-            LayoutBootstrap::render($content);
+            AdminLayoutSelector::render($content);
             return;
         }
 
