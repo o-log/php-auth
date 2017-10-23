@@ -341,8 +341,10 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
                 $new_user_to_group_obj,
                 [
                     new CRUDFormInvisibleRow(new CRUDFormWidgetInput(UserToGroup::_USER_ID)),
-                    new CRUDFormRow('Группа',
-                        new CRUDFormWidgetReferenceAjax(UserToGroup::_GROUP_ID, Group::class, Group::_TITLE, (new GroupsListAjaxAction())->url(), (new GroupEditAction('REFERENCED_ID'))->url(), true))
+                    new CRUDFormVerticalRow(
+                        'Группа',
+                        new CRUDFormWidgetReferenceAjax(UserToGroup::_GROUP_ID, Group::class, Group::_TITLE, (new GroupsListAjaxAction())->url(), (new GroupEditAction('REFERENCED_ID'))->url(), true)
+                    )
                 ]
             ),
             [
