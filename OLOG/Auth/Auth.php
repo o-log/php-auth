@@ -4,6 +4,7 @@ namespace OLOG\Auth;
 
 use OLOG\Cache\Cache;
 use OLOG\Cache\CacheConfig;
+use OLOG\Exits;
 
 class Auth
 {
@@ -195,6 +196,10 @@ class Auth
         }
 
         return $data->id;
+    }
+
+    static public function check($requested_permissions_arr){
+        Exits::exit403If(!self::currentUserHasAnyOfPermissions($requested_permissions_arr));
     }
 
     /**

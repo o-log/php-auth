@@ -33,6 +33,7 @@ use OLOG\HTML;
 use OLOG\Layouts\AdminLayoutSelector;
 use OLOG\Layouts\PageTitleInterface;
 use OLOG\Layouts\TopActionObjInterface;
+use OLOG\MagnificPopup;
 use OLOG\MaskActionInterface;
 use OLOG\POST;
 use OLOG\Url;
@@ -106,10 +107,38 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
         $html .= '</div><div class="col-md-6">';
 
         if (Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS_PERMISSIONS])) {
-            $html .= '<h4 class="text-muted">Разрешения</h4>';
+            $html .= '<h4 class="text-muted">Разрешения <span>' . MagnificPopup::button('jjhgdkshgdsfg3456', 'btn btn-secondary btn-sm', '<i class="fa fa-plus"></i>') . '</span></h4>';
             $html .= HTML::div('', '', function () use ($user_id) {
                 $new_permissiontouser_obj = new PermissionToUser();
                 $new_permissiontouser_obj->setUserId($user_id);
+
+                //echo CollapsibleWidget::buttonAndCollapse('Неназначенные разрешения', function () use ($user_id) {
+                $popup_fn = function () use ($user_id) {
+                    $html = '';
+                    $html = '<h4 class="text-muted">Неназначенные пользователю разрешения</h4>';
+                    $html .= CRUDTable::html(
+                        Permission::class,
+                        '',
+                        [
+                            new CRUDTableColumn(
+                                '',
+                                new CRUDTableWidgetTextWithLink('{this->title}', (new PermissionAddToUserAction($user_id, '{this->id}'))->url())
+                            ),
+                            new CRUDTableColumn(
+                                '',
+                                new CRUDTableWidgetTextWithLink('+', (new PermissionAddToUserAction($user_id, '{this->id}'))->url(), 'btn btn-secondary btn-sm'))
+                        ],
+                        [
+                            new CRUDTableFilterNotInInvisible('id', PermissionToUser::getPermissionIdsArrForUserId($user_id)),
+                        ],
+                        'title asc',
+                        '79687tg8976rt87'
+                    );
+
+                    return $html;
+                };
+
+                echo MagnificPopup::popupHtml('jjhgdkshgdsfg3456', $popup_fn());
 
                 echo CRUDTable::html(
                     PermissionToUser::class,
@@ -128,26 +157,6 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
                     ''
                 );
 
-                echo CollapsibleWidget::buttonAndCollapse('Неназначенные разрешения', function () use ($user_id) {
-                    echo CRUDTable::html(
-                        Permission::class,
-                        '',
-                        [
-                            new CRUDTableColumn(
-                                'Разрешение',
-                                new CRUDTableWidgetTextWithLink('{this->title}', (new PermissionAddToUserAction($user_id, '{this->id}'))->url())
-                            ),
-                            new CRUDTableColumn(
-                                '',
-                                new CRUDTableWidgetTextWithLink('+', (new PermissionAddToUserAction($user_id, '{this->id}'))->url(), 'btn btn-secondary btn-sm'))
-                        ],
-                        [
-                            new CRUDTableFilterNotInInvisible('id', PermissionToUser::getPermissionIdsArrForUserId($user_id)),
-                        ],
-                        'title asc',
-                        '79687tg8976rt87'
-                    );
-                });
 
             });
         }
@@ -249,17 +258,15 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
         $html .= '<form class="form-horizontal" role="form" method="post" action="' . Url::path() . '">';
         $html .= Form::op(self::OPERATION_SET_PASSWORD);
 
-        $html .= '<div class="form-group ">
-<label class="col-sm-4 text-right control-label">Новый пароль</label>
-<div class="col-sm-8">
+        $html .= '<div class="form-group">
+<label class="">Новый пароль</label>
+<div class="">
 <input name="' . self::FIELD_NAME_PASSWORD . '" class="form-control" value="">
 </div>
 </div>';
 
-        $html .= '<div class="row">
-<div class="col-sm-8 col-sm-offset-4">
-<button style="width: 100%" type="submit" class="btn btn-secondary">Сохранить</button>
-</div>
+        $html .= '<div class="text-right">
+<button type="submit" class="btn btn-secondary">Сохранить</button>
 </div>';
 
         $html .= '</form>';
@@ -323,7 +330,7 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
         }
         $html = '';
 
-        $html .= '<h4 class="mt-4 text-muted">В составе групп</h4>';
+        $html .= '<h4 class="mt-4 text-muted">Входит в группы</h4>';
 
         $new_user_to_group_obj = new UserToGroup();
         $new_user_to_group_obj->setUserId($user_id);
@@ -340,15 +347,18 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
             ),
             [
                 new CRUDTableColumn(
-                    'Группа', new CRUDTableWidgetTextWithLink('{' . Group::class . '.{this->' . UserToGroup::_GROUP_ID . '}->' . Group::_TITLE . '}', (new GroupEditAction('{this->' . UserToGroup::_GROUP_ID . '}'))->url())
+                    '', new CRUDTableWidgetTextWithLink('{' . Group::class . '.{this->' . UserToGroup::_GROUP_ID . '}->' . Group::_TITLE . '}', (new GroupEditAction('{this->' . UserToGroup::_GROUP_ID . '}'))->url())
                 ),
                 new CRUDTableColumn(
-                    'Удалить', new CRUDTableWidgetDelete()
+                    '', new CRUDTableWidgetDelete()
                 )
             ],
             [
                 new CRUDTableFilterEqualInvisible(UserToGroup::_USER_ID, $user_id)
-            ]
+            ],
+            '',
+            'gsdfhglyeryt',
+            CRUDTable::FILTERS_POSITION_INLINE
         );
 
         return $html;
