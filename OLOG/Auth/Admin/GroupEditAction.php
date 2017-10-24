@@ -2,23 +2,23 @@
 
 namespace OLOG\Auth\Admin;
 
-use OLOG\ActionInterface;
 use OLOG\Auth\Auth;
 use OLOG\Auth\Group;
-use OLOG\Auth\Operator;
 use OLOG\Auth\OwnerCheck;
 use OLOG\Auth\Permissions;
 use OLOG\Auth\User;
 use OLOG\Auth\UserToGroup;
-use OLOG\CRUD\CRUDForm;
-use OLOG\CRUD\CRUDFormInvisibleRow;
-use OLOG\CRUD\CRUDFormRow;
-use OLOG\CRUD\CRUDFormWidgetInput;
-use OLOG\CRUD\CRUDFormWidgetReferenceAjax;
-use OLOG\CRUD\CRUDTable;
-use OLOG\CRUD\CRUDTableColumn;
-use OLOG\CRUD\CRUDTableFilterEqualInvisible;
-use OLOG\CRUD\CRUDTableWidgetDelete;
+use OLOG\CRUD\CForm;
+use OLOG\CRUD\CTable;
+use OLOG\CRUD\FGroup;
+use OLOG\CRUD\FGroupHidden;
+use OLOG\CRUD\FRow;
+use OLOG\CRUD\FWInput;
+use OLOG\CRUD\FWReferenceAjax;
+use OLOG\CRUD\TCol;
+use OLOG\CRUD\TFEqualHidden;
+use OLOG\CRUD\TWDelete;
+use OLOG\CRUD\TWTextWithLink;
 use OLOG\Exits;
 use OLOG\Layouts\AdminLayoutSelector;
 use OLOG\Layouts\PageTitleInterface;
@@ -76,9 +76,12 @@ class GroupEditAction extends AuthAdminActionsBaseProxy implements
 
     public function action()
     {
+        /*
         Exits::exit403If(
             !Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_GROUPS])
         );
+        */
+        Auth::check([Permissions::PERMISSION_PHPAUTH_MANAGE_GROUPS]);
 
         $group_obj = Group::factory($this->getGroupId());
 
@@ -88,12 +91,12 @@ class GroupEditAction extends AuthAdminActionsBaseProxy implements
 
         $html = '';
 
-        $html .= CRUDForm::html(
+        $html .= CForm::html(
             $group_obj,
             [
-                new CRUDFormRow(
+                new FGroup(
                     'Название',
-                    new CRUDFormWidgetInput(Group::_TITLE)
+                    new FWInput(Group::_TITLE)
                 )
             ]
         );
@@ -126,16 +129,16 @@ class GroupEditAction extends AuthAdminActionsBaseProxy implements
         $html .= '<h2>Владельцы</h2>';
 
         $group_obj = Group::factory($group_id);
-        $html .= CRUDForm::html(
+        $html .= CForm::html(
             $group_obj,
             [
-                new CRUDFormRow(
+                new FGroup(
                     'Пользователь',
-                    new CRUDFormWidgetInput(User::_OWNER_USER_ID, true)
+                    new FWInput(User::_OWNER_USER_ID, true)
                 ),
-                new CRUDFormRow(
+                new FGroup(
                     'Группа',
-                    new CRUDFormWidgetInput(User::_OWNER_GROUP_ID, true)
+                    new FWInput(User::_OWNER_GROUP_ID, true)
                 )
             ]
         );
@@ -145,38 +148,43 @@ class GroupEditAction extends AuthAdminActionsBaseProxy implements
 
     public static function usersInGroupTable($group_id)
     {
-        if (!Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS])) {
+        if (!Auth::currentUserHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS])) {
             return '';
         }
 
-        $html = '<h2>Пользователи в группе</h2>';
+        
+        $html = '';
+        //$html = '<h4 class="text-muted">Пользователи в группе</h4>';
 
         $new_user_to_group_obj = new UserToGroup();
         $new_user_to_group_obj->setGroupId($group_id);
 
-        $html .= CRUDTable::html(
+        $html .= CTable::html(
             UserToGroup::class,
-            CRUDForm::html(
+            CForm::html(
                 $new_user_to_group_obj,
                 [
-                    new CRUDFormInvisibleRow(new CRUDFormWidgetInput(UserToGroup::_GROUP_ID)),
-                    new CRUDFormRow('Пользователь',
-                        new CRUDFormWidgetReferenceAjax(UserToGroup::_USER_ID, User::class, User::_LOGIN, (new UsersListAjaxAction())->url(), (new UserEditAction('REFERENCED_ID'))->url(), true))
+                    new FGroupHidden(new FWInput(UserToGroup::_GROUP_ID)),
+                    new FRow('Пользователь',
+                        new FWReferenceAjax(UserToGroup::_USER_ID, User::class, User::_LOGIN, (new UsersListAjaxAction())->url(), (new UserEditAction('REFERENCED_ID'))->url(), true))
                 ]
             ),
             [
-                new CRUDTableColumn(
-                    'Логин',
-                    new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{' . User::class . '.{this->' . UserToGroup::_USER_ID . '}->' . User::_LOGIN . '}', (new UserEditAction('{this->' . UserToGroup::_USER_ID . '}'))->url())
+                new TCol(
+                    '',
+                    new TWTextWithLink('{' . User::class . '.{this->' . UserToGroup::_USER_ID . '}->' . User::_LOGIN . '}', (new UserEditAction('{this->' . UserToGroup::_USER_ID . '}'))->url())
                 ),
-                new CRUDTableColumn(
-                    'Удалить',
-                    new CRUDTableWidgetDelete()
+                new TCol(
+                    '',
+                    new TWDelete()
                 )
             ],
             [
-                new CRUDTableFilterEqualInvisible(UserToGroup::_GROUP_ID, $group_id)
-            ]
+                new TFEqualHidden(UserToGroup::_GROUP_ID, $group_id)
+            ],
+            '',
+            'sdgkl987sdfg',
+            'Пользователи в группе'
         );
 
         return $html;

@@ -2,7 +2,7 @@
 
 namespace OLOG\Auth\Admin;
 
-use OLOG\Auth\Operator;
+use OLOG\Auth\Auth;
 use OLOG\Auth\Permissions;
 use OLOG\Layouts\MenuInterface;
 use OLOG\Layouts\MenuItem;
@@ -13,7 +13,7 @@ class AuthAdminMenu implements MenuInterface
     {
         $menu_arr = [];
 
-        if (Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS, Permissions::PERMISSION_PHPAUTH_MANAGE_GROUPS, Permissions::PERMISSION_PHPAUTH_MANAGE_OPERATORS])) {
+        if (Auth::currentUserHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS, Permissions::PERMISSION_PHPAUTH_MANAGE_GROUPS])) {
             $menu_arr = [
                 new MenuItem('Пользователи', '', [
                     new MenuItem((new UsersListAction())->pageTitle(), (new UsersListAction())->url(), [], 'fa fa-user'),

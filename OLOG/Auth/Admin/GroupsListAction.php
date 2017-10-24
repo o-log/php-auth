@@ -3,16 +3,20 @@
 namespace OLOG\Auth\Admin;
 
 use OLOG\ActionInterface;
+use OLOG\Auth\Auth;
 use OLOG\Auth\CRUDTableFilterOwnerInvisible;
 use OLOG\Auth\Group;
-use OLOG\Auth\Operator;
 use OLOG\Auth\Permissions;
-use OLOG\CRUD\CRUDForm;
-use OLOG\CRUD\CRUDFormRow;
-use OLOG\CRUD\CRUDFormWidgetInput;
-use OLOG\CRUD\CRUDTableFilterLike;
-use OLOG\CRUD\CRUDTableFilterLikeInline;
-use OLOG\Exits;
+use OLOG\CRUD\CForm;
+use OLOG\CRUD\CTable;
+use OLOG\CRUD\FGroup;
+use OLOG\CRUD\FRow;
+use OLOG\CRUD\FWInput;
+use OLOG\CRUD\TCol;
+use OLOG\CRUD\TFLikeInline;
+use OLOG\CRUD\TWDelete;
+use OLOG\CRUD\TWTextWithLink;
+use OLOG\CRUD\TWTimestamp;
 use OLOG\Layouts\AdminLayoutSelector;
 use OLOG\Layouts\PageTitleInterface;
 
@@ -40,39 +44,32 @@ class GroupsListAction extends AuthAdminActionsBaseProxy implements
     */
 
     public function action(){
+        /*
         Exits::exit403If(
             !Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_GROUPS])
         );
+        */
+        Auth::check([Permissions::PERMISSION_PHPAUTH_MANAGE_GROUPS]);
 
-        $html = \OLOG\CRUD\CRUDTable::html(
-            \OLOG\Auth\Group::class,
-            CRUDForm::html(
+        $html = CTable::html(
+            Group::class,
+            CForm::html(
                 new Group(),
                 [
-                    new CRUDFormRow('Название', new CRUDFormWidgetInput(Group::_TITLE))
+                    new FGroup('Название', new FWInput(Group::_TITLE))
                 ]
             ),
             [
-                new \OLOG\CRUD\CRUDTableColumn(
-                    'Название',
-                    new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{this->' . Group::_TITLE. '}', (new GroupEditAction('{this->id}'))->url())
-                ),
-                new \OLOG\CRUD\CRUDTableColumn(
-                    'Создана',
-                    new \OLOG\CRUD\CRUDTableWidgetTimestamp('{this->created_at_ts}')
-                ),
-                new \OLOG\CRUD\CRUDTableColumn(
-                    '',
-                    new \OLOG\CRUD\CRUDTableWidgetDelete()
-                )
+                new TCol('', new TWTextWithLink('{this->' . Group::_TITLE. '}', (new GroupEditAction('{this->id}'))->url())),
+                new TCol('', new TWTimestamp('{this->created_at_ts}')),
+                new TCol('', new TWDelete())
             ],
             [
-                new CRUDTableFilterLikeInline('wgieruygfigfe', '', Group::_TITLE, 'Название'),
+                new TFLikeInline('wgieruygfigfe', '', Group::_TITLE, 'Фильтр по названию'),
                 new CRUDTableFilterOwnerInvisible()
             ],
             'title',
-            '1',
-            \OLOG\CRUD\CRUDTable::FILTERS_POSITION_INLINE
+            '1'
         );
 
         AdminLayoutSelector::render($html, $this);

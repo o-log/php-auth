@@ -3,8 +3,13 @@
 namespace OLOG\Auth\Admin;
 
 use OLOG\ActionInterface;
-use OLOG\Auth\Operator;
+use OLOG\Auth\Auth;
+use OLOG\Auth\Permission;
 use OLOG\Auth\Permissions;
+use OLOG\CRUD\CTable;
+use OLOG\CRUD\TCol;
+use OLOG\CRUD\TWText;
+use OLOG\CRUD\TWTextWithLink;
 use OLOG\Exits;
 use OLOG\Layouts\AdminLayoutSelector;
 use OLOG\Layouts\PageTitleInterface;
@@ -25,19 +30,22 @@ class PermissionsListAction extends AuthAdminActionsBaseProxy implements
 
     public function action()
     {
+        /*
         Exits::exit403If(
             !Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS_PERMISSIONS])
         );
+        */
+        Auth::check([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS_PERMISSIONS]);
 
-        $html = \OLOG\CRUD\CRUDTable::html(
-            \OLOG\Auth\Permission::class,
+        $html = CTable::html(
+            Permission::class,
             null,
             [
-                new \OLOG\CRUD\CRUDTableColumn(
-                    '', new \OLOG\CRUD\CRUDTableWidgetText('{this->id}')
+                new TCol(
+                    '', new TWText('{this->id}')
                 ),
-                new \OLOG\CRUD\CRUDTableColumn(
-                    '', new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{this->title}', (new \OLOG\Auth\Admin\PermissionToUserListAction('{this->id}'))->url())
+                new TCol(
+                    '', new TWTextWithLink('{this->title}', (new PermissionToUserListAction('{this->id}'))->url())
                 ),
             ],
             [],

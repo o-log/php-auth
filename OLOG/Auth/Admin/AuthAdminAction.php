@@ -3,7 +3,7 @@
 namespace OLOG\Auth\Admin;
 
 use OLOG\ActionInterface;
-use OLOG\Auth\Operator;
+use OLOG\Auth\Auth;
 use OLOG\Auth\Permissions;
 use OLOG\Exits;
 use OLOG\HTML;
@@ -28,6 +28,7 @@ class AuthAdminAction extends AuthAdminActionsBaseProxy implements
 
     public function action()
     {
+        /*
         Exits::exit403If(
             !Operator::currentOperatorHasAnyOfPermissions(
                 [
@@ -36,12 +37,13 @@ class AuthAdminAction extends AuthAdminActionsBaseProxy implements
                 ]
             )
         );
+        */
+        Auth::check([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS]);
 
         $html = '';
         $html .= '<div>' . HTML::a((new PermissionsListAction())->url(), 'Разрешения') . '</div>';
         $html .= '<div>' . HTML::a((new UsersListAction())->url(), 'Пользователи') . '</div>';
         $html .= '<div>' . HTML::a((new GroupsListAction())->url(), 'Группы') . '</div>';
-        $html .= '<div>' . HTML::a((new OperatorsListAction())->url(), 'Операторы') . '</div>';
 
         AdminLayoutSelector::render($html, $this);
     }

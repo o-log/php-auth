@@ -5,10 +5,15 @@ namespace OLOG\Auth\Admin;
 
 
 use OLOG\ActionInterface;
+use OLOG\Auth\Auth;
 use OLOG\Auth\CRUDTableFilterOwnerInvisible;
-use OLOG\Auth\Operator;
+use OLOG\Auth\Group;
 use OLOG\Auth\Permissions;
-use OLOG\Exits;
+use OLOG\CRUD\CTable;
+use OLOG\CRUD\TCol;
+use OLOG\CRUD\TWReferenceSelect;
+use OLOG\CRUD\TWText;
+use OLOG\CRUD\TWTimestamp;
 
 class GroupsListAjaxAction implements ActionInterface
 {
@@ -17,31 +22,25 @@ class GroupsListAjaxAction implements ActionInterface
     }
 
     public function action(){
+        /*
         Exits::exit403If(
             !Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_GROUPS])
         );
+        */
+        Auth::check([Permissions::PERMISSION_PHPAUTH_MANAGE_GROUPS]);
 
-        $html = \OLOG\CRUD\CRUDTable::html(
-            \OLOG\Auth\Group::class,
+        $html = CTable::html(
+            Group::class,
             '',
             [
-                new \OLOG\CRUD\CRUDTableColumn(
-                    '',
-                    new \OLOG\CRUD\CRUDTableWidgetReferenceSelect(\OLOG\Auth\Group::_TITLE)
-                ),
-                new \OLOG\CRUD\CRUDTableColumn(
-                    'Название',
-                    new \OLOG\CRUD\CRUDTableWidgetText('{this->'.\OLOG\Auth\Group::_TITLE.'}')
-                ),
-                new \OLOG\CRUD\CRUDTableColumn(
-                    'Создана',
-                    new \OLOG\CRUD\CRUDTableWidgetTimestamp('{this->'.\OLOG\Auth\Group::_CREATED_AT_TS.'}')
-                )
+                new TCol('', new TWReferenceSelect(Group::_TITLE)),
+                new TCol('', new TWText(Group::_TITLE)),
+                new TCol('', new TWTimestamp(Group::_CREATED_AT_TS))
             ],
             [
                 new CRUDTableFilterOwnerInvisible()
             ],
-            'title'
+            Group::_TITLE
         );
 
         echo $html;

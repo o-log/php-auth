@@ -2,31 +2,28 @@
 
 namespace OLOG\Auth\Admin;
 
-use OLOG\ActionInterface;
 use OLOG\Auth\Auth;
 use OLOG\Auth\Group;
-use OLOG\Auth\Operator;
 use OLOG\Auth\OwnerCheck;
 use OLOG\Auth\Permission;
 use OLOG\Auth\Permissions;
 use OLOG\Auth\PermissionToUser;
 use OLOG\Auth\User;
 use OLOG\Auth\UserToGroup;
-use OLOG\BT\CollapsibleWidget;
-use OLOG\CRUD\CRUDForm;
-use OLOG\CRUD\CRUDFormInvisibleRow;
-use OLOG\CRUD\CRUDFormRow;
-use OLOG\CRUD\CRUDFormVerticalRow;
-use OLOG\CRUD\CRUDFormWidgetInput;
-use OLOG\CRUD\CRUDFormWidgetReference;
-use OLOG\CRUD\CRUDFormWidgetReferenceAjax;
-use OLOG\CRUD\CRUDFormWidgetTextarea;
-use OLOG\CRUD\CRUDTable;
-use OLOG\CRUD\CRUDTableColumn;
-use OLOG\CRUD\CRUDTableFilterEqualInvisible;
-use OLOG\CRUD\CRUDTableFilterNotInInvisible;
-use OLOG\CRUD\CRUDTableWidgetDelete;
-use OLOG\CRUD\CRUDTableWidgetTextWithLink;
+use OLOG\CRUD\CForm;
+use OLOG\CRUD\CTable;
+use OLOG\CRUD\FGroup;
+use OLOG\CRUD\FGroupHidden;
+use OLOG\CRUD\FRow;
+use OLOG\CRUD\FWInput;
+use OLOG\CRUD\FWReferenceAjax;
+use OLOG\CRUD\FWTextarea;
+use OLOG\CRUD\TCol;
+use OLOG\CRUD\TFEqualHidden;
+use OLOG\CRUD\TFNotInHidden;
+use OLOG\CRUD\TWDelete;
+use OLOG\CRUD\TWText;
+use OLOG\CRUD\TWTextWithLink;
 use OLOG\Exits;
 use OLOG\Form;
 use OLOG\HTML;
@@ -60,7 +57,8 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
 
     public function pageTitle()
     {
-        return 'Пользователь ' . $this->user_id;
+        $user = User::factory($this->user_id);
+        return $user->getLogin();
     }
 
     public function url()
@@ -75,9 +73,12 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
 
     public function action()
     {
+        /*
         Exits::exit403If(
             !Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS])
         );
+        */
+        Auth::check([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS]);
 
         $user_id = $this->user_id;
         $user_obj = User::factory($user_id);
@@ -106,8 +107,8 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
 
         $html .= '</div><div class="col-md-6">';
 
-        if (Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS_PERMISSIONS])) {
-            $html .= '<h4 class="text-muted">Разрешения <span>' . MagnificPopup::button('jjhgdkshgdsfg3456', 'btn btn-secondary btn-sm', '<i class="fa fa-plus"></i>') . '</span></h4>';
+        if (Auth::currentUserHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS_PERMISSIONS])) {
+            //$html .= '<h4 class="text-muted">Разрешения <span>' . MagnificPopup::button('jjhgdkshgdsfg3456', 'btn btn-secondary btn-sm', '<i class="fa fa-plus"></i>') . '</span></h4>';
             $html .= HTML::div('', '', function () use ($user_id) {
                 $new_permissiontouser_obj = new PermissionToUser();
                 $new_permissiontouser_obj->setUserId($user_id);
@@ -116,20 +117,20 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
                 $popup_fn = function () use ($user_id) {
                     $html = '';
                     $html = '<h4 class="text-muted">Неназначенные пользователю разрешения</h4>';
-                    $html .= CRUDTable::html(
+                    $html .= CTable::html(
                         Permission::class,
                         '',
                         [
-                            new CRUDTableColumn(
+                            new TCol(
                                 '',
-                                new CRUDTableWidgetTextWithLink('{this->title}', (new PermissionAddToUserAction($user_id, '{this->id}'))->url())
+                                new TWTextWithLink('{this->title}', (new PermissionAddToUserAction($user_id, '{this->id}'))->url())
                             ),
-                            new CRUDTableColumn(
+                            new TCol(
                                 '',
-                                new CRUDTableWidgetTextWithLink('+', (new PermissionAddToUserAction($user_id, '{this->id}'))->url(), 'btn btn-secondary btn-sm'))
+                                new TWTextWithLink('+', (new PermissionAddToUserAction($user_id, '{this->id}'))->url(), 'btn btn-secondary btn-sm'))
                         ],
                         [
-                            new CRUDTableFilterNotInInvisible('id', PermissionToUser::getPermissionIdsArrForUserId($user_id)),
+                            new TFNotInHidden('id', PermissionToUser::getPermissionIdsArrForUserId($user_id)),
                         ],
                         'title asc',
                         '79687tg8976rt87'
@@ -140,21 +141,23 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
 
                 echo MagnificPopup::popupHtml('jjhgdkshgdsfg3456', $popup_fn());
 
-                echo CRUDTable::html(
+                echo CTable::html(
                     PermissionToUser::class,
                     '',
                     [
-                        new \OLOG\CRUD\CRUDTableColumn(
-                            '', new \OLOG\CRUD\CRUDTableWidgetText('{' . Permission::class . '.{this->permission_id}->title}')
+                        new TCol(
+                            '', new TWText('{' . Permission::class . '.{this->permission_id}->title}')
                         ),
-                        new \OLOG\CRUD\CRUDTableColumn(
-                            '', new \OLOG\CRUD\CRUDTableWidgetDelete()
+                        new TCol(
+                            '', new TWDelete()
                         )
                     ],
                     [
-                        new CRUDTableFilterEqualInvisible('user_id', $user_id)
+                        new TFEqualHidden('user_id', $user_id)
                     ],
-                    ''
+                    '',
+                    'fasdfrsgxcv',
+                    'Разрешения <span class="pull-right">' . MagnificPopup::button('jjhgdkshgdsfg3456', 'btn btn-secondary btn-sm', '<i class="fa fa-plus"></i></span>')
                 );
 
 
@@ -201,24 +204,24 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
         $html .= '<h2>Владельцы и полный доступ</h2>';
 
         $user_obj = User::factory($user_id);
-        $html .= CRUDForm::html(
+        $html .= CForm::html(
             $user_obj,
             [
-                new CRUDFormRow(
+                new FRow(
                     'Owner user',
-                    new CRUDFormWidgetInput(User::_OWNER_USER_ID, true)
+                    new FWInput(User::_OWNER_USER_ID, true)
                 ),
-                new CRUDFormRow(
+                new FRow(
                     'Owner group',
-                    new CRUDFormWidgetInput(User::_OWNER_GROUP_ID, true)
+                    new FWInput(User::_OWNER_GROUP_ID, true)
                 ),
-                new CRUDFormRow(
+                new FRow(
                     'Primary group',
-                    new CRUDFormWidgetInput(User::_PRIMARY_GROUP_ID, true)
+                    new FWInput(User::_PRIMARY_GROUP_ID, true)
                 ),
-                new CRUDFormRow(
+                new FRow(
                     'Has full access',
-                    new CRUDFormWidgetInput(User::_HAS_FULL_ACCESS)
+                    new FWInput(User::_HAS_FULL_ACCESS)
                 ),
             ]
         );
@@ -230,19 +233,19 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
     {
         $html = '';
 
-        $html .= '<h4 class="text-muted">Параметры</h4>';
+        //$html .= '<h4>Параметры</h4>';
 
         $user_obj = User::factory($user_id);
-        $html .= CRUDForm::html(
+        $html .= CForm::html(
             $user_obj,
             [
-                new CRUDFormVerticalRow(
+                new FGroup(
                     'Login',
-                    new CRUDFormWidgetInput('login')
+                    new FWInput('login')
                 ),
-                new CRUDFormVerticalRow(
+                new FGroup(
                     'Комментарий',
-                    new CRUDFormWidgetTextarea('description')
+                    new FWTextarea('description')
                 )
             ]
         );
@@ -254,7 +257,7 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
     {
         $html = '';
 
-        $html .= '<h4 class="mt-4 text-muted">Изменение пароля</h4>';
+        $html .= '<div class="font-weight-bold mt-4">Изменение пароля</div>';
         $html .= '<form class="form-horizontal" role="form" method="post" action="' . Url::path() . '">';
         $html .= Form::op(self::OPERATION_SET_PASSWORD);
 
@@ -274,93 +277,44 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
         return $html;
     }
 
-    /*
-    static public function userOperatorsTable($user_id)
-    {
-        $html = '';
-
-        $html .= '<h2>Операторы пользователя</h2>';
-
-        $new_operator_obj = new Operator();
-        $new_operator_obj->setUserId($user_id);
-
-        $html .= \OLOG\CRUD\CRUDTable::html(
-            \OLOG\Auth\Operator::class,
-            CRUDForm::html(
-                $new_operator_obj,
-                [
-                    new CRUDFormRow(
-                        'user_id',
-                        new CRUDFormWidgetReference('user_id', User::class, 'login')
-                    ),
-                    new CRUDFormRow(
-                        'title',
-                        new CRUDFormWidgetInput('title')
-                    ),
-                    new CRUDFormRow(
-                        'Описание',
-                        new CRUDFormWidgetTextarea('description')
-                    )
-                ]
-            ),
-            [
-                new \OLOG\CRUD\CRUDTableColumn(
-                    'title', new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{this->title}', (new OperatorEditAction('{this->id}'))->url())
-                ),
-                new \OLOG\CRUD\CRUDTableColumn(
-                    'Описание', new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{this->description}', (new OperatorEditAction('{this->id}'))->url())
-                ),
-                new \OLOG\CRUD\CRUDTableColumn(
-                    'Удалить', new \OLOG\CRUD\CRUDTableWidgetDelete()
-                )
-            ],
-            [
-                new CRUDTableFilterEqualInvisible('user_id', $user_id)
-            ]
-        );
-
-        return $html;
-    }
-    */
-
     static public function userInGroupsTable($user_id)
     {
-        if (!Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_GROUPS])) {
+        if (!Auth::currentUserHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_GROUPS])) {
             return '';
         }
         $html = '';
 
-        $html .= '<h4 class="mt-4 text-muted">Входит в группы</h4>';
+        //$html .= '<h4 class="mt-4 text-muted">Входит в группы</h4>';
 
         $new_user_to_group_obj = new UserToGroup();
         $new_user_to_group_obj->setUserId($user_id);
 
-        $html .= CRUDTable::html(
+        $html .= CTable::html(
             UserToGroup::class,
-            CRUDForm::html(
+            CForm::html(
                 $new_user_to_group_obj,
                 [
-                    new CRUDFormInvisibleRow(new CRUDFormWidgetInput(UserToGroup::_USER_ID)),
-                    new CRUDFormVerticalRow(
+                    new FGroupHidden(new FWInput(UserToGroup::_USER_ID)),
+                    new FGroup(
                         'Группа',
-                        new CRUDFormWidgetReferenceAjax(UserToGroup::_GROUP_ID, Group::class, Group::_TITLE, (new GroupsListAjaxAction())->url(), (new GroupEditAction('REFERENCED_ID'))->url(), true)
+                        new FWReferenceAjax(UserToGroup::_GROUP_ID, Group::class, Group::_TITLE, (new GroupsListAjaxAction())->url(), (new GroupEditAction('REFERENCED_ID'))->url(), true)
                     )
                 ]
             ),
             [
-                new CRUDTableColumn(
-                    '', new CRUDTableWidgetTextWithLink('{' . Group::class . '.{this->' . UserToGroup::_GROUP_ID . '}->' . Group::_TITLE . '}', (new GroupEditAction('{this->' . UserToGroup::_GROUP_ID . '}'))->url())
+                new TCol(
+                    '', new TWTextWithLink('{' . Group::class . '.{this->' . UserToGroup::_GROUP_ID . '}->' . Group::_TITLE . '}', (new GroupEditAction('{this->' . UserToGroup::_GROUP_ID . '}'))->url())
                 ),
-                new CRUDTableColumn(
-                    '', new CRUDTableWidgetDelete()
+                new TCol(
+                    '', new TWDelete()
                 )
             ],
             [
-                new CRUDTableFilterEqualInvisible(UserToGroup::_USER_ID, $user_id)
+                new TFEqualHidden(UserToGroup::_USER_ID, $user_id)
             ],
             '',
             'gsdfhglyeryt',
-            CRUDTable::FILTERS_POSITION_INLINE
+            'Входит в группы'
         );
 
         return $html;

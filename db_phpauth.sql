@@ -49,4 +49,6 @@ alter table olog_auth_user add column has_full_access tinyint  not null   defaul
 alter table olog_auth_user add column primary_group_id int    /* rand264171 */
 alter table olog_auth_user add constraint FK_primary_group_id_577270 foreign key (primary_group_id)  references olog_auth_group (id) /* rand704504 */
 alter table olog_auth_usertogroup add unique key UK_user_id_group_id_653824 (user_id, group_id) /* rand249455 */
-
+drop table olog_auth_operatorpermission /* uywetrigkjwf */
+delete from olog_auth_permission where title = "PERMISSION_PHPAUTH_MANAGE_OPERATORS" /* klsdhfgjhlsdfg */
+drop table olog_auth_operator /* iouyowesdgsdf967 */

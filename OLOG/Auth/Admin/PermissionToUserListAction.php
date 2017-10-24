@@ -2,13 +2,16 @@
 
 namespace OLOG\Auth\Admin;
 
-use OLOG\ActionInterface;
-use OLOG\Auth\Operator;
+use OLOG\Auth\Auth;
 use OLOG\Auth\Permission;
 use OLOG\Auth\Permissions;
+use OLOG\Auth\PermissionToUser;
 use OLOG\Auth\User;
-use OLOG\CRUD\CRUDTableFilterEqualInvisible;
-use OLOG\Exits;
+use OLOG\CRUD\CTable;
+use OLOG\CRUD\TCol;
+use OLOG\CRUD\TFEqualHidden;
+use OLOG\CRUD\TWDelete;
+use OLOG\CRUD\TWTextWithLink;
 use OLOG\Layouts\AdminLayoutSelector;
 use OLOG\Layouts\PageTitleInterface;
 use OLOG\MaskActionInterface;
@@ -31,7 +34,8 @@ class PermissionToUserListAction extends AuthAdminActionsBaseProxy implements
 
     public function pageTitle()
     {
-        return 'Пользователи разрешения';
+        $permission = Permission::factory($this->permission_id);
+        return $permission->getTitle();
     }
 
     public function url()
@@ -46,26 +50,33 @@ class PermissionToUserListAction extends AuthAdminActionsBaseProxy implements
 
     public function action()
     {
+        /*
         Exits::exit403If(
             !Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS_PERMISSIONS])
         );
+        */
+        Auth::check([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS_PERMISSIONS]);
 
-        $permission_obj = Permission::factory($this->permission_id);
-        $html = \OLOG\HTML::tag('h3', [], $permission_obj->getTitle());
-        $html .= \OLOG\CRUD\CRUDTable::html(
-            \OLOG\Auth\PermissionToUser::class,
+        $html = '';
+        //$permission_obj = Permission::factory($this->permission_id);
+        //$html = \OLOG\HTML::tag('h3', [], $permission_obj->getTitle());
+        $html .= CTable::html(
+            PermissionToUser::class,
             null,
             [
-                new \OLOG\CRUD\CRUDTableColumn(
-                    '', new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{' . User::class . '.{this->user_id}->login}', (new UserEditAction('{this->user_id}'))->url())
+                new TCol(
+                    '', new TWTextWithLink('{' . User::class . '.{this->user_id}->login}', (new UserEditAction('{this->user_id}'))->url())
                 ),
-                new \OLOG\CRUD\CRUDTableColumn(
-                    '', new \OLOG\CRUD\CRUDTableWidgetDelete()
+                new TCol(
+                    '', new TWDelete()
                 )
             ],
             [
-                new CRUDTableFilterEqualInvisible('permission_id', $this->permission_id)
-            ]
+                new TFEqualHidden('permission_id', $this->permission_id)
+            ],
+            '',
+            '',
+            'Пользователи, которым назначено разрешение'
         );
 
         AdminLayoutSelector::render($html, $this);

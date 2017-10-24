@@ -3,15 +3,22 @@
 namespace OLOG\Auth\Admin;
 
 use OLOG\ActionInterface;
+use OLOG\Auth\Auth;
+use OLOG\Auth\CRUDTableFilterOwnerInvisible;
 use OLOG\Auth\Group;
-use OLOG\Auth\Operator;
 use OLOG\Auth\Permissions;
 use OLOG\Auth\User;
-use OLOG\CRUD\CRUDForm;
-use OLOG\CRUD\CRUDFormRow;
-use OLOG\CRUD\CRUDFormWidgetInput;
-use OLOG\CRUD\CRUDFormWidgetTextarea;
-use OLOG\CRUD\CRUDTableFilterLikeInline;
+use OLOG\CRUD\CForm;
+use OLOG\CRUD\CTable;
+use OLOG\CRUD\FRow;
+use OLOG\CRUD\FWInput;
+use OLOG\CRUD\FWTextarea;
+use OLOG\CRUD\TCol;
+use OLOG\CRUD\TFLikeInline;
+use OLOG\CRUD\TWDelete;
+use OLOG\CRUD\TWText;
+use OLOG\CRUD\TWTextWithLink;
+use OLOG\CRUD\TWTimestamp;
 use OLOG\Exits;
 use OLOG\Layouts\AdminLayoutSelector;
 use OLOG\Layouts\PageTitleInterface;
@@ -29,50 +36,37 @@ class UsersListAction extends AuthAdminActionsBaseProxy implements
     }
 
     public function action(){
+        /*
         Exits::exit403If(
             !Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS])
         );
+        */
+        Auth::check([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS]);
 
-        $html = \OLOG\CRUD\CRUDTable::html(
-            \OLOG\Auth\User::class,
-            CRUDForm::html(
+        $html = CTable::html(
+            User::class,
+            CForm::html(
                 new User(),
                 [
-                    new CRUDFormRow('login', new CRUDFormWidgetInput('login')),
-                    new CRUDFormRow('Комментарий', new CRUDFormWidgetTextarea('description'))
+                    new FRow('login', new FWInput('login')),
+                    new FRow('Комментарий', new FWTextarea('description'))
                 ],
 	            (new UserEditAction('{this->id}'))->url()
             ),
             [
-                new \OLOG\CRUD\CRUDTableColumn(
-                    'Логин',
-                    new \OLOG\CRUD\CRUDTableWidgetTextWithLink('{this->login}', (new UserEditAction('{this->id}'))->url())
-                ),
-                new \OLOG\CRUD\CRUDTableColumn(
-                    'Создан',
-                    new \OLOG\CRUD\CRUDTableWidgetTimestamp('{this->created_at_ts}')
-                ),
-                new \OLOG\CRUD\CRUDTableColumn(
-                    'Комментарий',
-                    new \OLOG\CRUD\CRUDTableWidgetText('{this->description}')
-                ),
-                new \OLOG\CRUD\CRUDTableColumn(
-                    'Основная группа',
-                    new \OLOG\CRUD\CRUDTableWidgetText('{' . Group::class . '.{this->' . User::_PRIMARY_GROUP_ID . '}->title}')
-                ),
-                new \OLOG\CRUD\CRUDTableColumn(
-                    '',
-                    new \OLOG\CRUD\CRUDTableWidgetDelete()
-                )
+                new TCol('', new TWTextWithLink(User::_LOGIN, (new UserEditAction('{this->id}'))->url())),
+                new TCol('', new TWTimestamp(User::_CREATED_AT_TS)),
+                new TCol('', new TWText(User::_DESCRIPTION)),
+                new TCol('', new TWText('{' . Group::class . '.{this->' . User::_PRIMARY_GROUP_ID . '}->title}')),
+                new TCol('', new TWDelete())
             ],
             [
-                new CRUDTableFilterLikeInline('login_1287318', '', 'login', 'Логин'),
-                new CRUDTableFilterLikeInline('description_1287318', '', 'description', 'Комментарий'),
-                new \OLOG\Auth\CRUDTableFilterOwnerInvisible()
+                new TFLikeInline('login_1287318', '', 'login', 'Фильтр по логину'),
+                new TFLikeInline('description_1287318', '', 'description', 'Фильтр по комментарию'),
+                new CRUDTableFilterOwnerInvisible()
             ],
             'login',
-            '1',
-            \OLOG\CRUD\CRUDTable::FILTERS_POSITION_INLINE
+            '1'
         );
 
         AdminLayoutSelector::render($html, $this);

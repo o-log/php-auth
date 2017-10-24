@@ -6,9 +6,6 @@ use OLOG\Auth\Admin\AuthAdminAction;
 use OLOG\Auth\Admin\GroupEditAction;
 use OLOG\Auth\Admin\GroupsListAction;
 use OLOG\Auth\Admin\GroupsListAjaxAction;
-use OLOG\Auth\Admin\OperatorEditAction;
-use OLOG\Auth\Admin\OperatorsListAction;
-use OLOG\Auth\Admin\PermissionAddToOperatorAction;
 use OLOG\Auth\Admin\PermissionAddToUserAction;
 use OLOG\Auth\Admin\PermissionsListAction;
 use OLOG\Auth\Admin\PermissionToUserListAction;
@@ -27,15 +24,12 @@ class RegisterRoutes
         Router::action(UserEditAction::class, 0);
         Router::action(PermissionsListAction::class, 0);
         Router::action(PermissionToUserListAction::class, 0);
-        Router::action(OperatorsListAction::class, 0);
         Router::action(UsersListAjaxAction::class, 0);
-        Router::action(OperatorEditAction::class, 0);
         Router::action(GroupsListAction::class, 0);
         Router::action(GroupEditAction::class, 0);
         Router::action(GroupsListAjaxAction::class, 0);
 
         Router::action(PermissionAddToUserAction::class, 0);
-        Router::action(PermissionAddToOperatorAction::class, 0);
 
         Router::action(LoginAction::class, 0);
         Router::action(LogoutAction::class, 0);

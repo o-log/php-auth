@@ -1,7 +1,7 @@
 <?php
 namespace OLOG\Auth\Admin;
 
-use OLOG\Auth\Operator;
+use OLOG\Auth\Auth;
 use OLOG\Auth\Permissions;
 use OLOG\Auth\PermissionToUser;
 use OLOG\Exits;
@@ -27,6 +27,7 @@ class PermissionAddToUserAction implements MaskActionInterface
     }
 
     public function action() {
+        /*
         Exits::exit403If(
             !Operator::currentOperatorHasAnyOfPermissions(
                 [
@@ -34,6 +35,8 @@ class PermissionAddToUserAction implements MaskActionInterface
                 ]
             )
         );
+        */
+        Auth::check([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS_PERMISSIONS]);
 
         $permissiontouser_obj = new PermissionToUser();
         $permissiontouser_obj->setUserId($this->user_id);

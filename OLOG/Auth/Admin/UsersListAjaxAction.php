@@ -3,10 +3,15 @@
 namespace OLOG\Auth\Admin;
 
 use OLOG\ActionInterface;
+use OLOG\Auth\Auth;
 use OLOG\Auth\CRUDTableFilterOwnerInvisible;
-use OLOG\Auth\Operator;
 use OLOG\Auth\Permissions;
-use OLOG\CRUD\CRUDTableFilterLike;
+use OLOG\Auth\User;
+use OLOG\CRUD\CTable;
+use OLOG\CRUD\TCol;
+use OLOG\CRUD\TFLike;
+use OLOG\CRUD\TWReferenceSelect;
+use OLOG\CRUD\TWText;
 use OLOG\Exits;
 
 class UsersListAjaxAction implements ActionInterface
@@ -16,34 +21,36 @@ class UsersListAjaxAction implements ActionInterface
     }
 
     public function action(){
+        /*
         Exits::exit403If(
             !Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS])
         );
+        */
+        Auth::check([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS]);
 
-        $html = \OLOG\CRUD\CRUDTable::html(
-            \OLOG\Auth\User::class,
+        $html = CTable::html(
+            User::class,
             '',
             [
-                new \OLOG\CRUD\CRUDTableColumn(
+                new TCol(
                     'Логин',
-                    new \OLOG\CRUD\CRUDTableWidgetReferenceSelect('login')
+                    new TWReferenceSelect('login')
                 ),
-                new \OLOG\CRUD\CRUDTableColumn(
+                new TCol(
                     'Логин',
-                    new \OLOG\CRUD\CRUDTableWidgetText('{this->login}')
+                    new TWText('{this->login}')
                 ),
-                new \OLOG\CRUD\CRUDTableColumn(
+                new TCol(
                     'Создан',
-                    new \OLOG\CRUD\CRUDTableWidgetText('{this->created_at_ts}')
+                    new TWText('{this->created_at_ts}')
                 )
             ],
             [
-                new CRUDTableFilterLike('wert76wer76t', 'login', 'login'),
+                new TFLike('wert76wer76t', 'login', 'login'),
                 new CRUDTableFilterOwnerInvisible()
             ],
             'login',
-            'gy876tweu',
-            \OLOG\CRUD\CRUDTable::FILTERS_POSITION_INLINE
+            'gy876tweu'
         );
 
         echo $html;

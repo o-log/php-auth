@@ -14,9 +14,11 @@ class User implements
     const DB_ID = 'space_phpauth';
     const DB_TABLE_NAME = 'olog_auth_user';
 
+    const _CREATED_AT_TS = 'created_at_ts';
     protected $created_at_ts; // initialized by constructor
     protected $login;
     protected $password_hash = "";
+    const _DESCRIPTION = 'description';
     protected $description;
     const _OWNER_USER_ID = 'owner_user_id';
     const _LOGIN = 'login';

@@ -2,9 +2,9 @@
 
 namespace OLOG\Auth;
 
-use OLOG\CRUD\InterfaceCRUDTableFilterInvisible;
+use OLOG\CRUD\TFHiddenInterface;
 
-class CRUDTableFilterOwnerInvisible implements InterfaceCRUDTableFilterInvisible
+class CRUDTableFilterOwnerInvisible implements TFHiddenInterface
 {
     public function __construct()
     {
