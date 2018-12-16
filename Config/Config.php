@@ -25,7 +25,7 @@ class Config
 
         DBConfig::setConnector(
             self::CONNECTOR_AUTH,
-            new ConnectorMySQL('127.0.0.1', 'db_phpauthdemo', 'root', '1234')
+            new ConnectorMySQL('127.0.0.1', 'db_phpauthdemo', 'root', '1')
         );
 
         DBConfig::setSpace(
@@ -55,6 +55,6 @@ class Config
 
         //AuthConfig::setUserEventClass(UserEvents::class);
 
-        //AuthConfig::setFullAccessCookieName('php_auth');
+        AuthConfig::setFullAccessCookieName('php_auth');
     }
 }
