@@ -11,8 +11,8 @@
   "require": {
     "php" : ">=7.2",
     "o-log/php-router": "2.*",
-    "o-log/php-model": "8.*",
-    "o-log/php-crud": "7.*",
+    "o-log/php-model": "10.*",
+    "o-log/php-crud": "8.*",
     "o-log/php-layouts": "2.*"
   },
   "autoload-dev": {

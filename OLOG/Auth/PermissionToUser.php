@@ -1,4 +1,9 @@
 <?php
+declare(strict_types=1);
+
+/**
+ * @author Oleg Loginov <olognv@gmail.com>
+ */
 
 namespace OLOG\Auth;
 
@@ -9,7 +14,6 @@ class PermissionToUser implements
     ActiveRecordInterface
 {
     use \OLOG\Model\ActiveRecordTrait;
-    use \OLOG\Model\ProtectPropertiesTrait;
 
     const DB_ID = 'space_phpauth';
     const DB_TABLE_NAME = 'olog_auth_permissiontouser';
@@ -19,21 +23,32 @@ class PermissionToUser implements
     protected $permission_id;
     protected $id;
 
-    public function afterDelete()
+    public function permission(): ?Permission
+    {
+        return Permission::factory($this->permission_id);
+    }
+
+    public function user(): ?User
+    {
+        return User::factory($this->user_id);
+    }
+
+    public function afterDelete(): void
     {
         $this->removeFromFactoryCache();
         // TODO: default bucket used
         Cache::delete('', self::getCacheKey_getIdsArrForUserIdByCreatedAtDesc($this->getUserId()));
     }
 
-    public function afterSave()
+    public function afterSave(): void
     {
         $this->removeFromFactoryCache();
         // TODO: default bucket used
         Cache::delete('', self::getCacheKey_getIdsArrForUserIdByCreatedAtDesc($this->getUserId()));
     }
 
-    static public function getIdsArrForPermissionIdByCreatedAtDesc($value, $offset = 0, $page_size = 30){
+    static public function getIdsArrForPermissionIdByCreatedAtDesc($value, $offset = 0, $page_size = 30)
+    {
         if (is_null($value)) {
             return \OLOG\DB\DB::readColumn(
                 self::DB_ID,
@@ -48,31 +63,34 @@ class PermissionToUser implements
         }
     }
 
-
-    public function getPermissionId(){
+    public function getPermissionId()
+    {
         return $this->permission_id;
     }
 
-    public function setPermissionId($value){
+    public function setPermissionId($value)
+    {
         $this->permission_id = $value;
     }
 
 
-    static public function getCacheKey_getIdsArrForUserIdByCreatedAtDesc($user_id){
+    static public function getCacheKey_getIdsArrForUserIdByCreatedAtDesc($user_id)
+    {
         $user_id_str = $user_id;
-        if (is_null($user_id)){
+        if (is_null($user_id)) {
             $user_id_str = 'null';
         }
         return 'getIdsArrForUserIdByCreatedAtDesc_' . $user_id_str;
     }
 
-    static public function getIdsArrForUserIdByCreatedAtDesc($user_id, $offset = 0, $page_size = 30){
+    static public function getIdsArrForUserIdByCreatedAtDesc($user_id, $offset = 0, $page_size = 30)
+    {
 
         $cache_key = self::getCacheKey_getIdsArrForUserIdByCreatedAtDesc($user_id);
 
         // TODO: default bucket used
         $cached_data = Cache::get('', $cache_key);
-        if(is_array($cached_data)){
+        if (is_array($cached_data)) {
             return $cached_data;
         }
 
@@ -97,17 +115,19 @@ class PermissionToUser implements
     }
 
 
-    public function getUserId(){
+    public function getUserId()
+    {
         return $this->user_id;
     }
 
-    public function setUserId($value){
+    public function setUserId($value)
+    {
         $this->user_id = $value;
     }
 
 
-
-    static public function getAllIdsArrByCreatedAtDesc($offset = 0, $page_size = 30){
+    static public function getAllIdsArrByCreatedAtDesc($offset = 0, $page_size = 30)
+    {
         $ids_arr = \OLOG\DB\DB::readColumn(
             self::DB_ID,
             'select id from ' . self::DB_TABLE_NAME . ' order by created_at_ts desc limit ' . intval($page_size) . ' offset ' . intval($offset)
@@ -115,7 +135,8 @@ class PermissionToUser implements
         return $ids_arr;
     }
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->created_at_ts = time();
     }
 
@@ -151,11 +172,12 @@ class PermissionToUser implements
         $this->created_at_ts = $timestamp;
     }
 
-    static public function getPermissionIdsArrForUserId($value){
+    static public function getPermissionIdsArrForUserId($value)
+    {
         return \OLOG\DB\DB::readColumn(
-                self::DB_ID,
-                'select permission_id from ' . self::DB_TABLE_NAME . ' where user_id = ?',
-                array($value)
-            );
+            self::DB_ID,
+            'select permission_id from ' . self::DB_TABLE_NAME . ' where user_id = ?',
+            array($value)
+        );
     }
 }

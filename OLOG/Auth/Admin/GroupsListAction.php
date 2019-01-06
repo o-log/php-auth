@@ -1,4 +1,9 @@
 <?php
+declare(strict_types=1);
+
+/**
+ * @author Oleg Loginov <olognv@gmail.com>
+ */
 
 namespace OLOG\Auth\Admin;
 
@@ -10,7 +15,6 @@ use OLOG\Auth\Permissions;
 use OLOG\CRUD\CForm;
 use OLOG\CRUD\CTable;
 use OLOG\CRUD\FGroup;
-use OLOG\CRUD\FRow;
 use OLOG\CRUD\FWInput;
 use OLOG\CRUD\TCol;
 use OLOG\CRUD\TFLikeInline;
@@ -60,8 +64,16 @@ class GroupsListAction extends AuthAdminActionsBaseProxy implements
                 ]
             ),
             [
-                new TCol('', new TWTextWithLink('{this->' . Group::_TITLE. '}', (new GroupEditAction('{this->id}'))->url())),
-                new TCol('', new TWTimestamp('{this->created_at_ts}')),
+                new TCol(
+                    '',
+                    new TWTextWithLink(
+                        Group::_TITLE,
+                        function(Group $group) {
+                            return (new GroupEditAction($group->getId()))->url();
+                        }
+                    )
+                ),
+                new TCol('', new TWTimestamp(Group::_CREATED_AT_TS)),
                 new TCol('', new TWDelete())
             ],
             [

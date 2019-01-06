@@ -1,4 +1,9 @@
 <?php
+declare(strict_types=1);
+
+/**
+ * @author Oleg Loginov <olognv@gmail.com>
+ */
 
 namespace OLOG\Auth;
 
@@ -8,19 +13,28 @@ class UserToGroup implements
     ActiveRecordInterface
 {
     use \OLOG\Model\ActiveRecordTrait;
-    use \OLOG\Model\ProtectPropertiesTrait;
 
     const DB_ID = 'space_phpauth';
     const DB_TABLE_NAME = 'olog_auth_usertogroup';
 
     const _CREATED_AT_TS = 'created_at_ts';
-    protected $created_at_ts; // initialized by constructor
+    public $created_at_ts; // initialized by constructor
     const _USER_ID = 'user_id';
-    protected $user_id;
+    public $user_id;
     const _GROUP_ID = 'group_id';
-    protected $group_id;
+    public $group_id;
     const _ID = 'id';
-    protected $id;
+    public $id;
+
+    public function group(): ?Group
+    {
+        return Group::factory($this->group_id);
+    }
+
+    public function user(): ?User
+    {
+        return User::factory($this->user_id);
+    }
 
     static public function factoryForUserIdAndGroupId($user_id, $group_id, $exception_if_not_loaded = true)
     {
@@ -79,7 +93,7 @@ class UserToGroup implements
         $this->user_id = $value;
     }
 
-    public function canDelete(&$message)
+    public function canDelete(&$message): bool
     {
         // запрещаем удалять связь пользователя с его основной группой
 

@@ -42,7 +42,6 @@ class Config
             [
                 'ignore_nginx_cache' => 1
             ]
-
         );
 
         AuthConfig::setAdminActionsBaseClassname(AdminDemoActionsBase::class);
@@ -52,9 +51,5 @@ class Config
 
         AuthConfig::setLoginUrl('/login');
         AuthConfig::setLogoutUrl('/logout');
-
-        //AuthConfig::setUserEventClass(UserEvents::class);
-
-        AuthConfig::setFullAccessCookieName('php_auth');
     }
 }

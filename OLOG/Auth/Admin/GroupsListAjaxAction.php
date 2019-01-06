@@ -1,8 +1,11 @@
 <?php
+declare(strict_types=1);
 
+/**
+ * @author Oleg Loginov <olognv@gmail.com>
+ */
 
 namespace OLOG\Auth\Admin;
-
 
 use OLOG\ActionInterface;
 use OLOG\Auth\Auth;

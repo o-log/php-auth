@@ -1,4 +1,9 @@
 <?php
+declare(strict_types=1);
+
+/**
+ * @author Oleg Loginov <olognv@gmail.com>
+ */
 
 namespace OLOG\Auth;
 
@@ -8,14 +13,18 @@ class Permission implements
     ActiveRecordInterface
 {
     use \OLOG\Model\ActiveRecordTrait;
-    use \OLOG\Model\ProtectPropertiesTrait;
 
     const DB_ID = 'space_phpauth';
     const DB_TABLE_NAME = 'olog_auth_permission';
 
-    protected $created_at_ts; // initialized by constructor
-    protected $title;
-    protected $id;
+    const _CREATED_AT_TS = 'created_at_ts';
+    public $created_at_ts;
+
+    const _TITLE = 'title';
+    public $title;
+
+    const _ID = 'id';
+    public $id;
 
     public function getTitle(){
         return $this->title;

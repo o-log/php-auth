@@ -1,4 +1,9 @@
 <?php
+declare(strict_types=1);
+
+/**
+ * @author Oleg Loginov <olognv@gmail.com>
+ */
 
 namespace OLOG\Auth;
 
@@ -10,13 +15,6 @@ class OwnerCheck
      */
     static public function currentUserOwnsObj($obj)
     {
-        $auth_cookie_name = AuthConfig::getFullAccessCookieName();
-        if ($auth_cookie_name) {
-            if (isset($_COOKIE[$auth_cookie_name])) {
-                return true;
-            }
-        }
-
         $current_user_id = Auth::currentUserId();
         if (!$current_user_id) {
             return false;
@@ -32,7 +30,7 @@ class OwnerCheck
      */
     static public function userOwnsObj($user_id, $obj)
     {
-        assert($obj instanceof InterfaceOwner, 'Object must implement '. \OLOG\Auth\InterfaceOwner::class .' interface');
+        assert($obj instanceof InterfaceOwner, 'Object must implement '. InterfaceOwner::class .' interface');
 
         $current_user_obj = User::factory($user_id);
         if ($current_user_obj->getHasFullAccess()) {

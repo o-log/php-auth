@@ -1,4 +1,9 @@
 <?php
+declare(strict_types=1);
+
+/**
+ * @author Oleg Loginov <olognv@gmail.com>
+ */
 
 namespace OLOG\Auth\Admin;
 
@@ -19,7 +24,6 @@ use OLOG\CRUD\TWDelete;
 use OLOG\CRUD\TWText;
 use OLOG\CRUD\TWTextWithLink;
 use OLOG\CRUD\TWTimestamp;
-use OLOG\Exits;
 use OLOG\Layouts\AdminLayoutSelector;
 use OLOG\Layouts\PageTitleInterface;
 
@@ -36,11 +40,6 @@ class UsersListAction extends AuthAdminActionsBaseProxy implements
     }
 
     public function action(){
-        /*
-        Exits::exit403If(
-            !Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS])
-        );
-        */
         Auth::check([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS]);
 
         $html = CTable::html(
@@ -54,10 +53,25 @@ class UsersListAction extends AuthAdminActionsBaseProxy implements
 	            (new UserEditAction('{this->id}'))->url()
             ),
             [
-                new TCol('', new TWTextWithLink(User::_LOGIN, (new UserEditAction('{this->id}'))->url())),
+                new TCol(
+                    '',
+                    new TWTextWithLink(
+                        User::_LOGIN,
+                        function(User $user){
+                            return (new UserEditAction($user->id))->url();
+                        }
+                    )
+                ),
                 new TCol('', new TWTimestamp(User::_CREATED_AT_TS)),
                 new TCol('', new TWText(User::_DESCRIPTION)),
-                new TCol('', new TWText('{' . Group::class . '.{this->' . User::_PRIMARY_GROUP_ID . '}->title}')),
+                new TCol(
+                    '', new TWText(
+//                        '{' . Group::class . '.{this->' . User::_PRIMARY_GROUP_ID . '}->title}'
+                        function(User $user){
+                            return $user->primaryGroup() ? $user->primaryGroup()->title : 'NO PRIMARY GROUP';
+                        }
+                    )
+                ),
                 new TCol('', new TWDelete())
             ],
             [

@@ -1,4 +1,9 @@
 <?php
+declare(strict_types=1);
+
+/**
+ * @author Oleg Loginov <olognv@gmail.com>
+ */
 
 namespace OLOG\Auth;
 
@@ -9,21 +14,20 @@ class Group implements
     InterfaceOwner
 {
     use \OLOG\Model\ActiveRecordTrait;
-    use \OLOG\Model\ProtectPropertiesTrait;
 
     const DB_ID = 'space_phpauth';
     const DB_TABLE_NAME = 'olog_auth_group';
 
     const _CREATED_AT_TS = 'created_at_ts';
-    protected $created_at_ts; // initialized by constructor
+    public $created_at_ts; // initialized by constructor
     const _TITLE = 'title';
-    protected $title = "";
+    public $title = "";
     const _OWNER_USER_ID = 'owner_user_id';
-    protected $owner_user_id;
+    public $owner_user_id;
     const _OWNER_GROUP_ID = 'owner_group_id';
-    protected $owner_group_id;
+    public $owner_group_id;
     const _ID = 'id';
-    protected $id;
+    public $id;
 
     public function getOwnerGroupId(){
         return $this->owner_group_id;
@@ -49,7 +53,7 @@ class Group implements
         $this->title = $value;
     }
 
-    public function beforeSave()
+    public function beforeSave(): void
     {
         OwnerAssign::assignCurrentUserAsOwnerToObj($this);
     }

@@ -1,4 +1,9 @@
 <?php
+declare(strict_types=1);
+
+/**
+ * @author Oleg Loginov <olognv@gmail.com>
+ */
 
 namespace OLOG\Auth;
 
@@ -9,7 +14,7 @@ class AuthConfig
     static public $sessions_bucket = '';
 
     protected static $ssid_cookie_name = 'php-auth-session-id';
-    protected static $session_id_cookie_domain = null; // default value must be null for proper setcookie
+    protected static $session_id_cookie_domain = '';
     protected static $full_access_cookie_name = '';
     protected static $extra_cookies_arr = [];
     protected static $admin_actions_base_classname;
@@ -178,21 +183,5 @@ class AuthConfig
     public static function setSessionIdCookieDomain($session_id_cookie_domain)
     {
         self::$session_id_cookie_domain = $session_id_cookie_domain;
-    }
-
-    /**
-     * @return string
-     */
-    public static function getFullAccessCookieName()
-    {
-        return self::$full_access_cookie_name;
-    }
-
-    /**
-     * @param string $full_access_cookie_name
-     */
-    public static function setFullAccessCookieName($full_access_cookie_name)
-    {
-        self::$full_access_cookie_name = $full_access_cookie_name;
     }
 }

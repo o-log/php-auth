@@ -1,8 +1,11 @@
 <?php
+declare(strict_types=1);
 
+/**
+ * @author Oleg Loginov <olognv@gmail.com>
+ */
 
 namespace OLOG\Auth;
-
 
 class ExtraCookiesLib
 {
@@ -17,7 +20,7 @@ class ExtraCookiesLib
         $extra_cookies_arr = AuthConfig::getExtraCookiesArr();
 
         foreach ($extra_cookies_arr as $cookie_name => $cookie_value) {
-            if ($cookie_value instanceof \OLOG\Auth\ExtraCookie) {
+            if ($cookie_value instanceof ExtraCookie) {
                 $extra_cookie_obj = $cookie_value;
                 setcookie(
                     $extra_cookie_obj->getCookieName(),
@@ -42,11 +45,12 @@ class ExtraCookiesLib
         }
 
         foreach ($extra_cookies_arr as $cookie_name => $cookie_value) {
-            if ($cookie_value instanceof \OLOG\Auth\ExtraCookie) {
+            if ($cookie_value instanceof ExtraCookie) {
                 $extra_cookie_obj = $cookie_value;
+
                 setcookie(
                     $extra_cookie_obj->getCookieName(),
-                    $extra_cookie_obj->getCookieValue(),
+                    (string) $extra_cookie_obj->getCookieValue(),
                     time() + Auth::SESSION_LIFETIME_SECONDS,
                     '/',
                     Auth::sessionCookieDomain(),
@@ -54,7 +58,14 @@ class ExtraCookiesLib
                     $extra_cookie_obj->isHttpOnly()
                 );
             } else {
-                setcookie($cookie_name, $cookie_value, time() + Auth::SESSION_LIFETIME_SECONDS, '/', Auth::sessionCookieDomain(), false, true);
+                setcookie(
+                    $cookie_name,
+                    (string) $cookie_value,
+                    time() + Auth::SESSION_LIFETIME_SECONDS,
+                    '/', Auth::sessionCookieDomain(),
+                    false,
+                    true
+                );
             }
         }
     }

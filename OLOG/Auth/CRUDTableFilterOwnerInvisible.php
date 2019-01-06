@@ -1,4 +1,9 @@
 <?php
+declare(strict_types=1);
+
+/**
+ * @author Oleg Loginov <olognv@gmail.com>
+ */
 
 namespace OLOG\Auth;
 
@@ -23,18 +28,9 @@ class CRUDTableFilterOwnerInvisible implements TFHiddenInterface
     {
         return $this->sqlConditionAndPlaceholderValueForCurrentUser();
     }
-    
+
     public function sqlConditionAndPlaceholderValueForCurrentUser()
     {
-        // check full access cookie
-
-        $auth_cookie_name = AuthConfig::getFullAccessCookieName();
-        if ($auth_cookie_name) {
-            if (isset($_COOKIE[$auth_cookie_name])) {
-                return ['', []]; // do not filter
-            }
-        }
-
         // check current user
 
         $current_user_id = Auth::currentUserId();

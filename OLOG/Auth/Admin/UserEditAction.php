@@ -1,4 +1,9 @@
 <?php
+declare(strict_types=1);
+
+/**
+ * @author Oleg Loginov <olognv@gmail.com>
+ */
 
 namespace OLOG\Auth\Admin;
 
@@ -73,11 +78,6 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
 
     public function action()
     {
-        /*
-        Exits::exit403If(
-            !Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS])
-        );
-        */
         Auth::check([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS]);
 
         $user_id = $this->user_id;
@@ -115,7 +115,6 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
 
                 //echo CollapsibleWidget::buttonAndCollapse('Неназначенные разрешения', function () use ($user_id) {
                 $popup_fn = function () use ($user_id) {
-                    $html = '';
                     $html = '<h4 class="text-muted">Неназначенные пользователю разрешения</h4>';
                     $html .= CTable::html(
                         Permission::class,
@@ -123,11 +122,23 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
                         [
                             new TCol(
                                 '',
-                                new TWTextWithLink('{this->title}', (new PermissionAddToUserAction($user_id, '{this->id}'))->url())
+                                new TWTextWithLink(
+                                    Permission::_TITLE,
+                                    function (Permission $permission) use ($user_id) {
+                                        return (new PermissionAddToUserAction($user_id, $permission->id))->url();
+                                    }
+                                )
                             ),
                             new TCol(
                                 '',
-                                new TWTextWithLink('+', (new PermissionAddToUserAction($user_id, '{this->id}'))->url(), 'btn btn-secondary btn-sm'))
+                                new TWTextWithLink(
+                                    '+',
+                                    function(Permission $permission) use ($user_id) {
+                                        return (new PermissionAddToUserAction($user_id, $permission->id))->url();
+                                    },
+                                    'btn btn-secondary btn-sm'
+                                )
+                            )
                         ],
                         [
                             new TFNotInHidden('id', PermissionToUser::getPermissionIdsArrForUserId($user_id)),
@@ -146,7 +157,13 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
                     '',
                     [
                         new TCol(
-                            '', new TWText('{' . Permission::class . '.{this->permission_id}->title}')
+                            '',
+                            new TWText(
+                                //'{' . Permission::class . '.{this->permission_id}->title}'
+                                function (PermissionToUser $ptu){
+                                    return $ptu->permission()->title;
+                                }
+                            )
                         ),
                         new TCol(
                             '', new TWDelete()
@@ -171,10 +188,6 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
     }
 
     static public function hasAccessToAdminParamsForm(){
-        if (Auth::fullAccessCookiePresentInRequest()){
-            return true;
-        }
-
         /** @var User $current_user_obj */
         $current_user_obj = Auth::currentUserObj();
         if (!$current_user_obj) {
@@ -303,10 +316,21 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
             ),
             [
                 new TCol(
-                    '', new TWTextWithLink('{' . Group::class . '.{this->' . UserToGroup::_GROUP_ID . '}->' . Group::_TITLE . '}', (new GroupEditAction('{this->' . UserToGroup::_GROUP_ID . '}'))->url())
+                    '',
+                    new TWTextWithLink(
+                        //'{' . Group::class . '.{this->' . UserToGroup::_GROUP_ID . '}->' . Group::_TITLE . '}'
+                        function(UserToGroup $utg){
+                            return $utg->group() ? $utg->group()->title : 'NO GROUP';
+                        },
+                        //(new GroupEditAction('{this->' . UserToGroup::_GROUP_ID . '}'))->url()
+                        function (UserToGroup $utg){
+                            return (new GroupEditAction($utg->group_id))->url();
+                        }
+                    )
                 ),
                 new TCol(
-                    '', new TWDelete()
+                    '',
+                    new TWDelete()
                 )
             ],
             [

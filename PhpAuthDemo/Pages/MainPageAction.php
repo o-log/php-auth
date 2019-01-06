@@ -1,11 +1,14 @@
 <?php
+declare(strict_types=1);
+
+/**
+ * @author Oleg Loginov <olognv@gmail.com>
+ */
 
 namespace PhpAuthDemo\Pages;
 
 use OLOG\ActionInterface;
 use OLOG\Auth\Auth;
-use OLOG\BT\BT;
-use OLOG\BT\LayoutBootstrap;
 use OLOG\HTML;
 use OLOG\Layouts\AdminLayoutSelector;
 use OLOG\Layouts\PageTitleInterface;
@@ -22,7 +25,7 @@ class MainPageAction implements
         public function url(){
             return '/';
         }
-    
+
         public function action(){
             $html = '';
             $html .= '<div>Current user ID: "' . Auth::currentUserId() . '"</div>';

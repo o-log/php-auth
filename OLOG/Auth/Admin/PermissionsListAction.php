@@ -1,4 +1,9 @@
 <?php
+declare(strict_types=1);
+
+/**
+ * @author Oleg Loginov <olognv@gmail.com>
+ */
 
 namespace OLOG\Auth\Admin;
 
@@ -10,7 +15,6 @@ use OLOG\CRUD\CTable;
 use OLOG\CRUD\TCol;
 use OLOG\CRUD\TWText;
 use OLOG\CRUD\TWTextWithLink;
-use OLOG\Exits;
 use OLOG\Layouts\AdminLayoutSelector;
 use OLOG\Layouts\PageTitleInterface;
 
@@ -30,11 +34,6 @@ class PermissionsListAction extends AuthAdminActionsBaseProxy implements
 
     public function action()
     {
-        /*
-        Exits::exit403If(
-            !Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS_PERMISSIONS])
-        );
-        */
         Auth::check([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS_PERMISSIONS]);
 
         $html = CTable::html(
@@ -42,14 +41,19 @@ class PermissionsListAction extends AuthAdminActionsBaseProxy implements
             null,
             [
                 new TCol(
-                    '', new TWText('{this->id}')
+                    '', new TWText(Permission::_ID)
                 ),
                 new TCol(
-                    '', new TWTextWithLink('{this->title}', (new PermissionToUserListAction('{this->id}'))->url())
+                    '', new TWTextWithLink(
+                        Permission::_TITLE,
+                        function (Permission $permission){
+                            return (new PermissionToUserListAction($permission->id))->url();
+                        }
+                    )
                 ),
             ],
             [],
-            'title'
+            Permission::_TITLE
         );
 
         AdminLayoutSelector::render($html, $this);

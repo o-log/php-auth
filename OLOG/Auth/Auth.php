@@ -1,9 +1,13 @@
 <?php
+declare(strict_types=1);
+
+/**
+ * @author Oleg Loginov <olognv@gmail.com>
+ */
 
 namespace OLOG\Auth;
 
 use OLOG\Cache\Cache;
-use OLOG\Cache\CacheConfig;
 use OLOG\Exits;
 
 class Auth
@@ -163,7 +167,16 @@ class Auth
         $cookie_domain = self::sessionCookieDomain();
         $session_cookie_is_http_only = AuthConfig::getSessionCookieIsHttpOnly();
         $session_cookie_is_secure = AuthConfig::getSessionCookieIsSecure();
-        setcookie($cookie_name, $user_session_id, time() + self::SESSION_LIFETIME_SECONDS, '/', $cookie_domain, $session_cookie_is_secure, $session_cookie_is_http_only);
+
+        setcookie(
+            $cookie_name,
+            $user_session_id,
+            time() + self::SESSION_LIFETIME_SECONDS,
+            '/',
+            $cookie_domain,
+            $session_cookie_is_secure,
+            $session_cookie_is_http_only
+        );
     }
 
     public static function sessionCookieDomain()
@@ -180,7 +193,7 @@ class Auth
     public static function getUserIdByCredentials($login, $password_from_form)
     {
         $data = \OLOG\DB\DB::readObject(
-            \OLOG\Auth\AuthConfig::SPACE_PHPAUTH,
+            AuthConfig::SPACE_PHPAUTH,
             'SELECT id, password_hash FROM ' . User::DB_TABLE_NAME . ' WHERE login = ?',
             array($login)
         );
@@ -208,10 +221,6 @@ class Auth
      */
     static public function currentUserHasAnyOfPermissions($requested_permissions_arr)
     {
-        if (self::fullAccessCookiePresentInRequest()){
-            return true;
-        }
-
         $current_user_id = self::currentUserId();
         if (!$current_user_id) {
             return false;
@@ -220,18 +229,6 @@ class Auth
         $current_user_obj = User::factory($current_user_id, false); // user can be deleted, etc.
         if ($current_user_obj) {
             return $current_user_obj->hasAnyOfPermissions($requested_permissions_arr);
-        }
-
-        return false;
-    }
-
-    static public function fullAccessCookiePresentInRequest(){
-        $auth_cookie_name = AuthConfig::getFullAccessCookieName();
-
-        if ($auth_cookie_name) {
-            if (isset($_COOKIE[$auth_cookie_name])) {
-                return true;
-            }
         }
 
         return false;

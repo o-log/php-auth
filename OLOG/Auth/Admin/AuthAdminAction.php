@@ -1,11 +1,15 @@
 <?php
+declare(strict_types=1);
+
+/**
+ * @author Oleg Loginov <olognv@gmail.com>
+ */
 
 namespace OLOG\Auth\Admin;
 
 use OLOG\ActionInterface;
 use OLOG\Auth\Auth;
 use OLOG\Auth\Permissions;
-use OLOG\Exits;
 use OLOG\HTML;
 use OLOG\Layouts\AdminLayoutSelector;
 use OLOG\Layouts\PageTitleInterface;

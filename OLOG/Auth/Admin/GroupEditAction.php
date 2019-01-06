@@ -1,4 +1,9 @@
 <?php
+declare(strict_types=1);
+
+/**
+ * @author Oleg Loginov <olognv@gmail.com>
+ */
 
 namespace OLOG\Auth\Admin;
 
@@ -152,7 +157,7 @@ class GroupEditAction extends AuthAdminActionsBaseProxy implements
             return '';
         }
 
-        
+
         $html = '';
         //$html = '<h4 class="text-muted">Пользователи в группе</h4>';
 
@@ -166,13 +171,30 @@ class GroupEditAction extends AuthAdminActionsBaseProxy implements
                 [
                     new FGroupHidden(new FWInput(UserToGroup::_GROUP_ID)),
                     new FRow('Пользователь',
-                        new FWReferenceAjax(UserToGroup::_USER_ID, User::class, User::_LOGIN, (new UsersListAjaxAction())->url(), (new UserEditAction('REFERENCED_ID'))->url(), true))
+                        new FWReferenceAjax(
+                            UserToGroup::_USER_ID,
+                            User::class,
+                            User::_LOGIN,
+                            (new UsersListAjaxAction())->url(),
+                            (new UserEditAction('REFERENCED_ID'))->url(),
+                            true
+                        )
+                    )
                 ]
             ),
             [
                 new TCol(
                     '',
-                    new TWTextWithLink('{' . User::class . '.{this->' . UserToGroup::_USER_ID . '}->' . User::_LOGIN . '}', (new UserEditAction('{this->' . UserToGroup::_USER_ID . '}'))->url())
+                    new TWTextWithLink(
+                        //'{' . User::class . '.{this->' . UserToGroup::_USER_ID . '}->' . User::_LOGIN . '}',
+                        function(UserToGroup $utg){
+                            return $utg->user()->getLogin();
+                        },
+                        function(UserToGroup $utg){
+                            //(new UserEditAction('{this->' . UserToGroup::_USER_ID . '}'))->url();
+                            return (new UserEditAction($utg->getUserId()))->url();
+                        }
+                    )
                 ),
                 new TCol(
                     '',

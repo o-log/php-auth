@@ -1,4 +1,9 @@
 <?php
+declare(strict_types=1);
+
+/**
+ * @author Oleg Loginov <olognv@gmail.com>
+ */
 
 namespace OLOG\Auth;
 
@@ -9,27 +14,31 @@ class User implements
     InterfaceOwner
 {
     use \OLOG\Model\ActiveRecordTrait;
-    use \OLOG\Model\ProtectPropertiesTrait;
 
     const DB_ID = 'space_phpauth';
     const DB_TABLE_NAME = 'olog_auth_user';
 
     const _CREATED_AT_TS = 'created_at_ts';
-    protected $created_at_ts; // initialized by constructor
-    protected $login;
-    protected $password_hash = "";
+    public $created_at_ts; // initialized by constructor
+    public $login;
+    public $password_hash = "";
     const _DESCRIPTION = 'description';
-    protected $description;
+    public $description;
     const _OWNER_USER_ID = 'owner_user_id';
     const _LOGIN = 'login';
-    protected $owner_user_id;
+    public $owner_user_id;
     const _OWNER_GROUP_ID = 'owner_group_id';
-    protected $owner_group_id;
+    public $owner_group_id;
     const _HAS_FULL_ACCESS = 'has_full_access';
-    protected $has_full_access = 0;
+    public $has_full_access = 0;
     const _PRIMARY_GROUP_ID = 'primary_group_id';
-    protected $primary_group_id;
-    protected $id;
+    public $primary_group_id;
+    public $id;
+
+    public function primaryGroup(): ?Group
+    {
+        return Group::factory($this->primary_group_id, false);
+    }
 
     /**
      * @param $exception_if_not_found
@@ -67,7 +76,7 @@ class User implements
         $this->has_full_access = $value;
     }
 
-    public function beforeSave()
+    public function beforeSave(): void
     {
         if (!is_null($this->getPrimaryGroupId())){
             // создаем связь для пользователя с его основной группой, чтобы основная группа участвовала в проверке доступа
@@ -202,7 +211,7 @@ class User implements
         return false;
     }
 
-    public function afterSave()
+    public function afterSave(): void
     {
         $this->removeFromFactoryCache();
     }

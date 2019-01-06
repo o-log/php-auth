@@ -1,10 +1,15 @@
 <?php
+declare(strict_types=1);
+
+/**
+ * @author Oleg Loginov <olognv@gmail.com>
+ */
+
 namespace OLOG\Auth\Admin;
 
 use OLOG\Auth\Auth;
 use OLOG\Auth\Permissions;
 use OLOG\Auth\PermissionToUser;
-use OLOG\Exits;
 use OLOG\MaskActionInterface;
 
 class PermissionAddToUserAction implements MaskActionInterface

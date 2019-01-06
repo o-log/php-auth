@@ -1,4 +1,9 @@
 <?php
+declare(strict_types=1);
+
+/**
+ * @author Oleg Loginov <olognv@gmail.com>
+ */
 
 namespace OLOG\Auth\Admin;
 
@@ -9,10 +14,9 @@ use OLOG\Auth\Permissions;
 use OLOG\Auth\User;
 use OLOG\CRUD\CTable;
 use OLOG\CRUD\TCol;
-use OLOG\CRUD\TFLike;
+use OLOG\CRUD\TFLikeInline;
 use OLOG\CRUD\TWReferenceSelect;
 use OLOG\CRUD\TWText;
-use OLOG\Exits;
 
 class UsersListAjaxAction implements ActionInterface
 {
@@ -34,19 +38,19 @@ class UsersListAjaxAction implements ActionInterface
             [
                 new TCol(
                     'Логин',
-                    new TWReferenceSelect('login')
+                    new TWReferenceSelect(User::_LOGIN)
                 ),
                 new TCol(
                     'Логин',
-                    new TWText('{this->login}')
+                    new TWText(User::_LOGIN)
                 ),
                 new TCol(
                     'Создан',
-                    new TWText('{this->created_at_ts}')
+                    new TWText(User::_CREATED_AT_TS)
                 )
             ],
             [
-                new TFLike('wert76wer76t', 'login', 'login'),
+                new TFLikeInline('wert76wer76t', 'login', 'login'),
                 new CRUDTableFilterOwnerInvisible()
             ],
             'login',

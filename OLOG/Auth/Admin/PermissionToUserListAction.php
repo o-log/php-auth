@@ -1,4 +1,9 @@
 <?php
+declare(strict_types=1);
+
+/**
+ * @author Oleg Loginov <olognv@gmail.com>
+ */
 
 namespace OLOG\Auth\Admin;
 
@@ -65,7 +70,16 @@ class PermissionToUserListAction extends AuthAdminActionsBaseProxy implements
             null,
             [
                 new TCol(
-                    '', new TWTextWithLink('{' . User::class . '.{this->user_id}->login}', (new UserEditAction('{this->user_id}'))->url())
+                    '',
+                    new TWTextWithLink(
+                        //'{' . User::class . '.{this->user_id}->login}',
+                        function (PermissionToUser $ptu){
+                            return $ptu->user()->getLogin();
+                        },
+                        function (PermissionToUser $ptu) {
+                            return (new UserEditAction($ptu->getUserId()))->url();
+                        }
+                    )
                 ),
                 new TCol(
                     '', new TWDelete()

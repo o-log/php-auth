@@ -1,4 +1,9 @@
 <?php
+declare(strict_types=1);
+
+/**
+ * @author Oleg Loginov <olognv@gmail.com>
+ */
 
 namespace OLOG\Auth\Pages;
 
@@ -6,7 +11,6 @@ use OLOG\ActionInterface;
 use OLOG\Auth\Auth;
 use OLOG\Auth\AuthConfig;
 use OLOG\Auth\User;
-use OLOG\BT\LayoutBootstrap;
 use OLOG\HTML;
 use OLOG\Layouts\AdminLayoutSelector;
 use OLOG\POST;
