@@ -11,7 +11,6 @@ use OLOG\Auth\Auth;
 use OLOG\Auth\Permission;
 use OLOG\Auth\Permissions;
 use OLOG\Auth\PermissionToUser;
-use OLOG\Auth\User;
 use OLOG\CRUD\CTable;
 use OLOG\CRUD\TCol;
 use OLOG\CRUD\TFEqualHidden;

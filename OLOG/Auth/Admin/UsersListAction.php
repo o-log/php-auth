@@ -10,7 +10,6 @@ namespace OLOG\Auth\Admin;
 use OLOG\ActionInterface;
 use OLOG\Auth\Auth;
 use OLOG\Auth\CRUDTableFilterOwnerInvisible;
-use OLOG\Auth\Group;
 use OLOG\Auth\Permissions;
 use OLOG\Auth\User;
 use OLOG\CRUD\CForm;
