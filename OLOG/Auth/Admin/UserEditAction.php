@@ -32,7 +32,6 @@ use OLOG\CRUD\TWTextWithLink;
 use OLOG\Exits;
 use OLOG\Form;
 use OLOG\HTML;
-use OLOG\Layouts\AdminLayoutSelector;
 use OLOG\Layouts\PageTitleInterface;
 use OLOG\Layouts\TopActionObjInterface;
 use OLOG\MagnificPopup;
@@ -184,7 +183,7 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
         $html .= self::userInGroupsTable($user_id);
 
         $html .= '</div></div>';
-        AdminLayoutSelector::render($html, $this);
+        $this->renderInLayout($html);
     }
 
     static public function hasAccessToAdminParamsForm(){

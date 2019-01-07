@@ -9,10 +9,13 @@ namespace PhpAuthDemo;
 
 use OLOG\Auth\Admin\AuthAdminMenu;
 use OLOG\Auth\Admin\CurrentUserNameTrait;
+use OLOG\BT\LayoutBootstrap4;
 use OLOG\Layouts\CurrentUserNameInterface;
 use OLOG\Layouts\MenuInterface;
+use OLOG\Layouts\RenderInLayoutInterface;
 
-class AdminDemoActionsBase implements MenuInterface, CurrentUserNameInterface
+class AdminDemoActionsBase
+    implements MenuInterface, CurrentUserNameInterface, RenderInLayoutInterface
 {
     use CurrentUserNameTrait;
 
@@ -25,4 +28,8 @@ class AdminDemoActionsBase implements MenuInterface, CurrentUserNameInterface
         return $menu_arr;
     }
 
+    public function renderInLayout($html_or_callable)
+    {
+        LayoutBootstrap4::render($html_or_callable, $this);
+    }
 }

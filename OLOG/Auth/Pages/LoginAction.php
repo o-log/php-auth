@@ -8,14 +8,16 @@ declare(strict_types=1);
 namespace OLOG\Auth\Pages;
 
 use OLOG\ActionInterface;
+use OLOG\Auth\Admin\AuthAdminActionsBaseProxy;
 use OLOG\Auth\Auth;
 use OLOG\Auth\AuthConfig;
 use OLOG\Auth\User;
 use OLOG\HTML;
-use OLOG\Layouts\AdminLayoutSelector;
 use OLOG\POST;
 
-class LoginAction implements ActionInterface
+class LoginAction
+    extends AuthAdminActionsBaseProxy
+    implements ActionInterface
 {
     public function url()
     {
@@ -27,13 +29,13 @@ class LoginAction implements ActionInterface
         $user_id = Auth::currentUserId();
         if ($user_id) {
             $html = LoginTemplate::getContent('Пользователь уже авторизован', false);
-            AdminLayoutSelector::render($html);
+            $this->renderInLayout($html);
             return;
         }
 
         if (!array_key_exists('login', $_POST) && !array_key_exists('password', $_POST)) {
             $content = LoginTemplate::getContent();
-            AdminLayoutSelector::render($content);
+            $this->renderInLayout($content);
             return;
         }
 
@@ -52,7 +54,7 @@ class LoginAction implements ActionInterface
 
         if (!$user_id || ($password == "")) {
             $content = LoginTemplate::getContent('Неправильный адрес или пароль');
-            AdminLayoutSelector::render($content);
+            $this->renderInLayout($content);
             return;
         }
 

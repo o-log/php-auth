@@ -16,7 +16,6 @@ use OLOG\CRUD\TCol;
 use OLOG\CRUD\TFEqualHidden;
 use OLOG\CRUD\TWDelete;
 use OLOG\CRUD\TWTextWithLink;
-use OLOG\Layouts\AdminLayoutSelector;
 use OLOG\Layouts\PageTitleInterface;
 use OLOG\MaskActionInterface;
 
@@ -92,6 +91,6 @@ class PermissionToUserListAction extends AuthAdminActionsBaseProxy implements
             'Пользователи, которым назначено разрешение'
         );
 
-        AdminLayoutSelector::render($html, $this);
+        $this->renderInLayout($html);
     }
 }

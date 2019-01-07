@@ -21,7 +21,6 @@ use OLOG\CRUD\TFLikeInline;
 use OLOG\CRUD\TWDelete;
 use OLOG\CRUD\TWTextWithLink;
 use OLOG\CRUD\TWTimestamp;
-use OLOG\Layouts\AdminLayoutSelector;
 use OLOG\Layouts\PageTitleInterface;
 
 class GroupsListAction extends AuthAdminActionsBaseProxy implements
@@ -84,6 +83,6 @@ class GroupsListAction extends AuthAdminActionsBaseProxy implements
             '1'
         );
 
-        AdminLayoutSelector::render($html, $this);
+        $this->renderInLayout($html);
     }
 }

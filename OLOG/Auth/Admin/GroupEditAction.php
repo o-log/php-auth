@@ -25,7 +25,6 @@ use OLOG\CRUD\TFEqualHidden;
 use OLOG\CRUD\TWDelete;
 use OLOG\CRUD\TWTextWithLink;
 use OLOG\Exits;
-use OLOG\Layouts\AdminLayoutSelector;
 use OLOG\Layouts\PageTitleInterface;
 use OLOG\Layouts\TopActionObjInterface;
 use OLOG\MaskActionInterface;
@@ -109,7 +108,7 @@ class GroupEditAction extends AuthAdminActionsBaseProxy implements
         $html .= self::adminParamsForm($this->group_id);
         $html .= self::usersInGroupTable($this->group_id);
 
-        AdminLayoutSelector::render($html, $this);
+        $this->renderInLayout($html);
     }
 
     /**

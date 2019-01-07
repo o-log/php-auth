@@ -10,12 +10,12 @@ namespace PhpAuthDemo\Pages;
 use OLOG\ActionInterface;
 use OLOG\Auth\Auth;
 use OLOG\HTML;
-use OLOG\Layouts\AdminLayoutSelector;
 use OLOG\Layouts\PageTitleInterface;
+use PhpAuthDemo\AdminDemoActionsBase;
 
-class MainPageAction implements
-    ActionInterface,
-    PageTitleInterface
+class MainPageAction
+    extends AdminDemoActionsBase
+    implements ActionInterface, PageTitleInterface
 {
         public function pageTitle()
         {
@@ -33,6 +33,6 @@ class MainPageAction implements
             $html .= '<div>' . HTML::a((new \OLOG\Auth\Pages\LogoutAction())->url(), 'logout') . '</div>';
             $html .= '<div>' . HTML::a((new \OLOG\Auth\Admin\UsersListAction())->url(), 'Auth admin') . '</div>';
 
-            AdminLayoutSelector::render($html, $this);
+            $this->renderInLayout($html);
         }
     }

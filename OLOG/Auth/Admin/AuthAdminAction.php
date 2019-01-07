@@ -11,12 +11,11 @@ use OLOG\ActionInterface;
 use OLOG\Auth\Auth;
 use OLOG\Auth\Permissions;
 use OLOG\HTML;
-use OLOG\Layouts\AdminLayoutSelector;
 use OLOG\Layouts\PageTitleInterface;
 
-class AuthAdminAction extends AuthAdminActionsBaseProxy implements
-    ActionInterface,
-    PageTitleInterface
+class AuthAdminAction
+    extends AuthAdminActionsBaseProxy
+    implements ActionInterface, PageTitleInterface
 {
     use CurrentUserNameTrait;
 
@@ -49,6 +48,6 @@ class AuthAdminAction extends AuthAdminActionsBaseProxy implements
         $html .= '<div>' . HTML::a((new UsersListAction())->url(), 'Пользователи') . '</div>';
         $html .= '<div>' . HTML::a((new GroupsListAction())->url(), 'Группы') . '</div>';
 
-        AdminLayoutSelector::render($html, $this);
+        $this->renderInLayout($html);
     }
 }

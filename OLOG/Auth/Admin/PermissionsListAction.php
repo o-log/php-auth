@@ -15,7 +15,6 @@ use OLOG\CRUD\CTable;
 use OLOG\CRUD\TCol;
 use OLOG\CRUD\TWText;
 use OLOG\CRUD\TWTextWithLink;
-use OLOG\Layouts\AdminLayoutSelector;
 use OLOG\Layouts\PageTitleInterface;
 
 class PermissionsListAction extends AuthAdminActionsBaseProxy implements
@@ -56,6 +55,6 @@ class PermissionsListAction extends AuthAdminActionsBaseProxy implements
             Permission::_TITLE
         );
 
-        AdminLayoutSelector::render($html, $this);
+        $this->renderInLayout($html);
     }
 }

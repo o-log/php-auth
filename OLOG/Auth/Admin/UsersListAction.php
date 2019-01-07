@@ -23,7 +23,6 @@ use OLOG\CRUD\TWDelete;
 use OLOG\CRUD\TWText;
 use OLOG\CRUD\TWTextWithLink;
 use OLOG\CRUD\TWTimestamp;
-use OLOG\Layouts\AdminLayoutSelector;
 use OLOG\Layouts\PageTitleInterface;
 
 class UsersListAction extends AuthAdminActionsBaseProxy implements
@@ -82,6 +81,6 @@ class UsersListAction extends AuthAdminActionsBaseProxy implements
             '1'
         );
 
-        AdminLayoutSelector::render($html, $this);
+        $this->renderInLayout($html);
     }
 }

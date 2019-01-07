@@ -10,6 +10,7 @@ namespace OLOG\Auth\Admin;
 use OLOG\Auth\AuthConfig;
 use OLOG\Layouts\CurrentUserNameInterface;
 use OLOG\Layouts\MenuInterface;
+use OLOG\Layouts\RenderInLayoutInterface;
 use OLOG\Layouts\SiteTitleInterface;
 use OLOG\Layouts\TopActionObjInterface;
 
@@ -17,7 +18,8 @@ class AuthAdminActionsBaseProxy implements
     MenuInterface,
     TopActionObjInterface,
     SiteTitleInterface,
-    CurrentUserNameInterface
+    CurrentUserNameInterface,
+    RenderInLayoutInterface
 {
     static public function menuArr(){
         $admin_actions_base_classname = AuthConfig::getAdminActionsBaseClassname();
@@ -53,5 +55,12 @@ class AuthAdminActionsBaseProxy implements
         }
 
         return '';
+    }
+
+    public function renderInLayout($html_or_callable){
+        $admin_actions_base_classname = AuthConfig::getAdminActionsBaseClassname();
+        if (is_a($admin_actions_base_classname, RenderInLayoutInterface::class, true)){
+            (new $admin_actions_base_classname())->renderInLayout($html_or_callable);
+        }
     }
 }
