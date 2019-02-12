@@ -48,7 +48,9 @@ class UsersListAction extends AuthAdminActionsBaseProxy implements
                     new FRow('login', new FWInput('login')),
                     new FRow('Комментарий', new FWTextarea('description'))
                 ],
-	            (new UserEditAction('{this->id}'))->url()
+	            function (User $user) {
+	                return (new UserEditAction($user->id))->url();
+                }
             ),
             [
                 new TCol(
