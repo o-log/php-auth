@@ -1,7 +1,6 @@
 {
   "name": "o-log/php-auth",
   "description": "User authentication and permission management.",
-  "minimum-stability": "beta",
   "require-dev": {
     "phpunit/phpunit": "5.5.*"
   },
