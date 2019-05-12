@@ -11,7 +11,7 @@ use OLOG\Auth\Auth;
 use OLOG\Auth\Group;
 use OLOG\Auth\OwnerCheck;
 use OLOG\Auth\Permission;
-use OLOG\Auth\Permissions;
+use OLOG\Auth\AuthPermissions;
 use OLOG\Auth\PermissionToUser;
 use OLOG\Auth\User;
 use OLOG\Auth\UserToGroup;
@@ -77,7 +77,7 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
 
     public function action()
     {
-        Auth::check([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS]);
+        Auth::check([AuthPermissions::PERMISSION_PHPAUTH_MANAGE_USERS]);
 
         $user_id = $this->user_id;
         $user_obj = User::factory($user_id);
@@ -106,7 +106,7 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
 
         $html .= '</div><div class="col-md-6">';
 
-        if (Auth::currentUserHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS_PERMISSIONS])) {
+        if (Auth::currentUserHasAnyOfPermissions([AuthPermissions::PERMISSION_PHPAUTH_MANAGE_USERS_PERMISSIONS])) {
             //$html .= '<h4 class="text-muted">Разрешения <span>' . MagnificPopup::button('jjhgdkshgdsfg3456', 'btn btn-secondary btn-sm', '<i class="fa fa-plus"></i>') . '</span></h4>';
             $html .= HTML::div('', '', function () use ($user_id) {
                 $new_permissiontouser_obj = new PermissionToUser();
@@ -291,7 +291,7 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
 
     static public function userInGroupsTable($user_id)
     {
-        if (!Auth::currentUserHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_GROUPS])) {
+        if (!Auth::currentUserHasAnyOfPermissions([AuthPermissions::PERMISSION_PHPAUTH_MANAGE_GROUPS])) {
             return '';
         }
         $html = '';

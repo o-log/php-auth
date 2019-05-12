@@ -10,7 +10,7 @@ namespace OLOG\Auth\Admin;
 use OLOG\Auth\Auth;
 use OLOG\Auth\Group;
 use OLOG\Auth\OwnerCheck;
-use OLOG\Auth\Permissions;
+use OLOG\Auth\AuthPermissions;
 use OLOG\Auth\User;
 use OLOG\Auth\UserToGroup;
 use OLOG\CRUD\CForm;
@@ -85,7 +85,7 @@ class GroupEditAction extends AuthAdminActionsBaseProxy implements
             !Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_GROUPS])
         );
         */
-        Auth::check([Permissions::PERMISSION_PHPAUTH_MANAGE_GROUPS]);
+        Auth::check([AuthPermissions::PERMISSION_PHPAUTH_MANAGE_GROUPS]);
 
         $group_obj = Group::factory($this->getGroupId());
 
@@ -152,7 +152,7 @@ class GroupEditAction extends AuthAdminActionsBaseProxy implements
 
     public static function usersInGroupTable($group_id)
     {
-        if (!Auth::currentUserHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS])) {
+        if (!Auth::currentUserHasAnyOfPermissions([AuthPermissions::PERMISSION_PHPAUTH_MANAGE_USERS])) {
             return '';
         }
 

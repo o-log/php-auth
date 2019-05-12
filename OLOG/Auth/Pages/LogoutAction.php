@@ -11,6 +11,7 @@ use OLOG\ActionInterface;
 use OLOG\Auth\Auth;
 use OLOG\Auth\AuthConfig;
 use OLOG\HTML;
+use OLOG\Redirects;
 
 class LogoutAction implements ActionInterface
 {
@@ -24,10 +25,7 @@ class LogoutAction implements ActionInterface
         Auth::logout();
 
         $redirect = '/';
-        if (isset($_GET['destination'])) {
-            $redirect = HTML::url($_GET['destination']);
-        }
 
-        \OLOG\Redirects::redirect($redirect);
+        Redirects::redirect($redirect);
     }
 }

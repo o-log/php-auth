@@ -9,7 +9,7 @@ namespace OLOG\Auth\Admin;
 
 use OLOG\ActionInterface;
 use OLOG\Auth\Auth;
-use OLOG\Auth\Permissions;
+use OLOG\Auth\AuthPermissions;
 use OLOG\HTML;
 use OLOG\Layouts\PageTitleInterface;
 
@@ -41,7 +41,7 @@ class AuthAdminAction
             )
         );
         */
-        Auth::check([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS]);
+        Auth::check([AuthPermissions::PERMISSION_PHPAUTH_MANAGE_USERS]);
 
         $html = '';
         $html .= '<div>' . HTML::a((new PermissionsListAction())->url(), 'Разрешения') . '</div>';

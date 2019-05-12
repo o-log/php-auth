@@ -10,7 +10,7 @@ namespace OLOG\Auth\Admin;
 use OLOG\ActionInterface;
 use OLOG\Auth\Auth;
 use OLOG\Auth\CRUDTableFilterOwnerInvisible;
-use OLOG\Auth\Permissions;
+use OLOG\Auth\AuthPermissions;
 use OLOG\Auth\User;
 use OLOG\CRUD\CTable;
 use OLOG\CRUD\TCol;
@@ -30,7 +30,7 @@ class UsersListAjaxAction implements ActionInterface
             !Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS])
         );
         */
-        Auth::check([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS]);
+        Auth::check([AuthPermissions::PERMISSION_PHPAUTH_MANAGE_USERS]);
 
         $html = CTable::html(
             User::class,

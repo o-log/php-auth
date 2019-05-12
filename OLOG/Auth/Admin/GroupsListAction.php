@@ -11,7 +11,7 @@ use OLOG\ActionInterface;
 use OLOG\Auth\Auth;
 use OLOG\Auth\CRUDTableFilterOwnerInvisible;
 use OLOG\Auth\Group;
-use OLOG\Auth\Permissions;
+use OLOG\Auth\AuthPermissions;
 use OLOG\CRUD\CForm;
 use OLOG\CRUD\CTable;
 use OLOG\CRUD\FGroup;
@@ -52,7 +52,7 @@ class GroupsListAction extends AuthAdminActionsBaseProxy implements
             !Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_GROUPS])
         );
         */
-        Auth::check([Permissions::PERMISSION_PHPAUTH_MANAGE_GROUPS]);
+        Auth::check([AuthPermissions::PERMISSION_PHPAUTH_MANAGE_GROUPS]);
 
         $html = CTable::html(
             Group::class,

@@ -21,9 +21,14 @@ use OLOG\Auth\Pages\LoginAction;
 use OLOG\Auth\Pages\LogoutAction;
 use OLOG\Router;
 
-class RegisterRoutes
+class AuthRoutes
 {
-    static public function registerRoutes(){
+    static public function registerUserRoutes(){
+        Router::action(LoginAction::class, 0);
+        Router::action(LogoutAction::class, 0);
+    }
+
+    static public function registerAdminRoutes(){
         Router::action(AuthAdminAction::class, 0);
         Router::action(UsersListAction::class, 0);
         Router::action(UserEditAction::class, 0);
@@ -33,10 +38,6 @@ class RegisterRoutes
         Router::action(GroupsListAction::class, 0);
         Router::action(GroupEditAction::class, 0);
         Router::action(GroupsListAjaxAction::class, 0);
-
         Router::action(PermissionAddToUserAction::class, 0);
-
-        Router::action(LoginAction::class, 0);
-        Router::action(LogoutAction::class, 0);
     }
 }

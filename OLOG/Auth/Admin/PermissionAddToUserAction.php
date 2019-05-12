@@ -8,7 +8,7 @@ declare(strict_types=1);
 namespace OLOG\Auth\Admin;
 
 use OLOG\Auth\Auth;
-use OLOG\Auth\Permissions;
+use OLOG\Auth\AuthPermissions;
 use OLOG\Auth\PermissionToUser;
 use OLOG\MaskActionInterface;
 
@@ -41,7 +41,7 @@ class PermissionAddToUserAction implements MaskActionInterface
             )
         );
         */
-        Auth::check([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS_PERMISSIONS]);
+        Auth::check([AuthPermissions::PERMISSION_PHPAUTH_MANAGE_USERS_PERMISSIONS]);
 
         $permissiontouser_obj = new PermissionToUser();
         $permissiontouser_obj->setUserId($this->user_id);

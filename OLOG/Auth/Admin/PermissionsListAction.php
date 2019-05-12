@@ -10,7 +10,7 @@ namespace OLOG\Auth\Admin;
 use OLOG\ActionInterface;
 use OLOG\Auth\Auth;
 use OLOG\Auth\Permission;
-use OLOG\Auth\Permissions;
+use OLOG\Auth\AuthPermissions;
 use OLOG\CRUD\CTable;
 use OLOG\CRUD\TCol;
 use OLOG\CRUD\TWText;
@@ -33,7 +33,7 @@ class PermissionsListAction extends AuthAdminActionsBaseProxy implements
 
     public function action()
     {
-        Auth::check([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS_PERMISSIONS]);
+        Auth::check([AuthPermissions::PERMISSION_PHPAUTH_MANAGE_USERS_PERMISSIONS]);
 
         $html = CTable::html(
             Permission::class,

@@ -109,7 +109,7 @@ class Auth
 
         ExtraCookiesLib::unsetExtraCookies();
 
-        if( AuthConfig::getAfterLogoutCallbackClassName()){
+        if (AuthConfig::getAfterLogoutCallbackClassName() != ''){
             assert(is_a(AuthConfig::getAfterLogoutCallbackClassName(), InterfaceAfterLogoutCallback::class, true));
             $events_class = AuthConfig::getAfterLogoutCallbackClassName();
             $events_class::afterLogoutCallback();

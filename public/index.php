@@ -4,7 +4,8 @@ require_once '../vendor/autoload.php';
 
 \Config\Config::init();
 
-\OLOG\Auth\RegisterRoutes::registerRoutes();
+\OLOG\Auth\AuthRoutes::registerUserRoutes();
+\OLOG\Auth\AuthRoutes::registerAdminRoutes();
 
 \OLOG\Router::action(\PhpAuthDemo\Pages\MainPageAction::class, 0);
 

@@ -7,7 +7,7 @@ declare(strict_types=1);
 
 namespace OLOG\Auth;
 
-class Permissions
+class AuthPermissions
 {
     const PERMISSION_PHPAUTH_MANAGE_USERS = 'PERMISSION_PHPAUTH_MANAGE_USERS';
     const PERMISSION_PHPAUTH_MANAGE_USERS_PERMISSIONS = 'PERMISSION_PHPAUTH_MANAGE_USERS_PERMISSIONS';

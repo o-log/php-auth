@@ -9,7 +9,7 @@ namespace OLOG\Auth\Admin;
 
 use OLOG\Auth\Auth;
 use OLOG\Auth\Permission;
-use OLOG\Auth\Permissions;
+use OLOG\Auth\AuthPermissions;
 use OLOG\Auth\PermissionToUser;
 use OLOG\CRUD\CTable;
 use OLOG\CRUD\TCol;
@@ -58,7 +58,7 @@ class PermissionToUserListAction extends AuthAdminActionsBaseProxy implements
             !Operator::currentOperatorHasAnyOfPermissions([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS_PERMISSIONS])
         );
         */
-        Auth::check([Permissions::PERMISSION_PHPAUTH_MANAGE_USERS_PERMISSIONS]);
+        Auth::check([AuthPermissions::PERMISSION_PHPAUTH_MANAGE_USERS_PERMISSIONS]);
 
         $html = '';
         //$permission_obj = Permission::factory($this->permission_id);
