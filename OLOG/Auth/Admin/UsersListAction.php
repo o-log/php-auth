@@ -80,7 +80,11 @@ class UsersListAction extends AuthAdminActionsBaseProxy implements
                 new CRUDTableFilterOwnerInvisible()
             ],
             'login',
-            '1'
+            '1',
+            '',
+            false,
+            30,
+            true
         );
 
         $this->renderInLayout($html);

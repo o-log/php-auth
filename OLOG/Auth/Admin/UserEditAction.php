@@ -143,7 +143,11 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
                             new TFNotInHidden('id', PermissionToUser::getPermissionIdsArrForUserId($user_id)),
                         ],
                         'title asc',
-                        '79687tg8976rt87'
+                        '79687tg8976rt87',
+                        '',
+                        false,
+                        30,
+                        true
                     );
 
                     return $html;
@@ -173,10 +177,11 @@ class UserEditAction extends AuthAdminActionsBaseProxy implements
                     ],
                     '',
                     'fasdfrsgxcv',
-                    'Разрешения <span class="pull-right">' . MagnificPopup::button('jjhgdkshgdsfg3456', 'btn btn-secondary btn-sm', '<i class="fa fa-plus"></i></span>')
+                    'Разрешения <span class="pull-right">' . MagnificPopup::button('jjhgdkshgdsfg3456', 'btn btn-secondary btn-sm', '<i class="fa fa-plus"></i></span>'),
+                    false,
+                    30,
+                    true
                 );
-
-
             });
         }
 

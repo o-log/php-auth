@@ -80,7 +80,11 @@ class GroupsListAction extends AuthAdminActionsBaseProxy implements
                 new CRUDTableFilterOwnerInvisible()
             ],
             'title',
-            '1'
+            '1',
+            '',
+            false,
+            30,
+            true
         );
 
         $this->renderInLayout($html);
