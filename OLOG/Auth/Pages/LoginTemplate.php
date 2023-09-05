@@ -23,9 +23,8 @@ class LoginTemplate
         ?>
         <style>
             body {
-                padding-top: 40px;
                 padding-bottom: 40px;
-                background-color: #eee;
+                background-color: #fff;
             }
 
             .form-signin {
@@ -57,10 +56,14 @@ class LoginTemplate
                 border-top-left-radius: 0;
                 border-top-right-radius: 0;
             }
+
+            .page-header {
+                border-bottom: none;
+            }
         </style>
 
         <form class="form-signin" method="post" action="<?php LoginAction::getUrl() ?>">
-            <h2 class="form-signin-heading">Please sign in</h2>
+            <h3 class="form-signin-heading">Введите логин и пароль</h3>
             <?php if ($message){ ?>
                 <div class="alert alert-<?= $message_type ?> width-370" role="alert"><?php echo $message; ?></div>
             <?php
@@ -85,7 +88,7 @@ class LoginTemplate
                 </label>
             </div>
             -->
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
 
             <?php } ?>
         </form>
